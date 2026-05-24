@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Stores Terminal Contact Form submissions
+// Written by: POST /api/contact
+model Contact {
+  id        Int      @id @default(autoincrement())
+  company   String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+
+  @@map("contacts")
+}
+
+// Reserved for v2 analytics — table exists, not written in v1
+model Pageview {
+  id        Int      @id @default(autoincrement())
+  page      String
+  device    String?
+  country   String?
+  createdAt DateTime @default(now())
+
+  @@map("pageviews")
+}

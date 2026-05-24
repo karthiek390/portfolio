@@ -1,0 +1,1026 @@
+﻿1. Dicom-local-viewer: https://github.com/karthiek390/dicom-local-viewer 
+
+
+README of this project:
+
+
+# dicom-local-viewer
+
+
+A self-contained local-first DICOM viewer for researchers, clinicians, and medical teams to securely view MRI, CT, X-ray, ultrasound, PET, mammography, fluoroscopy, nuclear medicine, radiotherapy, pathology, and cardiology imaging locally with minimal infrastructure and lightweight deployment.
+
+
+## Project Rules
+
+
+- Runtime behavior must stay self-contained inside `dicom-local-viewer/`
+- No runtime dependency on files, configs, imports, volumes, env files, or services outside this folder
+- The app is local-first and browser-driven
+- The app is intentionally lightweight and avoids heavy infrastructure such as a database, background job queue, or external auth provider
+
+
+## Stack
+
+
+- Frontend: Vue 3 + Vite
+- Backend: Node.js + Express
+- Reverse proxy: Nginx
+- DICOM store: Orthanc
+- Viewer: OHIF
+- Runtime: Docker Compose
+
+
+## Quick Setup For New Machines
+
+
+1. Install Docker Desktop or Docker Engine with Docker Compose v2.
+2. Copy `.env.example` to `.env`.
+3. Run the local readiness check:
+
+
+```powershell
+./scripts/preflight.ps1
+```
+
+
+On macOS or Linux:
+
+
+```bash
+./scripts/preflight.sh
+```
+
+
+4. Start the stack:
+
+
+```powershell
+./scripts/start.ps1
+```
+
+
+On macOS or Linux:
+
+
+```bash
+./scripts/start.sh
+```
+
+
+5. Open:
+
+
+```text
+http://localhost:8080
+```
+
+
+Use `Choose Folder` first if you have not configured path-based upload roots in `.env`.
+
+
+If Docker is already installed and you want the most guided first-run path, you can use:
+
+
+Windows:
+
+
+```powershell
+./scripts/deploy_containerized.ps1
+```
+
+
+macOS/Linux:
+
+
+```bash
+./scripts/deploy_containerized.sh
+```
+
+
+That helper creates `.env` from `.env.example` if needed, runs preflight, starts the stack, and prints follow-up guidance.
+
+
+## Host Requirements
+
+
+Required for normal usage:
+
+
+- Docker Desktop or Docker Engine with Docker Compose v2
+
+
+Optional for local development outside Docker:
+
+
+- Node.js 20+
+- npm 10+
+
+
+Not required:
+
+
+- Python
+
+
+## Demo Video
+
+
+See the sample workflow demonstration in:
+
+
+- Dataset upload
+- Local visualization
+- OHIF viewer integration
+- Dataset deletion workflow
+
+
+[![Demo Video Thumbnail](./docs/demo-thumbnail.png)](./docs/dicom-local-viewer-demo.mp4)
+
+
+[Watch the demo video](./docs/dicom-local-viewer-demo.mp4)
+
+
+## Acknowledgements
+
+
+This project is built on top of several excellent open-source medical imaging technologies:
+
+
+- OHIF Viewer — Web-based open-source medical imaging viewer used for DICOM visualization
+- Orthanc — Lightweight open-source DICOM server used for local DICOM storage and management
+
+
+This application integrates and extends these tools into a lightweight, self-contained, local-first deployment focused on secure and simple local medical image viewing workflows.
+
+
+## License
+
+
+This project is licensed under the MIT License.
+
+
+This repository integrates third-party open-source software including OHIF Viewer and Orthanc, which remain subject to their own respective licenses.
+
+
+## Additional Documentation
+
+
+For detailed project documentation, scripts, path-based upload setup, feature inventory, data lifecycle, and operational notes, see [project_file_information.md](./project_file_information.md).
+
+
+
+
+
+
+
+
+2. Cicd-stats-watcher: https://github.com/karthiek390/cicd-stats-watcher 
+
+
+Github marketplace link: https://github.com/marketplace/actions/cicd-stats-watcher
+
+
+README.md: 
+
+
+# CICD Stats Watcher
+
+
+GitHub Actions-first stats watcher for self-hosted runners.
+
+
+The public release direction is a self-contained action:
+
+
+- `uses: karthiek390/cicd-stats-watcher@v1`
+
+
+The goal is to let teams track runner storage, Docker usage, CPU, memory, and inode behavior around important named workflow steps without copying a `tools/` folder into every repo.
+
+
+## What This Project Contains
+
+
+- a GitHub Action interface with:
+  - `mode: start`
+  - `mode: track`
+  - `mode: finalize`
+- watcher runtime scripts for collecting filesystem, Docker, and host stats
+- report generation for a downloadable CICD stats artifact
+- declarative GitHub Actions step-tracking support based on workflow inventory plus manifest
+
+
+## Main Files
+
+
+- [action.yml](</ci-stats-watcher-final/action.yml>)
+  - public GitHub Action entrypoint
+- [ACTION_INTERFACE.md](</ci-stats-watcher-final/ACTION_INTERFACE.md>)
+  - current `uses:` interface and examples
+- `action/`
+  - mode implementations for start, track, and finalize
+- `tools/ci-watcher/`
+  - bundled runtime engine and GitHub Actions adapter files
+- `reference/`
+  - planning documents copied from the original Xenium work
+
+
+## Current Public Shape
+
+
+The public action path no longer assumes that the consumer repository vendors `tools/ci-watcher/`.
+
+
+Instead:
+
+
+- internal scripts are resolved relative to `GITHUB_ACTION_PATH`
+- `stats-dir` is configurable
+- manifest lookup defaults to the bundled action copy
+- runtime state and stage files are internally resolved under `/tmp/ci-stats-watcher/`
+
+
+## Minimal Usage
+
+
+```yaml
+- name: Start watcher
+  uses: karthiek390/cicd-stats-watcher@v1
+  with:
+    mode: start
+
+
+- name: Track build step
+  uses: karthiek390/cicd-stats-watcher@v1
+  with:
+    mode: track
+    job-id: build
+    step-name: Build and push API image
+    metrics: storage,docker
+    command: |
+      docker build --no-cache -t my-image .
+
+
+- name: Finalize watcher
+  if: always()
+  uses: karthiek390/cicd-stats-watcher@v1
+  with:
+    mode: finalize
+```
+
+
+## Full Example
+
+
+```yaml
+name: CI
+
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Start watcher
+        uses: karthiek390/cicd-stats-watcher@v1
+        with:
+          mode: start
+
+
+      - name: Track Docker build
+        uses: karthiek390/cicd-stats-watcher@v1
+        with:
+          mode: track
+          job-id: build
+          step-name: Build container image
+          metrics: storage,docker,cpu,memory
+          command: |
+            docker build --no-cache -t my-app:test .
+
+
+      - name: Track test run
+        uses: karthiek390/cicd-stats-watcher@v1
+        with:
+          mode: track
+          job-id: build
+          step-name: Run unit tests
+          metrics: storage,cpu,memory
+          command: |
+            pytest -q
+
+
+      - name: Finalize watcher
+        if: always()
+        id: finalize-watcher
+        uses: karthiek390/cicd-stats-watcher@v1
+        with:
+          mode: finalize
+
+
+      - name: Upload stats artifact
+        if: always() && steps.finalize-watcher.outputs.generated-report == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: cicd-stats
+          path: ${{ steps.finalize-watcher.outputs.artifact-path }}
+```
+
+
+## Per-Step Metric Examples
+
+
+Use `metrics` to keep collection focused on the signals you care about.
+
+
+- Docker-heavy build step:
+  - `metrics: storage,docker,cpu,memory`
+- Test step with no Docker interest:
+  - `metrics: storage,cpu,memory`
+- Filesystem and inode pressure check:
+  - `metrics: storage,inode`
+- Light storage-only tracking:
+  - `metrics: storage`
+
+
+## Runner Requirements
+
+
+The current action is designed for self-hosted Linux GitHub Actions runners with:
+
+
+- `bash`
+- `python3`
+- `docker`
+- standard Unix tools like `df`, `awk`, `grep`, `sed`, `wc`, `find`
+
+
+## Marketplace Note
+
+
+This repository is being kept compatible with GitHub Marketplace publication.
+
+
+GitHub's Marketplace requirements for actions are stricter than normal repository usage:
+
+
+- the repository must be public
+- the root must contain a single `action.yml` or `action.yaml`
+- the repository must not contain active workflow files under `.github/workflows/`
+
+
+Because of that, the action validation workflow is stored in this repository as a template file instead of an active workflow:
+
+
+- [reference/action-validation.workflow.txt]
+
+
+That template preserves the validation logic for development use while keeping the published action repository Marketplace-friendly.
+
+
+If you want to restore the validation workflow in a development clone or in a separate non-Marketplace repository, use:
+
+
+```bash
+mkdir -p .github/workflows
+cp reference/action-validation.workflow.txt .github/workflows/action-validation.yml
+```
+
+
+If you want to disable it again before Marketplace publication, use:
+
+
+```bash
+rm -f .github/workflows/action-validation.yml
+```
+
+
+The validation workflow checks:
+
+
+- action metadata and required bundled files
+- a successful `start -> track -> finalize` path
+- a failing tracked-step path
+- default input behavior
+
+
+## What v1 Supports
+
+
+- GitHub Actions only
+- self-hosted Linux runners
+- named step tracking
+- one action with:
+  - `mode: start`
+  - `mode: track`
+  - `mode: finalize`
+- per-step metric selection with:
+  - `storage`
+  - `docker`
+  - `cpu`
+  - `memory`
+  - `inode`
+- downloadable artifact/report generation
+
+
+## v1.0.0 Status
+
+
+This repository is currently published as `v1.0.0`.
+
+
+The core action contract is working and validated for the tested path:
+
+
+- `mode: start`
+- `mode: track`
+- `mode: finalize`
+- named step tracking
+- report artifact generation
+- hosted HTML report review
+
+
+At the same time, this is still a `v1.0.0` release, not the final polished production shape of the project.
+
+
+## Future Tightening
+
+
+The following improvements are planned for future versions so the project stays honest about current gaps while still being usable today:
+
+
+- improve built-in Git and PR context capture so reports explain changed files and workflow scope without extra repo-specific wiring
+- improve build, preview, cleanup, and test breakdown capture so phase summaries are more complete out of the box
+- make cleanup reporting clearer when high disk usage is caused by older runner state outside the current CI run
+- better separate generic action features from project-specific report enrichment
+- reduce environment-specific assumptions in sample outputs and documentation
+- continue improving release validation so published tags more closely reflect real multi-repo adoption testing
+- keep refining presentation and report readability without changing the stable `uses:` contract
+- expand documentation around expected runner prerequisites, storage behavior, and interpretation of warnings
+- evaluate broader support later for richer live hosting, additional CI patterns, and deeper sub-step visibility
+
+
+## Deferred For Later
+
+
+- tracking individual lines or sub-step markers inside a single shell block
+- non-GitHub CI systems such as GitLab CI or Jenkins
+- richer live-view packaging and hosting workflows
+- a more polished release and validation pipeline
+
+
+## Important Note
+
+
+The public release path is the uses-based action interface in this repo.
+The reference folder remains planning and history material and is not required for day-to-day action adoption.
+
+
+
+
+
+
+ADOPTION_CONTRACT.md: # CICD Stats Watcher Adoption Contract
+
+
+This document defines the minimum contract for adopting `cicd-stats-watcher` in another self-hosted GitHub Actions project.
+
+
+## Goal
+
+
+Adopt the watcher with the smallest possible GitHub Actions integration surface:
+
+
+- start the watcher near the beginning of the workflow
+- track selected named steps with a simple `uses:` call
+- generate the final report near the end of the workflow
+
+
+## Public Adoption Model
+
+
+The intended public model is:
+
+
+- `uses: karthiek390/cicd-stats-watcher@v1`
+
+
+That means the adopting repo does not need to copy the bundled watcher runtime into its own workspace.
+
+
+The action carries its own implementation and resolves internal scripts relative to the action bundle.
+
+
+## Workflow Integration
+
+
+The minimum workflow integration has three parts.
+
+
+### 1. Start
+
+
+Early in the workflow, call:
+
+
+- `mode: start`
+
+
+Current responsibilities handled by the action:
+
+
+- resolve a per-run `stats-dir`
+- write `meta.json`
+- write runtime state
+- create the internal stage file
+- start `watcher.sh` in the background
+
+
+### 2. Optional Step Tracking
+
+
+For any named step you want detailed before/after stats for, call:
+
+
+- `mode: track`
+
+
+Required public inputs:
+
+
+- `job-id`
+- `step-name`
+- `command`
+
+
+Optional inputs:
+
+
+- `stats-dir`
+- `metrics`
+- `working-directory`
+- `manifest-path`
+
+
+The action runs the tracked command itself and records begin/end step data around it.
+
+
+### 3. Finalize
+
+
+Near the end of the workflow, call:
+
+
+- `mode: finalize`
+
+
+Current responsibilities handled by the action:
+
+
+- mark the pipeline complete
+- give the watcher time for a last tick
+- run `generate_report.py`
+- stop watcher/server background processes
+- leave the final stats directory ready for artifact upload or later publishing
+
+
+## Manifest Location Expectations
+
+
+Current default expectation inside the action bundle:
+
+
+- bundled `watcher-manifest.yaml`
+
+
+Current inventory expectation inside the action bundle:
+
+
+- bundled `generated-ci-inventory.yaml`
+
+
+Recommended workflow when the CI file changes:
+
+
+1. Regenerate the inventory with `extract_ci_inventory.py`
+2. Update the manifest if job ids or named steps changed
+3. Run `validate_watcher_manifest.py`
+
+
+## Runner Assumptions
+
+
+The current watcher assumes a self-hosted Linux-style runner environment.
+
+
+Expected capabilities:
+
+
+- `bash`
+- `python3`
+- `docker`
+- standard Unix tools like `df`, `awk`, `grep`, `sed`, `wc`, `find`
+
+
+Expected runtime behavior:
+
+
+- the runner can launch long-lived background processes
+- the runner allows writing under `/tmp`
+- the runner can inspect Docker state
+
+
+## Artifact Expectations
+
+
+At minimum, a run should produce a stats directory containing:
+
+
+- `meta.json`
+- `timeline.ndjson`
+- `snapshot.json`
+- `report.html`
+
+
+Optional richer outputs may also appear:
+
+
+- `step-summaries.json`
+- `docker-images.json`
+- `docker-volumes.json`
+- `docker-containers.json`
+- `docker-build-cache.json`
+- `directory-sizes.ndjson`
+- `inode-usage.ndjson`
+- `host-stats.ndjson`
+- `run-summary.json`
+- `warnings.json`
+
+
+## Naming and Identity Expectations
+
+
+The current implementation works best when a run can provide:
+
+
+- a PR number or similar review identifier
+- a commit SHA
+- a run URL
+- a stable per-run stats directory
+
+
+If a project does not use pull requests, another stable run key can replace the PR number.
+
+
+## Live View Expectations
+
+
+The current design still assumes:
+
+
+- watcher startup remains explicit in the workflow
+- watcher shutdown remains explicit in the workflow
+- live serving is separate from final report generation
+
+
+Projects that do not want a live page can still adopt the artifact/report side only.
+
+
+## Minimal Adoption Checklist
+
+
+1. Add `uses: karthiek390/cicd-stats-watcher@v1` with `mode: start`.
+2. Add one or more `mode: track` steps for important named commands.
+3. Add `mode: finalize` under `if: always()`.
+4. Optionally override `stats-dir` or `manifest-path` if your repo needs custom behavior.
+5. Confirm `report.html` and the stats artifact are produced successfully.
+
+
+
+
+
+
+3. Tic-tac-toe: https://github.com/karthiek390/tic-tac-toe
+
+
+README.md:
+
+
+
+
+# 🕹️ Tic-Tac-Toe AI Coach (Full Stack)
+
+
+A full-stack Tic-Tac-Toe trainer built with **React + Tailwind CSS (Frontend)** and **Flask + SQLite + SQLAlchemy (Backend)**. Designed not just to play — but to help users **improve** their gameplay by analyzing move decisions and providing coaching feedback.
+
+
+---
+
+
+## 🎯 Project Motivation
+
+
+The goal is to go beyond a simple game:
+
+
+- Let users play Tic-Tac-Toe with a random AI opponent.
+- Log every move made during a game.
+- Give **insightful feedback** on user decisions (e.g., missed strategic moves).
+- Persist the full game history + insights in a local SQLite database.
+
+
+Ideal for beginner-friendly exposure to **AI strategy, game logging, full-stack app development**, and user experience design.
+
+
+---
+
+
+## 🌐 Live Demo
+
+
+- 🔗 Frontend (Vercel): [https://tic-tac-toe-roan-nine-56.vercel.app/](https://tic-tac-toe-roan-nine-56.vercel.app/)
+- 🔗 Backend (Render): [https://tic-tac-toe-backend-pmiy.onrender.com](https://tic-tac-toe-backend-pmiy.onrender.com)
+
+
+> The frontend and backend are deployed and connected in production.
+
+
+---
+
+
+## 📁 Folder Structure
+
+
+```bash
+tic-tac-toe/
+├── backend/
+│   ├── app/
+│   │   ├── main.py                 # Flask app with route registration
+│   │   ├── models/
+│   │   │   ├── database.py         # SQLAlchemy DB engine + session setup
+│   │   │   └── game_log_model.py   # GameLog SQLAlchemy model
+│   │   ├── routes/
+│   │   │   ├── game_routes.py      # API routes for new game, move
+│   │   │   └── log_game.py         # Route to save move logs to DB
+│   │   └── services/
+│   │       └── tic_tac_toe_engine.py  # Core game logic + AI move
+│   └── requirements.txt           # Backend dependencies
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   │   └── gameApi.ts          # Calls to backend API
+│   │   ├── components/
+│   │   │   ├── GameBoard.tsx       # Main game UI and logic
+│   │   │   ├── GameCell.tsx        # Single cell component
+│   │   │   ├── GameStatus.tsx      # Game status display
+│   │   │   └── Header.tsx / Footer.tsx # UI layout
+│   │   ├── types/                  # TypeScript types
+│   └── public/ / dist/            # Static and build files
+├── game_log_test.json             # Sample payload for backend testing
+├── tictactoe.db                   # (Git-ignored) Local SQLite DB
+├── .gitignore                     # Git ignore rules (add backend rules too)
+└── README.md                      # You're here 🙂
+```
+## ⚙️ Tech Stack
+
+
+| Layer       | Tools/Frameworks                             |
+|-------------|----------------------------------------------|
+| Frontend    | React, Tailwind CSS, Vite, TypeScript        |
+| Backend     | Python, Flask, SQLAlchemy, SQLite            |
+| Dev Tools   | VS Code, Git, DB Browser for SQLite          |
+| Logging     | SQLAlchemy + SQLite game_log table           |
+
+
+---
+
+
+## 🔁 Gameplay & Logging Flow
+
+
+1. Player makes a move → frontend calls `/api/move`
+2. Backend updates board and lets AI (random 'O') respond
+3. After game ends:
+   - Move history + insights are POSTed to `/api/log-game`
+   - Backend saves game to `tictactoe.db`
+4. You can inspect logs using [DB Browser for SQLite](https://sqlitebrowser.org)
+
+
+---
+
+
+## 🚀 Setup Instructions
+
+
+### 🔧 Backend Setup (Flask + SQLite)
+
+
+```bash
+cd backend
+pip install -r requirements.txt
+PYTHONPATH=backend python -m app.main
+```
+
+
+## 🎨 Frontend Setup (React + Tailwind + Vite)
+
+
+```bash
+cd frontend
+npm install
+npm run dev
+
+
+```
+
+
+## 🧑‍💻 Author
+
+
+```bash
+Karthiek Duggirala
+Full-stack developer | AI Engineer | Game enthusiast
+```
+
+
+
+
+
+
+These are the projects i did, but i didn’t have code or documentation on the github yet: 
+
+
+
+🌐 From Endless Ads to a Safer, Cleaner Internet for the Whole Family 🛡️
+
+
+In many households, one Wi-Fi network powers every device: Laptops, TVs, tablets, gaming consoles, smart devices, and so on.
+
+
+Here were the challenges I faced:
+
+
+1.) Installing ad blockers on every single device was tedious.
+2.) Parents wanted to ensure kids couldn’t stumble onto unsafe websites, shady payment portals, or age-inappropriate content.
+3.) Adults, meanwhile, just wanted a clean browsing experience, which is ad-free, but unrestricted.
+
+
+Instead of patching devices one by one, I centralized the solution with Pi-hole on a Raspberry Pi 5.
+
+
+🔧 Step 1 – Hardware Setup
+i.) Flashed Raspberry Pi OS Lite on a microSD card.
+ii.) Gave the Pi a static IP to make it the DNS server for the network.
+Ran into a hiccup: my ISP’s router firmware didn’t play nice with custom DNS settings. I worked around it by assigning static DHCP reservations, ensuring the Pi was always reachable.
+
+
+💻 Step 2 – Installing Pi-hole
+i.) Installed Pi-hole with the web interface enabled.
+ii.) Choose Cloudflare as the upstream DNS for speed and privacy.
+
+
+🌐 Step 3 – Network Integration
+i.) Configured the home router to point all DNS lookups to the Pi.
+Now every device that is connected to wifi routes traffic through Pi-hole first.
+
+
+👨‍👩‍👧 Step 4 – Group-Based Filtering (The “Why” That Mattered)
+i.) Used Pi-hole’s Group Management to apply different DNS rules per device.
+ii.) Assigned kids’ devices to a strict group: ad blocking + extra blocklists (adult sites, gambling, unsafe shopping, social media).
+iii.) Parents’ laptops, mobiles, and the family TV went into a lighter group: just ad/tracker blocking, with full freedom otherwise.
+
+
+➡️ This gave kids a clean internet experience while adults enjoyed normal browsing with just one simple process.
+
+
+🔐 How It Made the Network Safer
+i.) Blocked malicious domains: phishing/malware never resolves.
+ii.) Reduced attack surface: fewer connections, fewer risks.
+iii.) Centralized control: protects even devices that can’t run ad blockers.
+iv.) Parental peace of mind: safe browsing defaults for kids.
+
+
+
+
+🚀 What’s Next (and Why)
+1.) Add a backup Pi for high availability. If the internet never goes down if one Pi fails.
+2.) Deploy Prometheus + Grafana dashboards to visualize traffic, track blocked queries, and catch anomalies early.
+3.) Integrate with Unbound (self-hosted DNS resolver) to eliminate reliance on third-party DNS and boost privacy.
+
+
+Outcome: One Raspberry Pi 5 now filters ads, blocks malware, and enforces parental controls for the entire household. Old “install ad blocker on every device” headaches are gone, and the network is cleaner, safer, and easier to manage.
+
+
+hashtag
+#Homelab
+hashtag
+#RaspberryPi
+hashtag
+#PiHole
+hashtag
+#SysAdmin
+hashtag
+#NetworkAdmin
+hashtag
+#ITProjects
+hashtag
+#HomelabProjects
+hashtag
+#ITInfrastructure
+hashtag
+#SystemsEngineering
+hashtag
+#SelfHosting
+hashtag
+#CyberSecurity
+hashtag
+#DNS 
+ 
+
+
+This is the next project which doesn’t have the code or documentation on the github yet:
+
+
+
+
+🖥️ From an Old Desktop to a Fully Functional Home Media Server 🎬
+
+
+A few weeks ago, I found my old desktop CPU lying around — the OS was corrupted, the hard disk had failed, and it was just collecting dust. Instead of scrapping it, I decided to turn it into something useful: a home media server.
+
+
+🔧 Step 1 – Hardware Resurrection
+
+
+Replaced the dead hard disk with a new one to bring the machine back to life.
+Bought a router to connect it properly — since my ISP disables direct LAN-to-device connections, I had to ensure internal networking worked reliably.
+Added a GPU (NVIDIA GTX 1650) to handle one of the toughest parts: transcoding media efficiently.
+
+
+💻 Step 2 – Software Setup
+Removed the broken Linux OS and installed TrueNAS SCALE for storage management.
+Configured ZFS datasets, ACLs, and ensured the apps user/group had the right permissions for containerized services.
+Installed Jellyfin, an open-source media server, and mapped it to my storage datasets.
+Tuned FFmpeg to use the GPU, offloading transcoding tasks from the CPU to the GPU for smooth playback across devices.
+
+
+🔐 Step 3 – Network & Security
+No exposed ports by default: disabled UPnP, avoided blanket port-forwards reduced attack surface.
+Private-only access by design: LAN streaming first; for remote use I prefer a VPN over open ports.
+WireGuard/Tailscale plan: device-to-device encrypted tunnels with NAT traversal and zero inbound firewall changes.
+Reverse proxy with TLS: when I do expose services, they go behind Nginx Proxy Manager/Traefik with Let’s Encrypt, HSTS, and path-based routing (single entrypoint, consistent certificates).
+Least-privilege networking: static DHCP reservations, firewall rules limiting Jellyfin to required ports only.
+Segmentation & hygiene: IoT and guest devices isolated via VLANs; admin interfaces allowed only from a trusted subnet.
+Strong auth & auditing: unique admin credentials, 2FA where supported, logs shipped to netdata/TrueNAS dashboards for visibility.
+QoS where it matters: traffic shaping so a big backup doesn’t starve streaming (better user experience without overprovisioning).
+Backups & rollbacks: ZFS snapshots + periodic replication targets; fast restore if metadata gets corrupted or ransomware tries its luck.
+
+
+Outcome
+1.) Smooth, low-latency streaming across laptop, TV, and mobile.
+2.) Old hardware + a small GPU + good networking practices = a cost-effective, secure homelab.
+3.) Hands-on with storage (ZFS), containers, Linux, networking, and GPU transcoding.
+
+
+What’s next
+1.) Build my own self-hosted VPN server on this homelab, so I can enable secure remote access without exposing public ports.
+2.) Put Jellyfin behind a reverse proxy with auto-renewing Let’s Encrypt certs.
+3.) Expand monitoring (Prometheus + Grafana), add SMART/ZFS health alerts.
+4.) Snapshot replication to another box for off-site backups.
+
+
+hashtag
+#Homelab
+hashtag
+#TrueNAS
+hashtag
+#Jellyfin
+hashtag
+#SelfHosting
+hashtag
+#GPU
+hashtag
+#Linux
+hashtag
+#MediaServer
+hashtag
+#ZFS
+hashtag
+#Networking
+hashtag
+#CyberSecurity
+hashtag
+#OpenSource
+hashtag
+#DevOps
+hashtag
+#Docker
