@@ -166,3 +166,8 @@
 - visual cue: anomaly now flashes a random Matrix/cat asset near the hero bio instead of ASCII text
 - curated asset pool: public/deja-vu/cat-gif.gif, coding-the-matrix.gif, matrix-cat-still.jpg, matrix4-cat.webp, matrix-cat.webp
 - cleanup: giphy.gif removed from active rotation and no longer used by the feature
+## V2 WHITE RABBIT UPDATE COMPLETE
+- feature: added a White Rabbit hover reveal to the Blue Pill RED PILL button in the navbar
+- implementation: components/blue/Navbar.tsx now shows a small floating panel on hover with rabbit imagery and the line "Wake up, Recruiter..."
+- asset: rabbit_matrix.jpg copied to public/easter-eggs/rabbit-matrix.jpg for reliable app serving
+- behavior: hover reveals the rabbit cue, while click behavior for RED PILL remains unchanged and still switches to red mode
