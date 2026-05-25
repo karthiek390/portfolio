@@ -145,3 +145,16 @@
 - NebuchadnezzarStatus.tsx: USE_MOCK set to false (live GitHub feed active)
 - contacts + pageviews tables live in Supabase
 - .env deleted after push (credentials safe in .env.local only)
+## BLUE CONTACT UPDATE âœ… COMPLETE
+- issue: blue navbar Contact anchor led to /portfolio#contact, but no blue contact section was rendered
+- implementation: added components/blue/ContactForm21st.tsx and mounted it in the blue /portfolio flow
+- UX: blue section now uses a clean recruiter-friendly contact form with company, email, and message fields
+- backend reuse: blue form submits to existing /api/contact route
+- persistence: successful blue submissions still store in Supabase through Prisma
+- notifications: successful blue submissions still trigger the existing Slack webhook path from .env.local
+- copy cleanup: removed backend/internal wording and replaced it with standard contact copy and a simple success message
+
+## 404 ROUTING UPDATE âœ… COMPLETE
+- issue: 404 button routed to / first, then middleware redirected to /portfolio when pill_mode cookie existed
+- fix: app/not-found.tsx now routes directly to /portfolio
+- UX copy: button label updated from [ DISCONNECT ] to [ RETURN TO MAINFRAME ] so the action matches the destination

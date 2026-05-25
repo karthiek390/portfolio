@@ -57,7 +57,7 @@ export default function NotFound() {
 
       <motion.button id="smith-disconnect-btn"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/portfolio")}
         style={{ padding: "0.75rem 2rem", backgroundColor: "transparent",
           border: "1px solid #00FF41", color: "#00FF41",
           fontFamily: "JetBrains Mono, monospace", fontSize: "0.85rem",
@@ -70,7 +70,7 @@ export default function NotFound() {
           (e.target as HTMLElement).style.boxShadow = "none";
           (e.target as HTMLElement).style.backgroundColor = "transparent";
         }}>
-        [ DISCONNECT ]
+        [ RETURN TO MAINFRAME ]
       </motion.button>
     </div>
   );

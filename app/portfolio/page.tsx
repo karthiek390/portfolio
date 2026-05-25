@@ -8,6 +8,7 @@ import BlueNavbar   from "@/components/blue/Navbar";
 import BlueHero     from "@/components/blue/Hero";
 import BlueProjects from "@/components/blue/ProjectsGrid";
 import BlueCerts    from "@/components/blue/CertsSection";
+import BlueContactForm21st from "@/components/blue/ContactForm21st";
 import BlueFooter   from "@/components/blue/Footer";
 
 // Red components
@@ -45,6 +46,7 @@ export default function PortfolioPage() {
           <BlueHero />
           <BlueProjects />
           <BlueCerts />
+          <BlueContactForm21st />
           <BlueFooter />
         </>
       )}
