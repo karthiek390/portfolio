@@ -5,7 +5,8 @@ import TheConstruct from "@/transitions/TheConstruct";
 
 // Blue components
 import BlueNavbar   from "@/components/blue/Navbar";
-import BlueHero     from "@/components/blue/Hero";
+// import BlueHero     from "@/components/blue/Hero";
+import BlueHeroDejaVu from "@/components/blue/HeroDejaVu";
 import BlueProjects from "@/components/blue/ProjectsGrid";
 import BlueCerts    from "@/components/blue/CertsSection";
 import BlueContactForm21st from "@/components/blue/ContactForm21st";
@@ -43,7 +44,8 @@ export default function PortfolioPage() {
       ) : (
         <>
           <BlueNavbar  onSwitchMode={switchMode} />
-          <BlueHero />
+          {/* <BlueHero /> */}
+          <BlueHeroDejaVu />
           <BlueProjects />
           <BlueCerts />
           <BlueContactForm21st />

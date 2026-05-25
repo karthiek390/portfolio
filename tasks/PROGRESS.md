@@ -158,3 +158,11 @@
 - issue: 404 button routed to / first, then middleware redirected to /portfolio when pill_mode cookie existed
 - fix: app/not-found.tsx now routes directly to /portfolio
 - UX copy: button label updated from [ DISCONNECT ] to [ RETURN TO MAINFRAME ] so the action matches the destination
+## V2 BLUE DEJA VU UPDATE COMPLETE
+- feature: added a subtle Blue Pill illusion-break effect in the hero area using a safe A/B component path
+- A/B safety: original components/blue/Hero.tsx kept intact, new behavior implemented in components/blue/HeroDejaVu.tsx, and app/portfolio/page.tsx switches blue mode to the new version
+- glitch behavior: hero bio now performs a brief recurring deja-vu anomaly with duplicated text layers and tiny positional drift
+- timing loop: anomaly cadence now follows 2s -> 4s -> 8s -> 16s -> 16s...
+- visual cue: anomaly now flashes a random Matrix/cat asset near the hero bio instead of ASCII text
+- curated asset pool: public/deja-vu/cat-gif.gif, coding-the-matrix.gif, matrix-cat-still.jpg, matrix4-cat.webp, matrix-cat.webp
+- cleanup: giphy.gif removed from active rotation and no longer used by the feature
