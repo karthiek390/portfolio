@@ -1,10 +1,10 @@
 import RedCertCard from "./CertCard";
 
 const CERTS = [
-  { name: "AWS Cloud Practitioner",  issuer: "Amazon Web Services", year: "2024" },
-  { name: "Google Cloud Associate",  issuer: "Google",              year: "2023" },
-  { name: "Certified Scrum Master",  issuer: "Scrum Alliance",      year: "2023" },
-  { name: "Security+",               issuer: "CompTIA",             year: "2022" },
+  { name: "AWS Certified Solutions Architect – Associate", issuer: "Amazon Web Services",        year: "2024" },
+  { name: "NVIDIA-Certified Associate: Generative AI & LLMs",  issuer: "NVIDIA",                year: "2024" },
+  { name: "Microsoft Certified: Azure Fundamentals",          issuer: "Microsoft",               year: "2024" },
+  { name: "NDG Linux Essentials",                             issuer: "Cisco Networking Academy", year: "2023" },
 ];
 
 export default function RedCertsSection() {

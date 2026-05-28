@@ -29,3 +29,38 @@ model Pageview {
 
   @@map("pageviews")
 }
+
+// Stores recruiter/operator interaction events for v2 console analytics
+model OperatorEvent {
+  id        Int      @id @default(autoincrement())
+  type      String
+  detail    String?
+  page      String?
+  device    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("operator_events")
+}
+
+// Stores Oracle Kitchen skill interaction analytics
+model SkillClick {
+  id        Int      @id @default(autoincrement())
+  nodeId    String
+  skill     String
+  device    String?
+  createdAt DateTime @default(now())
+
+  @@map("skill_clicks")
+}
+
+// Stores anonymous UI preferences such as audio toggle state
+model UserPreference {
+  id           Int      @id @default(autoincrement())
+  clientId     String   @unique
+  audioEnabled Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("user_preferences")
+}

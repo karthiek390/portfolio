@@ -1,11 +1,25 @@
 export default function BlueFooter() {
   return (
-    <footer id="blue-footer" style={{
-      padding: "2.5rem", textAlign: "center",
-      borderTop: "1px solid #E2E8F0", color: "#94A3B8", fontSize: "0.8rem",
-      fontFamily: "Inter, sans-serif",
-    }}>
-      © {new Date().getFullYear()} Karthiek Duggirala · Built with Next.js
+    <footer
+      id="blue-footer"
+      className="bp-panel-b"
+      style={{
+        borderTop: "1px solid #E2E8F0",
+        padding: "24px 64px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        flexWrap: "wrap",
+        gap: "0.5rem",
+        fontFamily: "Inter, sans-serif",
+      }}
+    >
+      <span style={{ color: "#94A3B8", fontSize: "0.78rem", fontWeight: 500 }}>
+        KD. &copy; {new Date().getFullYear()}
+      </span>
+      <span style={{ color: "#CBD5E1", fontSize: "0.72rem", letterSpacing: "0.02em" }}>
+        Made with intention, not templates.
+      </span>
     </footer>
   );
 }

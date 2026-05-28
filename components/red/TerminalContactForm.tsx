@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackOperatorEvent } from "@/lib/operator-events";
 
 const PROMPTS = [
   { key: "company", label: "[SYS]: State your organization's designation..." },
@@ -29,14 +30,31 @@ export default function TerminalContactForm() {
   const [data, setData]       = useState<FormData>({ company: "", email: "", message: "" });
   const [status, setStatus]   = useState<"idle" | "sending" | "sent" | "error">("idle");
   const inputRef              = useRef<HTMLInputElement>(null);
+  const hasTrackedInit        = useRef(false);
 
   useEffect(() => { if (step < 3) inputRef.current?.focus(); }, [step]);
+
+  useEffect(() => {
+    if (hasTrackedInit.current) return;
+    hasTrackedInit.current = true;
+    trackOperatorEvent({
+      type: "CONTACT_INIT",
+      detail: "terminal contact form opened",
+      page: "portfolio",
+    });
+  }, []);
+
+  const [inputError, setInputError] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== "Enter" || !current.trim()) return;
     const key = PROMPTS[step]?.key;
     if (!key) return;
-    if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(current)) { setCurrent(""); return; }
+    if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(current)) {
+      setInputError("[ERR]: Invalid routing address. Use format: user@domain.com");
+      return;
+    }
+    setInputError("");
     setData((p) => ({ ...p, [key]: current.trim() }));
     setCurrent("");
     setStep((p) => p + 1);
@@ -51,7 +69,15 @@ export default function TerminalContactForm() {
         body: JSON.stringify(data),
       });
       setStatus(res.ok ? "sent" : "error");
-      if (res.ok) setStep(4);
+      if (res.ok) {
+        trackOperatorEvent({
+          type: "CONTACT_SENT",
+          detail: `transmission sent from ${data.company}`,
+          page: "portfolio",
+          metadata: { company: data.company },
+        });
+        setStep(4);
+      }
     } catch { setStatus("error"); }
   };
 
@@ -92,6 +118,11 @@ export default function TerminalContactForm() {
                   autoComplete="off" spellCheck={false}
                   placeholder="type and press Enter..." />
               </div>
+              {inputError && (
+                <p style={{ ...S.dark, fontSize: "0.72rem", paddingLeft: "1rem", marginTop: "-0.25rem" }}>
+                  {inputError}
+                </p>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

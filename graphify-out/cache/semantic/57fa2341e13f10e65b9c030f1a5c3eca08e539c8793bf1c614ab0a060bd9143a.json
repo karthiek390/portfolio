@@ -1,0 +1,1 @@
+{"nodes": [{"id": "the_construct_tsx", "label": "TheConstruct.tsx", "file_type": "code", "source_file": "transitions/TheConstruct.tsx"}], "edges": [{"source": "the_construct_tsx", "target": "concept_the_construct", "relation": "implements", "confidence": "EXTRACTED", "confidence_score": 1.0, "source_file": "transitions/TheConstruct.tsx"}], "hyperedges": []}

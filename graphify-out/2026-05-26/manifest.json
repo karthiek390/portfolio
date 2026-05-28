@@ -1,0 +1,182 @@
+{
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\middleware.ts": {
+    "mtime": 1779634082.1396503,
+    "ast_hash": "662c016150abc12acd151d4ed6e4dfa4",
+    "semantic_hash": "662c016150abc12acd151d4ed6e4dfa4"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\next-env.d.ts": {
+    "mtime": 1779392051.9708505,
+    "ast_hash": "d0f8375ae1199dc7acd3977fc33b78b8",
+    "semantic_hash": "d0f8375ae1199dc7acd3977fc33b78b8"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\next.config.ts": {
+    "mtime": 1779391607.955638,
+    "ast_hash": "daad32b4de0b92afe04301ebf0a6cc76",
+    "semantic_hash": "daad32b4de0b92afe04301ebf0a6cc76"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\package.json": {
+    "mtime": 1779391840.589901,
+    "ast_hash": "3d39e6c51b3f5747e9f24dd14c5c5154",
+    "semantic_hash": "3d39e6c51b3f5747e9f24dd14c5c5154"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\skills-lock.json": {
+    "mtime": 1779632931.2168083,
+    "ast_hash": "28e5edd5cf3588bb2f3feca381ddfaf3",
+    "semantic_hash": "28e5edd5cf3588bb2f3feca381ddfaf3"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\step1.ps1": {
+    "mtime": 1779829470.3331952,
+    "ast_hash": "2e002ff2d1a888dc0fa474bd8e30e51c",
+    "semantic_hash": "2e002ff2d1a888dc0fa474bd8e30e51c"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\step2.ps1": {
+    "mtime": 1779829494.6276438,
+    "ast_hash": "aa64fa3b65e79b6b0fc5b1f24ca709b6",
+    "semantic_hash": "aa64fa3b65e79b6b0fc5b1f24ca709b6"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\tsconfig.json": {
+    "mtime": 1779392051.9671445,
+    "ast_hash": "701d94282762685a48ca77258568187e",
+    "semantic_hash": "701d94282762685a48ca77258568187e"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\.agent\\skills\\ui-ux-pro-max\\scripts\\core.py": {
+    "mtime": 1779829019.5402074,
+    "ast_hash": "3df4734a785963a8242a56c1b926adfd",
+    "semantic_hash": "3df4734a785963a8242a56c1b926adfd"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\.agent\\skills\\ui-ux-pro-max\\scripts\\design_system.py": {
+    "mtime": 1779829019.5437138,
+    "ast_hash": "08f84d04608a19049c90fc2b1ef314f9",
+    "semantic_hash": "08f84d04608a19049c90fc2b1ef314f9"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\.agent\\skills\\ui-ux-pro-max\\scripts\\search.py": {
+    "mtime": 1779829019.5472293,
+    "ast_hash": "8c7e35426fe8f6f3ed91e9dce0ed7af1",
+    "semantic_hash": "8c7e35426fe8f6f3ed91e9dce0ed7af1"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\layout.tsx": {
+    "mtime": 1779634059.8478477,
+    "ast_hash": "a0cae20163dfe4828a0ad3f308b54777",
+    "semantic_hash": "a0cae20163dfe4828a0ad3f308b54777"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\not-found.tsx": {
+    "mtime": 1779640893.0945182,
+    "ast_hash": "74ac6cf6c789eb3c906741aeec4f3634",
+    "semantic_hash": "74ac6cf6c789eb3c906741aeec4f3634"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\page.tsx": {
+    "mtime": 1779634100.343283,
+    "ast_hash": "4d48ff774aadbea5f65f9abee95e73bd",
+    "semantic_hash": "4d48ff774aadbea5f65f9abee95e73bd"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\api\\contact\\route.ts": {
+    "mtime": 1779464728.1474323,
+    "ast_hash": "c4326ff6f23a19c3db36dec74462c46b",
+    "semantic_hash": "c4326ff6f23a19c3db36dec74462c46b"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\api\\github-status\\route.ts": {
+    "mtime": 1779415983.9674294,
+    "ast_hash": "c5313c03b5461872c7c380e43667f83a",
+    "semantic_hash": "c5313c03b5461872c7c380e43667f83a"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\api\\pill-choice\\route.ts": {
+    "mtime": 1779634075.175426,
+    "ast_hash": "f3072140f73f12222af15c9a0de5f3cb",
+    "semantic_hash": "f3072140f73f12222af15c9a0de5f3cb"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\app\\portfolio\\page.tsx": {
+    "mtime": 1779811738.3621585,
+    "ast_hash": "6701273c37208c91a7f6bbe8147f4fdd",
+    "semantic_hash": "6701273c37208c91a7f6bbe8147f4fdd"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\components\\shared\\GlitchText.tsx": {
+    "mtime": 1779414794.9665217,
+    "ast_hash": "e3fa548bff827f5afa9fe3bd31456af3",
+    "semantic_hash": "e3fa548bff827f5afa9fe3bd31456af3"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\components\\shared\\MatrixRain.tsx": {
+    "mtime": 1779392299.9357507,
+    "ast_hash": "0774bb8836806f65860a914a10411f30",
+    "semantic_hash": "0774bb8836806f65860a914a10411f30"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\components\\shared\\Navbar.tsx": {
+    "mtime": 1779391975.501356,
+    "ast_hash": "5c7f99e3d4eaae821996a487acc6a5e2",
+    "semantic_hash": "5c7f99e3d4eaae821996a487acc6a5e2"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\components\\shared\\PillToggle.tsx": {
+    "mtime": 1779391975.499851,
+    "ast_hash": "5c7f99e3d4eaae821996a487acc6a5e2",
+    "semantic_hash": "5c7f99e3d4eaae821996a487acc6a5e2"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\context\\PillContext.tsx": {
+    "mtime": 1779634094.2876587,
+    "ast_hash": "6d55b11befcbd25456273f40cf2f0b3f",
+    "semantic_hash": "6d55b11befcbd25456273f40cf2f0b3f"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\lib\\github.ts": {
+    "mtime": 1779391975.5358076,
+    "ast_hash": "5c7f99e3d4eaae821996a487acc6a5e2",
+    "semantic_hash": "5c7f99e3d4eaae821996a487acc6a5e2"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\lib\\prisma.ts": {
+    "mtime": 1779415943.6561577,
+    "ast_hash": "4c7d7362e3643153445147bfe5c1b459",
+    "semantic_hash": "4c7d7362e3643153445147bfe5c1b459"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\lib\\useTilt.ts": {
+    "mtime": 1779393603.0567455,
+    "ast_hash": "11ff6b363f854d6ea385a0dcd502579e",
+    "semantic_hash": "11ff6b363f854d6ea385a0dcd502579e"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\transitions\\TheConstruct.tsx": {
+    "mtime": 1779393576.5952804,
+    "ast_hash": "b2355efff3ac278027292a44fb1b5d3d",
+    "semantic_hash": "b2355efff3ac278027292a44fb1b5d3d"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\APP_UI_VIBE_MANIFEST.md": {
+    "mtime": 1779674649.136313,
+    "ast_hash": "5f26d2f586373017ad7e2dc9bfc96fe2",
+    "semantic_hash": "5f26d2f586373017ad7e2dc9bfc96fe2"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\Matrix Portfolio Ideas.txt": {
+    "mtime": 1779372534.3012304,
+    "ast_hash": "8c3d2f8ca43ba27dfee469951b0352e4",
+    "semantic_hash": "8c3d2f8ca43ba27dfee469951b0352e4"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\postcss.config.yml": {
+    "mtime": 1779391613.625094,
+    "ast_hash": "02afdc06587195e285a88ff95c429cb5",
+    "semantic_hash": "02afdc06587195e285a88ff95c429cb5"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\Projects_performed.txt": {
+    "mtime": 1779458633.2479775,
+    "ast_hash": "ee8b518c78ec679ace4fc6d1c9b00e1f",
+    "semantic_hash": "ee8b518c78ec679ace4fc6d1c9b00e1f"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\skills.md": {
+    "mtime": 1779811452.2531774,
+    "ast_hash": "0e0478ded4f511cd7a57ac05e3a326a2",
+    "semantic_hash": "0e0478ded4f511cd7a57ac05e3a326a2"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\.agent\\skills\\ui-ux-pro-max\\SKILL.md": {
+    "mtime": 1779829046.4637048,
+    "ast_hash": "b33a6a2bede0b68b6919ec33248476f8",
+    "semantic_hash": "b33a6a2bede0b68b6919ec33248476f8"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\tasks_v2\\matrix_v2_priority_backlog.md": {
+    "mtime": 1779641443.0270686,
+    "ast_hash": "1b3e5f3d2f2a3253fd14e69bdaabd8ac",
+    "semantic_hash": "1b3e5f3d2f2a3253fd14e69bdaabd8ac"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\Certifications\\AWS Certified Solutions Architect.pdf": {
+    "mtime": 1779809985.710812,
+    "ast_hash": "21a662affed25fdbfadffde3a8584cf9",
+    "semantic_hash": "21a662affed25fdbfadffde3a8584cf9"
+  },
+  "C:\\Users\\Karthiek Duggirala\\OneDrive\\Desktop\\portfolio\\Certifications\\NVIDIA Certified Associate GenerativeAI LLMs.pdf": {
+    "mtime": 1747627779.6895208,
+    "ast_hash": "1542dd3c6deff118e7ed079acc5c497d",
+    "semantic_hash": "1542dd3c6deff118e7ed079acc5c497d"
+  }
+}

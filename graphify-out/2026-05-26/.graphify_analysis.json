@@ -1,0 +1,490 @@
+{
+  "communities": {
+    "0": [
+      "portfolio_skills_lock_cavecrew_computedhash",
+      "portfolio_skills_lock_cavecrew_skillpath",
+      "portfolio_skills_lock_cavecrew_source",
+      "portfolio_skills_lock_cavecrew_sourcetype",
+      "portfolio_skills_lock_caveman_commit_computedhash",
+      "portfolio_skills_lock_caveman_commit_skillpath",
+      "portfolio_skills_lock_caveman_commit_source",
+      "portfolio_skills_lock_caveman_commit_sourcetype",
+      "portfolio_skills_lock_caveman_compress_computedhash",
+      "portfolio_skills_lock_caveman_compress_skillpath",
+      "portfolio_skills_lock_caveman_compress_source",
+      "portfolio_skills_lock_caveman_compress_sourcetype",
+      "portfolio_skills_lock_caveman_computedhash",
+      "portfolio_skills_lock_caveman_help_computedhash",
+      "portfolio_skills_lock_caveman_help_skillpath",
+      "portfolio_skills_lock_caveman_help_source",
+      "portfolio_skills_lock_caveman_help_sourcetype",
+      "portfolio_skills_lock_caveman_review_computedhash",
+      "portfolio_skills_lock_caveman_review_skillpath",
+      "portfolio_skills_lock_caveman_review_source",
+      "portfolio_skills_lock_caveman_review_sourcetype",
+      "portfolio_skills_lock_caveman_skillpath",
+      "portfolio_skills_lock_caveman_source",
+      "portfolio_skills_lock_caveman_sourcetype",
+      "portfolio_skills_lock_skills",
+      "portfolio_skills_lock_skills_cavecrew",
+      "portfolio_skills_lock_skills_caveman",
+      "portfolio_skills_lock_skills_caveman_commit",
+      "portfolio_skills_lock_skills_caveman_compress",
+      "portfolio_skills_lock_skills_caveman_help",
+      "portfolio_skills_lock_skills_caveman_review",
+      "portfolio_skills_lock_version",
+      "skills_lock_json"
+    ],
+    "1": [
+      "app_layout_inter",
+      "app_layout_jetbrainsmono",
+      "app_layout_metadata",
+      "app_layout_readinitialmode",
+      "app_layout_rootlayout",
+      "app_layout_tsx",
+      "app_page_landingpage",
+      "app_page_pillbutton",
+      "app_page_pillbuttonprops",
+      "app_page_tsx",
+      "app_portfolio_page_tsx",
+      "components_shared_matrixrain_tsx",
+      "context_pillcontext_persistmode",
+      "context_pillcontext_pillcontext",
+      "context_pillcontext_pillcontexttype",
+      "context_pillcontext_pillmode",
+      "context_pillcontext_pillprovider",
+      "context_pillcontext_tsx",
+      "context_pillcontext_usepill",
+      "context_pillcontext_usepilltransition",
+      "portfolio_page_portfoliopage",
+      "shared_matrixrain_matrixrain",
+      "transitions_theconstruct_theconstruct",
+      "transitions_theconstruct_theconstructprops",
+      "transitions_theconstruct_tsx"
+    ],
+    "2": [
+      "agent_skills_ui_ux_pro_max_scripts_design_system_py",
+      "agent_skills_ui_ux_pro_max_scripts_search_py",
+      "bool",
+      "scripts_design_system_detect_page_type",
+      "scripts_design_system_format_ascii_box",
+      "scripts_design_system_format_markdown",
+      "scripts_design_system_format_master_md",
+      "scripts_design_system_format_page_override_md",
+      "scripts_design_system_generate_design_system",
+      "scripts_design_system_generate_intelligent_overrides",
+      "scripts_design_system_persist_design_system",
+      "scripts_design_system_rationale_1021",
+      "scripts_design_system_rationale_243",
+      "scripts_design_system_rationale_368",
+      "scripts_design_system_rationale_464",
+      "scripts_design_system_rationale_492",
+      "scripts_design_system_rationale_543",
+      "scripts_design_system_rationale_806",
+      "scripts_design_system_rationale_915",
+      "scripts_search_format_output",
+      "scripts_search_rationale_31",
+      "str"
+    ],
+    "3": [
+      "portfolio_tsconfig_compileroptions",
+      "portfolio_tsconfig_compileroptions_allowjs",
+      "portfolio_tsconfig_compileroptions_esmoduleinterop",
+      "portfolio_tsconfig_compileroptions_incremental",
+      "portfolio_tsconfig_compileroptions_isolatedmodules",
+      "portfolio_tsconfig_compileroptions_jsx",
+      "portfolio_tsconfig_compileroptions_lib",
+      "portfolio_tsconfig_compileroptions_module",
+      "portfolio_tsconfig_compileroptions_moduleresolution",
+      "portfolio_tsconfig_compileroptions_noemit",
+      "portfolio_tsconfig_compileroptions_paths",
+      "portfolio_tsconfig_compileroptions_plugins",
+      "portfolio_tsconfig_compileroptions_resolvejsonmodule",
+      "portfolio_tsconfig_compileroptions_skiplibcheck",
+      "portfolio_tsconfig_compileroptions_strict",
+      "portfolio_tsconfig_compileroptions_target",
+      "portfolio_tsconfig_exclude",
+      "portfolio_tsconfig_include",
+      "portfolio_tsconfig_paths",
+      "tsconfig_json"
+    ],
+    "4": [
+      "agent_skills_ui_ux_pro_max_scripts_core_py",
+      "scripts_core_bm25",
+      "scripts_core_bm25_fit",
+      "scripts_core_bm25_init",
+      "scripts_core_bm25_score",
+      "scripts_core_bm25_tokenize",
+      "scripts_core_detect_domain",
+      "scripts_core_load_csv",
+      "scripts_core_rationale_110",
+      "scripts_core_rationale_115",
+      "scripts_core_rationale_134",
+      "scripts_core_rationale_160",
+      "scripts_core_rationale_166",
+      "scripts_core_rationale_191",
+      "scripts_core_rationale_213",
+      "scripts_core_rationale_235",
+      "scripts_core_rationale_97",
+      "scripts_core_search",
+      "scripts_core_search_csv",
+      "scripts_core_search_stack"
+    ],
+    "5": [
+      "package_json",
+      "portfolio_package_devdependencies",
+      "portfolio_package_devdependencies_eslint",
+      "portfolio_package_devdependencies_eslint_config_next",
+      "portfolio_package_devdependencies_prisma",
+      "portfolio_package_devdependencies_tailwindcss",
+      "portfolio_package_devdependencies_tailwindcss_postcss",
+      "portfolio_package_devdependencies_types_node",
+      "portfolio_package_devdependencies_types_react",
+      "portfolio_package_devdependencies_types_react_dom",
+      "portfolio_package_devdependencies_typescript",
+      "portfolio_package_name",
+      "portfolio_package_private",
+      "portfolio_package_scripts",
+      "portfolio_package_scripts_build",
+      "portfolio_package_scripts_dev",
+      "portfolio_package_scripts_lint",
+      "portfolio_package_scripts_start",
+      "portfolio_package_version"
+    ],
+    "6": [
+      "scripts_design_system_designsystemgenerator",
+      "scripts_design_system_designsystemgenerator_apply_reasoning",
+      "scripts_design_system_designsystemgenerator_extract_results",
+      "scripts_design_system_designsystemgenerator_find_reasoning_rule",
+      "scripts_design_system_designsystemgenerator_generate",
+      "scripts_design_system_designsystemgenerator_init",
+      "scripts_design_system_designsystemgenerator_load_reasoning",
+      "scripts_design_system_designsystemgenerator_multi_domain_search",
+      "scripts_design_system_designsystemgenerator_select_best_match",
+      "scripts_design_system_rationale_123",
+      "scripts_design_system_rationale_160",
+      "scripts_design_system_rationale_164",
+      "scripts_design_system_rationale_38",
+      "scripts_design_system_rationale_44",
+      "scripts_design_system_rationale_52",
+      "scripts_design_system_rationale_65",
+      "scripts_design_system_rationale_89"
+    ],
+    "7": [
+      "app_ui_vibe_manifest_md",
+      "concept_blue_pill",
+      "concept_red_pill",
+      "glitch_text_tsx",
+      "matrix_portfolio_ideas_txt",
+      "matrix_rain_tsx",
+      "matrix_v2_priority_backlog_md",
+      "pill_context_tsx",
+      "use_tilt_ts"
+    ],
+    "8": [
+      "portfolio_package_dependencies",
+      "portfolio_package_dependencies_framer_motion",
+      "portfolio_package_dependencies_gsap",
+      "portfolio_package_dependencies_gsap_react",
+      "portfolio_package_dependencies_next",
+      "portfolio_package_dependencies_prisma_client",
+      "portfolio_package_dependencies_react",
+      "portfolio_package_dependencies_react_dom"
+    ],
+    "9": [
+      "app_api_contact_route_ts",
+      "contact_route_get",
+      "contact_route_post",
+      "contact_route_sendslackalert",
+      "lib_prisma_globalforprisma",
+      "lib_prisma_ts"
+    ],
+    "10": [
+      "cookie_pill_mode",
+      "landing_page",
+      "middleware",
+      "portfolio_page",
+      "root_layout"
+    ],
+    "11": [
+      "portfolio_skills_lock_caveman_stats_computedhash",
+      "portfolio_skills_lock_caveman_stats_skillpath",
+      "portfolio_skills_lock_caveman_stats_source",
+      "portfolio_skills_lock_caveman_stats_sourcetype",
+      "portfolio_skills_lock_skills_caveman_stats"
+    ],
+    "12": [
+      "aws_cert_pdf",
+      "karthiek_duggirala",
+      "nvidia_cert_pdf",
+      "skills_md"
+    ],
+    "13": [
+      "middleware_ts",
+      "portfolio_middleware_config",
+      "portfolio_middleware_haspillchoice",
+      "portfolio_middleware_middleware"
+    ],
+    "14": [
+      "cicd_stats_watcher",
+      "dicom_local_viewer",
+      "projects_performed_txt",
+      "tic_tac_toe"
+    ],
+    "15": [
+      "components_shared_glitchtext_tsx",
+      "shared_glitchtext_glitchtext",
+      "shared_glitchtext_glitchtextprops"
+    ],
+    "16": [
+      "app_api_github_status_route_ts",
+      "github_status_route_get",
+      "github_status_route_timeago"
+    ],
+    "17": [
+      "app_api_pill_choice_route_ts",
+      "pill_choice_route_post",
+      "pill_choice_route_valid_modes"
+    ],
+    "18": [
+      "app_not_found_notfound",
+      "app_not_found_tsx"
+    ],
+    "19": [
+      "concept_the_construct",
+      "the_construct_tsx"
+    ],
+    "20": [
+      "contact_route",
+      "slack_webhook"
+    ],
+    "21": [
+      "lib_usetilt_ts",
+      "lib_usetilt_usetilt"
+    ],
+    "22": [
+      "next_config_ts",
+      "portfolio_next_config_nextconfig"
+    ],
+    "23": [
+      "portfolio_step1_find_graphifypython",
+      "step1_ps1"
+    ],
+    "24": [
+      "next_env_d_ts"
+    ],
+    "25": [
+      "step2_ps1"
+    ],
+    "26": [
+      "components_shared_navbar_tsx"
+    ],
+    "27": [
+      "components_shared_pilltoggle_tsx"
+    ],
+    "28": [
+      "lib_github_ts"
+    ],
+    "29": [
+      "navbar_tsx"
+    ],
+    "30": [
+      "pill_toggle_tsx"
+    ],
+    "31": [
+      "github_ts"
+    ],
+    "32": [
+      "prisma_ts"
+    ],
+    "33": [
+      "postcss_config_yml"
+    ],
+    "34": [
+      "ui_ux_pro_max_skill_md"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06060606060606061,
+    "1": 0.11666666666666667,
+    "2": 0.15151515151515152,
+    "3": 0.1,
+    "4": 0.14736842105263157,
+    "5": 0.10526315789473684,
+    "6": 0.16176470588235295,
+    "7": 0.25,
+    "8": 0.25,
+    "9": 0.4,
+    "10": 0.4,
+    "11": 0.4,
+    "12": 0.5,
+    "13": 0.6666666666666666,
+    "14": 0.5,
+    "15": 0.6666666666666666,
+    "16": 1.0,
+    "17": 0.6666666666666666,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0
+  },
+  "gods": [
+    {
+      "id": "portfolio_tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "str",
+      "label": "str",
+      "degree": 16
+    },
+    {
+      "id": "scripts_design_system_designsystemgenerator",
+      "label": "DesignSystemGenerator",
+      "degree": 11
+    },
+    {
+      "id": "scripts_core_search_csv",
+      "label": "_search_csv()",
+      "degree": 9
+    },
+    {
+      "id": "scripts_design_system_generate_design_system",
+      "label": "generate_design_system()",
+      "degree": 9
+    },
+    {
+      "id": "portfolio_skills_lock_skills",
+      "label": "skills",
+      "degree": 8
+    },
+    {
+      "id": "scripts_core_bm25",
+      "label": "BM25",
+      "degree": 7
+    },
+    {
+      "id": "scripts_core_search",
+      "label": "search()",
+      "degree": 7
+    },
+    {
+      "id": "scripts_design_system_persist_design_system",
+      "label": "persist_design_system()",
+      "degree": 6
+    },
+    {
+      "id": "scripts_design_system_generate_intelligent_overrides",
+      "label": "_generate_intelligent_overrides()",
+      "degree": 6
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Karthiek Duggirala",
+      "target": "AWS Certified Solutions Architect",
+      "source_files": [
+        "skills.md",
+        "Certifications/AWS Certified Solutions Architect.pdf"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "conceptually_related_to",
+      "why": "crosses file types (paper ↔ doc); connects across different repos/directories"
+    },
+    {
+      "source": "Karthiek Duggirala",
+      "target": "NVIDIA Certified Associate GenerativeAI LLMs",
+      "source_files": [
+        "skills.md",
+        "Certifications/NVIDIA Certified Associate GenerativeAI LLMs.pdf"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "conceptually_related_to",
+      "why": "crosses file types (paper ↔ doc); connects across different repos/directories"
+    },
+    {
+      "source": "LandingPage()",
+      "target": "usePill()",
+      "source_files": [
+        "app/page.tsx",
+        "context/PillContext.tsx"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; peripheral node `LandingPage()` unexpectedly reaches hub `usePill()`"
+    },
+    {
+      "source": "Middleware",
+      "target": "Landing Page",
+      "source_files": [
+        "middleware.ts",
+        "app/page.tsx"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories"
+    },
+    {
+      "source": "_search_csv()",
+      "target": "str",
+      "source_files": [
+        ".agent/skills/ui-ux-pro-max/scripts/core.py",
+        ".agent/skills/ui-ux-pro-max/scripts/design_system.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "calls",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `str` connect `Community 2` to `Community 4`, `Community 6`?",
+      "why": "High betweenness centrality (0.032) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `skills` connect `Community 0` to `Community 11`?",
+      "why": "High betweenness centrality (0.022) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `_search_csv()` connect `Community 4` to `Community 2`?",
+      "why": "High betweenness centrality (0.016) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `str` (e.g. with `.tokenize()` and `_search_csv()`) actually correct?",
+      "why": "`str` has 3 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `config`, `nextConfig`, `name` to the rest of the system?",
+      "why": "119 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 0` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11666666666666667 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

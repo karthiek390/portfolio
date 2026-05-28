@@ -1,0 +1,8 @@
+.agents/
+tasks/
+components/blue/
+components/red/
+*.png
+*.jpg
+*.webp
+*.gif

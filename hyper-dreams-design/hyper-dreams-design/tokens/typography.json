@@ -1,0 +1,120 @@
+{
+  "families": [
+    "Vipnagorgialla Bd",
+    "webflow-icons",
+    "Cygnito Mono"
+  ],
+  "scale": {
+    "heading-1": {
+      "fontFamily": "Vipnagorgialla Bd",
+      "fontSize": "40px",
+      "fontWeight": "700",
+      "lineHeight": null,
+      "source": "css"
+    },
+    "heading-2": {
+      "fontFamily": "Vipnagorgialla Bd",
+      "fontSize": "38px",
+      "fontWeight": "700",
+      "lineHeight": null,
+      "source": "css"
+    },
+    "heading-3": {
+      "fontFamily": "Vipnagorgialla Bd",
+      "fontSize": "32px",
+      "fontWeight": "700",
+      "lineHeight": null,
+      "source": "css"
+    },
+    "body": {
+      "fontFamily": "webflow-icons",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": null,
+      "source": "css"
+    },
+    "caption": {
+      "fontFamily": "webflow-icons",
+      "fontSize": "12px",
+      "fontWeight": "400",
+      "lineHeight": null,
+      "source": "css"
+    },
+    "code": {
+      "fontFamily": "Cygnito Mono",
+      "fontSize": "14px",
+      "fontWeight": "400",
+      "lineHeight": null,
+      "source": "css"
+    }
+  },
+  "fontFaces": [
+    {
+      "family": "webflow-icons",
+      "src": "data:application/x-font-ttf;charset=utf-8;base64,AAEAAAALAIAAAwAwT1MvMg8SBiUAAAC8AAAAYGNtYXDpP+a4AAABHAAAAFxnYXNwAAAAEAAAAXgAAAAIZ2x5ZmhS2XEAAAGAAAADHGhlYWQTFw3HAAAEnAAAADZoaGVhCXYFgQAABNQAAAAkaG10eCe4A1oAAAT4AAAAMGxvY2EDtALGAAAFKAAAABptYXhwABAAPgAABUQAAAAgbmFtZSoCsMsAAAVkAAABznBvc3QAAwAAAAAHNAAAACAAAwP4AZAABQAAApkCzAAAAI8CmQLMAAAB6wAzAQkAAAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAABAAADpAwPA/8AAQAPAAEAAAAABAAAAAAAAAAAAAAAgAAAAAAADAAAAAwAAABwAAQADAAAAHAADAAEAAAAcAAQAQAAAAAwACAACAAQAAQAg5gPpA//9//8AAAAAACDmAOkA//3//wAB/+MaBBcIAAMAAQAAAAAAAAAAAAAAAAABAAH//wAPAAEAAAAAAAAAAAACAAA3OQEAAAAAAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEBIAAAAyADgAAFAAAJAQcJARcDIP5AQAGA/oBAAcABwED+gP6AQAABAOAAAALgA4AABQAAEwEXCQEH4AHAQP6AAYBAAcABwED+gP6AQAAAAwDAAOADQALAAA8AHwAvAAABISIGHQEUFjMhMjY9ATQmByEiBh0BFBYzITI2PQE0JgchIgYdARQWMyEyNj0BNCYDIP3ADRMTDQJADRMTDf3ADRMTDQJADRMTDf3ADRMTDQJADRMTAsATDSANExMNIA0TwBMNIA0TEw0gDRPAEw0gDRMTDSANEwAAAAABAJ0AtAOBApUABQAACQIHCQEDJP7r/upcAXEBcgKU/usBFVz+fAGEAAAAAAL//f+9BAMDwwAEAAkAABcBJwEXAwE3AQdpA5ps/GZsbAOabPxmbEMDmmz8ZmwDmvxmbAOabAAAAgAA/8AEAAPAAB0AOwAABSInLgEnJjU0Nz4BNzYzMTIXHgEXFhUUBw4BBwYjNTI3PgE3NjU0Jy4BJyYjMSIHDgEHBhUUFx4BFxYzAgBqXV6LKCgoKIteXWpqXV6LKCgoKIteXWpVSktvICEhIG9LSlVVSktvICEhIG9LSlVAKCiLXl1qal1eiygoKCiLXl1qal1eiygoZiEgb0tKVVVKS28gISEgb0tKVVVKS28gIQABAAABwAIAA8AAEgAAEzQ3PgE3NjMxFSIHDgEHBhUxIwAoKIteXWpVSktvICFmAcBqXV6LKChmISBvS0pVAAAAAgAA/8AFtgPAADIAOgAAARYXHgEXFhUUBw4BBwYHIxUhIicuAScmNTQ3PgE3NjMxOAExNDc+ATc2MzIXHgEXFhcVATMJATMVMzUEjD83NlAXFxYXTjU1PQL8kz01Nk8XFxcXTzY1PSIjd1BQWlJJSXInJw3+mdv+2/7c25MCUQYcHFg5OUA/ODlXHBwIAhcXTzY1PTw1Nk8XF1tQUHcjIhwcYUNDTgL+3QFt/pOTkwABAAAAAQAAmM7nP18PPPUACwQAAAAAANciZKUAAAAA1yJkpf/9/70FtgPDAAAACAACAAAAAAAAAAEAAAPA/8AAAAW3//3//QW2AAEAAAAAAAAAAAAAAAAAAAAMBAAAAAAAAAAAAAAAAgAAAAQAASAEAADgBAAAwAQAAJ0EAP/9BAAAAAQAAAAFtwAAAAAAAAAKABQAHgAyAEYAjACiAL4BFgE2AY4AAAABAAAADAA8AAMAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEADQAAAAEAAAAAAAIABwCWAAEAAAAAAAMADQBIAAEAAAAAAAQADQCrAAEAAAAAAAUACwAnAAEAAAAAAAYADQBvAAEAAAAAAAoAGgDSAAMAAQQJAAEAGgANAAMAAQQJAAIADgCdAAMAAQQJAAMAGgBVAAMAAQQJAAQAGgC4AAMAAQQJAAUAFgAyAAMAAQQJAAYAGgB8AAMAAQQJAAoANADsd2ViZmxvdy1pY29ucwB3AGUAYgBmAGwAbwB3AC0AaQBjAG8AbgBzVmVyc2lvbiAxLjAAVgBlAHIAcwBpAG8AbgAgADEALgAwd2ViZmxvdy1pY29ucwB3AGUAYgBmAGwAbwB3AC0AaQBjAG8AbgBzd2ViZmxvdy1pY29ucwB3AGUAYgBmAGwAbwB3AC0AaQBjAG8AbgBzUmVndWxhcgBSAGUAZwB1AGwAYQByd2ViZmxvdy1pY29ucwB3AGUAYgBmAGwAbwB3AC0AaQBjAG8AbgBzRm9udCBnZW5lcmF0ZWQgYnkgSWNvTW9vbi4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+      "format": "truetype",
+      "weight": "400"
+    },
+    {
+      "family": "Cygnito Mono",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762b247fcc87deb90dc047_Cygnito%20Mono.woff2",
+      "format": "woff2",
+      "weight": "400"
+    },
+    {
+      "family": "Cygnito Mono",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762b3053cc86fc19a84358_Cygnito%20Mono.woff",
+      "format": "woff",
+      "weight": "400"
+    },
+    {
+      "family": "Cygnito Mono",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762b361c67d1cbe65560f3_Cygnito%20Mono.ttf",
+      "format": "truetype",
+      "weight": "400"
+    },
+    {
+      "family": "Vipnagorgialla Bd",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762c13707f6a507aa555fb_vipnagorgialla%20bd.woff2",
+      "format": "woff2",
+      "weight": "400"
+    },
+    {
+      "family": "Vipnagorgialla Bd",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762c1adbaa714274f782f4_vipnagorgialla%20bd.woff",
+      "format": "woff",
+      "weight": "400"
+    },
+    {
+      "family": "Vipnagorgialla Bd It",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762c21518af78d11e5423c_vipnagorgialla%20bd%20it.woff2",
+      "format": "woff2",
+      "weight": "400"
+    },
+    {
+      "family": "Vipnagorgialla Bd It",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64762c347fcc87deb90ebe13_vipnagorgialla%20bd%20it.woff",
+      "format": "woff",
+      "weight": "400"
+    },
+    {
+      "family": "Helvetica Neue Bold",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64766b60e983b419bf1bd29d_HelveticaNeue%20Bold.woff2",
+      "format": "woff2",
+      "weight": "700"
+    },
+    {
+      "family": "Helvetica Neue Bold",
+      "src": "https://cdn.prod.website-files.com/6472a0480700b4ffad5ca638/64766b6fc6c2c4646145315b_HelveticaNeue%20Bold.ttf",
+      "format": "truetype",
+      "weight": "700"
+    }
+  ],
+  "rules": {
+    "maxSizesPerScreen": 4,
+    "headingWeightRange": "600-700",
+    "bodyWeight": 400,
+    "lineHeightBody": 1.5,
+    "lineHeightHeading": 1.2
+  }
+}

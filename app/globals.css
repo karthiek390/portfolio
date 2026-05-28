@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 .mode-blue {
   --color-bg:        #F8FAFC;
   --color-surface:   #FFFFFF;
@@ -81,3 +79,95 @@ body {
 
 .mode-red ::selection { background: #00FF41; color: #000; }
 .mode-blue ::selection { background: #2563EB; color: #fff; }
+
+/* ── Blue Pill Layout Shell ─────────────────────────────────────────── */
+/* ALL rules scoped under .mode-blue — zero bleed into Red Pill         */
+
+.mode-blue #blue-rail {
+  position: fixed;
+  left: 0; top: 0;
+  width: 220px; height: 100vh;
+  z-index: 50;
+  background: #FFFFFF;
+  border-right: 1px solid #E8EEF4;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mode-blue #blue-stage {
+  margin-left: 220px;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Panel surface classes */
+.mode-blue .bp-panel-a { background: #FFFFFF; }
+.mode-blue .bp-panel-b { background: #F8FAFC; }
+.mode-blue .bp-panel-c { background: linear-gradient(160deg, #F8FAFC 0%, #EFF6FF 100%); }
+
+/* Label token */
+.mode-blue .bp-label {
+  color: #2563EB;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mobile top bar — hidden on desktop */
+.mode-blue #blue-mobile-bar {
+  display: none;
+}
+
+/* LIVE pulse ring */
+@keyframes bp-pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.9; }
+  100% { transform: scale(2.6); opacity: 0;   }
+}
+.bp-pulse-dot {
+  position: relative;
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 999px;
+  background: #2563EB;
+  flex-shrink: 0;
+}
+.bp-pulse-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: #2563EB;
+  animation: bp-pulse-ring 1.6s ease-out infinite;
+}
+
+/* Link underline sweep */
+.bp-sweep {
+  position: relative;
+  text-decoration: none;
+  color: #2563EB;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.bp-sweep::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 0; height: 1px;
+  background: #2563EB;
+  transition: width 180ms cubic-bezier(0.16,1,0.3,1);
+}
+.bp-sweep:hover::after { width: 100%; }
+
+/* ── Mobile collapse ────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .mode-blue #blue-rail       { display: none !important; }
+  .mode-blue #blue-stage      { margin-left: 0 !important; }
+  .mode-blue #blue-mobile-bar { display: flex !important; position: fixed; top: 0; left: 0; right: 0;
+    height: 56px; z-index: 50; background: #FFFFFF; border-bottom: 1px solid #E8EEF4;
+    align-items: center; justify-content: space-between; padding: 0 1.25rem; }
+}
