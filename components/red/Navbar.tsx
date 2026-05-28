@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PillMode } from "@/context/PillContext";
 import { getClientId } from "@/lib/preferences";
 import { trackOperatorEvent } from "@/lib/operator-events";
+import { hasSeenMode } from "@/lib/pill-discovery";
 import { useMatrixAudio } from "@/lib/useMatrixAudio";
 import AudioToggle from "@/components/red/AudioToggle";
 
@@ -24,9 +25,11 @@ const BOOT_LINES = [
   "DISCONNECTING FROM MATRIX...",
   "",
 ];
+const CROSSOVER_PROMPT_DELAY_MS = 22_000;
 
 export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode) => void }) {
   const [exiting, setExiting] = useState(false);
+  const [showDisconnectPrompt, setShowDisconnectPrompt] = useState(false);
   const { on: audioOn, setEnabled, strike, emp } = useMatrixAudio();
   const clientIdRef = useRef<string | null>(null);
 
@@ -44,6 +47,18 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
       })
       .catch(() => {});
   }, [setEnabled]);
+
+  useEffect(() => {
+    if (hasSeenMode("blue")) return;
+
+    const timer = window.setTimeout(() => {
+      if (!hasSeenMode("blue")) {
+        setShowDisconnectPrompt(true);
+      }
+    }, CROSSOVER_PROMPT_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const handleAudioToggle = useCallback(() => {
     const next = !audioOn;
@@ -70,6 +85,7 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
 
   const handleDisconnect = useCallback(() => {
     if (exiting) return;
+    setShowDisconnectPrompt(false);
     trackOperatorEvent({
       type: "DISCONNECT",
       detail: "hardline exit triggered",
@@ -185,6 +201,7 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
           <AudioToggle on={audioOn} onToggle={handleAudioToggle} />
 
           <button id="red-pill-toggle-btn" onClick={handleDisconnect}
+            className={showDisconnectPrompt ? "red-mode-switch-prompt" : undefined}
             style={{ background: "transparent", border: "1px solid rgba(0,255,65,0.4)",
               color: "#00FF41", borderRadius: "4px", padding: "0.35rem 0.85rem",
               fontSize: "0.72rem", letterSpacing: "0.08em", cursor: "pointer",

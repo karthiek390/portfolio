@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PillMode } from "@/context/PillContext";
 import { trackOperatorEvent } from "@/lib/operator-events";
+import { hasSeenMode } from "@/lib/pill-discovery";
 
 const NAV_ITEMS = [
   { id: "about",      label: "ABOUT" },
@@ -12,10 +13,12 @@ const NAV_ITEMS = [
   { id: "shipping",   label: "SHIPPING" },
   { id: "contact",    label: "CONTACT" },
 ];
+const CROSSOVER_PROMPT_DELAY_MS = 22_000;
 
 export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode) => void }) {
   const [activeSection, setActiveSection] = useState("about");
   const [mobileOpen,    setMobileOpen]    = useState(false);
+  const [showRedPillPrompt, setShowRedPillPrompt] = useState(false);
 
   useEffect(() => {
     const els = NAV_ITEMS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
@@ -38,12 +41,25 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (hasSeenMode("red")) return;
+
+    const timer = window.setTimeout(() => {
+      if (!hasSeenMode("red")) {
+        setShowRedPillPrompt(true);
+      }
+    }, CROSSOVER_PROMPT_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
     setMobileOpen(false);
   };
 
   const handleRedPill = () => {
+    setShowRedPillPrompt(false);
     trackOperatorEvent({
       type: "PILL_SWITCH",
       detail: "blue-to-red",
@@ -124,6 +140,8 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
           <button
             id="pill-toggle-btn"
             onClick={handleRedPill}
+            className={showRedPillPrompt ? "bp-mode-switch-prompt" : undefined}
+            aria-label={showRedPillPrompt ? "Red pill available. Explore the alternate mode." : "Switch to red pill mode"}
             style={{
               alignSelf: "flex-start",
               padding: "0.4rem 1rem",
@@ -198,6 +216,7 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
           ))}
           <button
             onClick={handleRedPill}
+            className={showRedPillPrompt ? "bp-mode-switch-prompt" : undefined}
             style={{
               marginTop: "1.5rem", padding: "0.55rem 1.4rem",
               backgroundColor: "#EF4444", color: "#FFFFFF",

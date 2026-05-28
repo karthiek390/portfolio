@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePill, usePillTransition } from "@/context/PillContext";
 import { getTrafficSource, trackOperatorEvent } from "@/lib/operator-events";
+import { markModeSeen } from "@/lib/pill-discovery";
 import TheConstruct from "@/transitions/TheConstruct";
 
 // Blue components
@@ -40,6 +41,8 @@ export default function PortfolioPage() {
   useEffect(() => {
     if (trackedMode.current === mode) return;
     trackedMode.current = mode;
+    markModeSeen(mode);
+
     fetch("/api/pageview", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
