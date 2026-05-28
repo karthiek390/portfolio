@@ -15,6 +15,7 @@ import BlueCerts          from "@/components/blue/CertsSection";
 import BlueContactForm21st from "@/components/blue/ContactForm21st";
 import BlueGitHubStatus    from "@/components/blue/GitHubStatusSection";
 import BlueFooter         from "@/components/blue/Footer";
+import BpAtmosphere       from "@/components/blue/BpAtmosphere";
 
 // Red components
 import RedNavbar          from "@/components/red/Navbar";
@@ -81,6 +82,7 @@ export default function PortfolioPage() {
         <>
           <BlueNavbar  onSwitchMode={switchMode} />
           <div id="blue-stage">
+            <BpAtmosphere />
             <BlueHeroDejaVu />
             <BlueExperience />
             <BlueProjects />

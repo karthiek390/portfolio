@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import BlueProjectCard from "./ProjectCard";
 
 const PROJECTS = [
@@ -49,37 +50,47 @@ export default function BlueProjectsGrid() {
       style={{ padding: "96px 64px", minHeight: "100vh" }}
     >
       <div style={{ maxWidth: "840px" }}>
-        {/* Label + heading */}
-        <p className="bp-label" style={{ marginBottom: "12px" }}>Projects</p>
-        <h2 style={{
-          fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
-          fontWeight: 800,
-          color: "#0F172A",
-          letterSpacing: "-0.03em",
-          marginBottom: "0.4rem",
-        }}>
-          Things I&apos;ve Built
-        </h2>
-        <p style={{
-          color: "#64748B",
-          fontSize: "0.95rem",
-          lineHeight: 1.7,
-          marginBottom: "3rem",
-        }}>
-          Software, automation, and infrastructure — from medical imaging to homelab to AI tooling.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+        >
+          <p className="bp-label" style={{ marginBottom: "12px" }}>Projects</p>
+          <h2 style={{
+            fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
+            fontWeight: 800, color: "var(--bp-ink)",
+            letterSpacing: "-0.03em", marginBottom: "0.4rem",
+          }}>
+            Things I&apos;ve Built
+          </h2>
+          <p style={{ color: "var(--bp-ink-muted)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "3rem" }}>
+            Software, automation, and infrastructure — from medical imaging to homelab to AI tooling.
+          </p>
+        </motion.div>
 
         {/* Featured card */}
-        <BlueProjectCard {...featured} featured />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: 0.1 }}
+        >
+          <BlueProjectCard {...featured} featured />
+        </motion.div>
 
-        {/* 2-col grid for remaining */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-          gap: "1.25rem",
-        }}>
-          {rest.map((p) => (
-            <BlueProjectCard key={p.title} {...p} />
+        {/* 2-col grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1.25rem" }}>
+          {rest.map((p, i) => (
+            <motion.div
+              key={p.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1], delay: i * 0.07 }}
+            >
+              <BlueProjectCard {...p} />
+            </motion.div>
           ))}
         </div>
       </div>

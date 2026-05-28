@@ -12,52 +12,34 @@ export default function BlueCertsSection() {
       className="bp-panel-a"
       style={{
         padding: "40px 64px 72px",
-        borderTop: "1px solid #E2E8F0",
+        borderTop: "1px solid var(--bp-border)",
       }}
     >
       <div style={{ maxWidth: "840px" }}>
-        {/* Compact header */}
         <p style={{
           fontSize: "0.68rem", fontWeight: 700,
-          color: "#94A3B8", letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          marginBottom: "1.25rem",
+          color: "var(--bp-ink-muted)", letterSpacing: "0.14em",
+          textTransform: "uppercase", marginBottom: "1.25rem",
+          opacity: 0.7,
         }}>
           Certifications
         </p>
 
-        {/* Horizontal strip — minimal typography */}
-        <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "0.75rem 2rem",
-        }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem 2rem" }}>
           {CERTS.map((c) => (
-            <div key={c.name} style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.6rem",
-            }}>
-              {/* Shield icon substitute — minimal dot */}
+            <div key={c.name} style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+              {/* Square dot marker — warm tone */}
               <div style={{
                 width: "5px", height: "5px",
                 borderRadius: "1px",
-                backgroundColor: "#CBD5E1",
+                backgroundColor: "var(--bp-border)",
                 flexShrink: 0,
               }} />
               <div>
-                <span style={{
-                  fontSize: "0.82rem",
-                  fontWeight: 600,
-                  color: "#0F172A",
-                }}>
+                <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--bp-ink)" }}>
                   {c.name}
                 </span>
-                <span style={{
-                  fontSize: "0.72rem",
-                  color: "#94A3B8",
-                  marginLeft: "0.5rem",
-                }}>
+                <span style={{ fontSize: "0.72rem", color: "var(--bp-ink-muted)", marginLeft: "0.5rem", opacity: 0.8 }}>
                   {c.issuer} · {c.year}
                 </span>
               </div>

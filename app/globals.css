@@ -171,3 +171,124 @@ body {
     height: 56px; z-index: 50; background: #FFFFFF; border-bottom: 1px solid #E8EEF4;
     align-items: center; justify-content: space-between; padding: 0 1.25rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HYPER-DREAMS WARM TOKEN LAYER
+   Inverted light-mode system — scoped strictly to .mode-blue
+   Source: .agent/skills/hyper-dreams-style/DESIGN.md + ANIMATIONS.md
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.mode-blue {
+  /* Surfaces */
+  --bp-cream:          #FAF8F4;
+  --bp-surface-b:      #F4F1EC;
+  --bp-rail-bg:        #FFFFFF;
+
+  /* Text */
+  --bp-ink:            #0B132B;
+  --bp-ink-muted:      #4A5568;
+
+  /* Accent — direct from hyper-dreams accent: #0050bd */
+  --bp-accent:         #0050BD;
+  --bp-accent-hover:   #0040A0;
+  --bp-accent-shadow:  rgba(0,80,189,0.22);
+
+  /* Warm heat */
+  --bp-amber:          #F59E0B;
+  --bp-amber-wash:     rgba(245,158,11,0.06);
+
+  /* Borders — warm parchment tones */
+  --bp-border:         #D4C9BA;
+  --bp-border-fine:    #E8E2D9;
+
+  /* Tags — editorial, not pill-shaped */
+  --bp-tag-bg:         #EDE8E0;
+  --bp-tag-text:       #3B4A6B;
+
+  /* Shadows */
+  --bp-shadow-card:    0 1px 4px rgba(11,19,43,0.06), 0 0 0 1px rgba(212,201,186,0.5);
+  --bp-shadow-float:   0 8px 32px rgba(11,19,43,0.10);
+  --bp-shadow-accent:  0 6px 24px rgba(0,80,189,0.20);
+  --bp-shadow-form:    0 8px 40px rgba(0,80,189,0.08);
+
+  /* Gradients */
+  --bp-grad-cta:       linear-gradient(135deg, #0050BD 0%, #003F99 100%);
+  --bp-grad-panel-c:   linear-gradient(160deg, #EEE9E0 0%, #EAF1FF 100%);
+}
+
+/* ── Override panel surfaces with warm tokens ── */
+.mode-blue .bp-panel-a { background: var(--bp-cream); }
+.mode-blue .bp-panel-b { background: var(--bp-surface-b); }
+.mode-blue .bp-panel-c { background: var(--bp-grad-panel-c); }
+
+/* ── Override utility classes to warm accent ── */
+.mode-blue .bp-label        { color: var(--bp-accent); }
+.mode-blue .bp-sweep        { color: var(--bp-accent); }
+.mode-blue .bp-sweep::after { background: var(--bp-accent); }
+.mode-blue .bp-pulse-dot              { background: var(--bp-accent); }
+.mode-blue .bp-pulse-dot::after       { background: var(--bp-accent); }
+
+/* ── Rail warm border ── */
+.mode-blue #blue-rail {
+  background: var(--bp-rail-bg);
+  border-right-color: var(--bp-border-fine);
+}
+
+/* ── Atmosphere layer CSS ── */
+.mode-blue #bp-atmosphere {
+  position: fixed;
+  top: 0; left: 220px; right: 0; bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+@media (max-width: 768px) {
+  .mode-blue #bp-atmosphere { left: 0; }
+  .mode-blue #blue-mobile-bar { border-bottom-color: var(--bp-border-fine) !important; }
+}
+
+/* ── Grain texture overlay — @keyframes from hyper-dreams ANIMATIONS.md ── */
+@keyframes bp-grained {
+  0%   { transform: translate(-10%, 10%); }
+  10%  { transform: translate(-25%,   0%); }
+  20%  { transform: translate(-30%, 10%); }
+  30%  { transform: translate(-30%, 30%); }
+  40%  { transform: translate(  0%,  0%); }
+  50%  { transform: translate(-15%, 10%); }
+  60%  { transform: translate(-20%, 20%); }
+  70%  { transform: translate( -5%, 20%); }
+  80%  { transform: translate(-25%,  5%); }
+  90%  { transform: translate(-30%, 25%); }
+  100% { transform: translate(-10%, 10%); }
+}
+
+/* SVG feTurbulence noise texture — barely perceptible at opacity 0.022 */
+.mode-blue #blue-stage::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.022;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  background-repeat: repeat;
+  animation: bp-grained 0.5s steps(20) infinite;
+}
+
+/* ── Scroll-reveal utility ── */
+.bp-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bp-reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── Prefers reduced motion — per ANIMATIONS.md Step 3 ── */
+@media (prefers-reduced-motion: reduce) {
+  .mode-blue #blue-stage::before { animation-duration: 0.01ms !important; }
+  .bp-reveal { transition-duration: 0.01ms !important; }
+}

@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 const JOBS = [
   {
     title: "AI / Full-Stack Engineer",
@@ -71,26 +73,16 @@ export default function BlueExperienceSection() {
       style={{ padding: "96px 64px", minHeight: "100vh" }}
     >
       <div style={{ maxWidth: "840px" }}>
-        {/* Section label */}
-        <p className="bp-label" style={{ marginBottom: "12px" }}>
-          Experience
-        </p>
+        <p className="bp-label" style={{ marginBottom: "12px" }}>Experience</p>
 
         <h2 style={{
           fontSize: "clamp(1.8rem, 3vw, 2.6rem)",
-          fontWeight: 800,
-          color: "#0F172A",
-          letterSpacing: "-0.03em",
-          marginBottom: "0.4rem",
+          fontWeight: 800, color: "var(--bp-ink)",
+          letterSpacing: "-0.03em", marginBottom: "0.4rem",
         }}>
           Where I&apos;ve Built
         </h2>
-        <p style={{
-          color: "#64748B",
-          fontSize: "0.95rem",
-          lineHeight: 1.7,
-          marginBottom: "3.5rem",
-        }}>
+        <p style={{ color: "var(--bp-ink-muted)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "3.5rem" }}>
           A track record across AI, full-stack, research, and infrastructure engineering.
         </p>
 
@@ -98,74 +90,50 @@ export default function BlueExperienceSection() {
         <div style={{
           position: "relative",
           paddingLeft: "2rem",
-          borderLeft: "1px solid #E2E8F0",
-          display: "flex",
-          flexDirection: "column",
-          gap: "2.75rem",
+          borderLeft: "1px solid var(--bp-border-fine)",
+          display: "flex", flexDirection: "column", gap: "2.75rem",
         }}>
-          {JOBS.map((job) => (
-            <div key={`${job.title}-${job.company}`} style={{ position: "relative" }}>
-              {/* Square marker — precision over softness */}
+          {JOBS.map((job, i) => (
+            <motion.div
+              key={`${job.title}-${job.company}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: i * 0.06 }}
+              style={{ position: "relative" }}
+            >
+              {/* Square marker */}
               <div style={{
-                position: "absolute",
-                left: "-2.4rem",
-                top: "0.3rem",
-                width: "8px",
-                height: "8px",
-                borderRadius: "2px",
-                backgroundColor: "#2563EB",
+                position: "absolute", left: "-2.4rem", top: "0.3rem",
+                width: "8px", height: "8px", borderRadius: "2px",
+                backgroundColor: "var(--bp-accent)",
               }} />
 
-              {/* Role + Company */}
-              <div style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.4rem",
-                alignItems: "baseline",
-                marginBottom: "0.15rem",
-              }}>
-                <span style={{
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  color: "#0F172A",
-                }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", alignItems: "baseline", marginBottom: "0.15rem" }}>
+                <span style={{ fontSize: "1rem", fontWeight: 700, color: "var(--bp-ink)" }}>
                   {job.title}
                 </span>
-                <span style={{ fontSize: "0.85rem", color: "#2563EB", fontWeight: 500 }}>
+                <span style={{ fontSize: "0.85rem", color: "var(--bp-accent)", fontWeight: 500 }}>
                   @ {job.company}
                 </span>
               </div>
 
-              {/* Period */}
               <p style={{
-                fontSize: "0.72rem",
-                color: "#94A3B8",
-                letterSpacing: "0.05em",
+                fontSize: "0.72rem", color: "#8A9AB0", letterSpacing: "0.05em",
                 marginBottom: "0.85rem",
                 fontFamily: "JetBrains Mono, monospace",
               }}>
                 {job.period}
               </p>
 
-              {/* Bullets */}
-              <ul style={{
-                margin: 0,
-                paddingLeft: "1rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.35rem",
-              }}>
-                {job.bullets.map((b, i) => (
-                  <li key={i} style={{
-                    fontSize: "0.875rem",
-                    color: "#475569",
-                    lineHeight: 1.75,
-                  }}>
+              <ul style={{ margin: 0, paddingLeft: "1rem", display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                {job.bullets.map((b, j) => (
+                  <li key={j} style={{ fontSize: "0.875rem", color: "var(--bp-ink-muted)", lineHeight: 1.75 }}>
                     {b}
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

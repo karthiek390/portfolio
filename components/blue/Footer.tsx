@@ -4,7 +4,7 @@ export default function BlueFooter() {
       id="blue-footer"
       className="bp-panel-b"
       style={{
-        borderTop: "1px solid #E2E8F0",
+        borderTop: "1px solid var(--bp-border)",
         padding: "24px 64px",
         display: "flex",
         justifyContent: "space-between",
@@ -14,10 +14,10 @@ export default function BlueFooter() {
         fontFamily: "Inter, sans-serif",
       }}
     >
-      <span style={{ color: "#94A3B8", fontSize: "0.78rem", fontWeight: 500 }}>
+      <span style={{ color: "var(--bp-ink-muted)", fontSize: "0.78rem", fontWeight: 500 }}>
         KD. &copy; {new Date().getFullYear()}
       </span>
-      <span style={{ color: "#CBD5E1", fontSize: "0.72rem", letterSpacing: "0.02em" }}>
+      <span style={{ color: "var(--bp-border)", fontSize: "0.72rem", letterSpacing: "0.02em" }}>
         Made with intention, not templates.
       </span>
     </footer>

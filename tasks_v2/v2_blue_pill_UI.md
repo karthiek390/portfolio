@@ -739,3 +739,238 @@ All Task 2 tracking events (CONTACT_INIT, CONTACT_SENT, REPO_CLICK, PAGE_NAV, PI
           Motion Contract, Component Behavior Rules, Anti-Slop Rules (10 verbatim)
 
 ---
+
+### Hyper-Dreams Style Layer Notes
+
+Date: 2026-05-28
+Source: .agent/skills/hyper-dreams-style/DESIGN.md + ANIMATIONS.md reverse-engineering
+Status: Architecture complete — pending Codex implementation
+
+---
+
+#### Token Updates (--bp-* variable set)
+
+Key insight: hyper-dreams DESIGN.md extracts a DARK-mode palette. For Blue Pill light-mode, surface/text roles are inverted.
+Structural elements imported directly: 5px grid discipline, radius scale (4px, 5px, 12px), easing curves, @keyframes grained.
+
+New CSS custom properties to add inside .mode-blue {} in app/globals.css:
+
+Core surfaces:
+  --bp-cream:       #FAF8F4   (Surface A — warm off-white, not flat pure white)
+  --bp-surface-b:   #F4F1EC   (Surface B — richer, warmer than previous #F8FAFC)
+  --bp-rail-bg:     #FFFFFF   (Rail stays pure white — authority surface)
+
+Text:
+  --bp-ink:         #0B132B   (Deep midnight navy — primary headline/body text)
+  --bp-ink-muted:   #4A5568   (Warm slate body text)
+
+Accent (direct from hyper-dreams accent: #0050bd):
+  --bp-accent:      #0050BD   (Replaces #2563EB — more authoritative, less SaaS-blue)
+  --bp-accent-hover:#0040A0
+  --bp-accent-shadow: rgba(0,80,189,0.22)
+
+Warm heat:
+  --bp-amber:       #F59E0B   (Y2K "fake warmth" accent)
+  --bp-amber-wash:  rgba(245,158,11,0.06)  (Very low-opacity hero ambient)
+
+Borders:
+  --bp-border:      #D4C9BA   (Warm parchment — replaces cold slate-200)
+  --bp-border-fine: #E8E2D9   (Thin structural lines, timeline spine)
+
+Tags:
+  --bp-tag-bg:      #EDE8E0   (Warm cream — replaces #EFF6FF blue wash)
+  --bp-tag-text:    #3B4A6B   (Deep warm navy tag text)
+  Tag border-radius: 4px (from hyper-dreams radius scale — not pill shape)
+
+Shadows:
+  --bp-shadow-card:   0 1px 4px rgba(11,19,43,0.06), 0 0 0 1px rgba(212,201,186,0.5)
+  --bp-shadow-float:  0 8px 32px rgba(11,19,43,0.10)
+  --bp-shadow-accent: 0 6px 24px rgba(0,80,189,0.20)
+  --bp-shadow-form:   0 8px 40px rgba(0,80,189,0.08)
+
+Gradients:
+  --bp-grad-cta:       linear-gradient(135deg, #0050BD 0%, #003F99 100%)
+  --bp-grad-panel-c:   linear-gradient(160deg, #EEE9E0 0%, #EAF1FF 100%)
+  --bp-grad-hero-atm:  radial-gradient(ellipse 80% 60% at 65% 40%, rgba(245,158,11,0.08) 0%, rgba(0,80,189,0.05) 55%, transparent 80%)
+
+---
+
+#### Texture Overlay Notes
+
+Source animation: @keyframes grained from ANIMATIONS.md (used by #grain-overlay::before on hyper-dreams.com).
+Duration: 0.5s, easing: steps(20), iteration: infinite.
+
+Implementation target: .mode-blue #blue-stage::before pseudo-element.
+Properties: content:'', position:absolute, inset:-50%, width:200%, height:200%, pointer-events:none, z-index:1.
+Background: inline SVG feTurbulence data-URI at baseFrequency:0.65, numOctaves:3, stitchTiles:stitch — rendered at opacity:0.025.
+Animated with @keyframes grained — translate XY positions shift in stepped frames to simulate analog grain.
+
+CRITICAL: Do NOT use backdrop-filter or blur(). DESIGN.md explicitly bans blur effects (Anti-Patterns section).
+CRITICAL: Grain opacity must stay at or below 0.03 — barely perceptible, purely atmospheric.
+Mobile: grain animation disabled (display:none on ::before at <768px) to preserve battery.
+prefers-reduced-motion: animation-duration:0.01ms on ::before.
+
+---
+
+#### Cursor Atmosphere Notes
+
+Target: components/blue/BpAtmosphere.tsx (NEW FILE — "use client").
+Architecture: Framer Motion useMotionValue + useSpring cursor tracking.
+  - useMotionValue for cursor X, Y (updated on mousemove on #blue-stage)
+  - useSpring(x, { stiffness: 40, damping: 25 }) for soft lag
+  - useTransform maps x/y to gradient center position string
+  - Rendered as motion.div with gradient: radial-gradient(ellipse 500px 400px at Xpx Ypx, rgba(245,158,11,0.06), rgba(0,80,189,0.04) 45%, transparent 70%)
+
+Placement: first child inside #blue-stage in app/portfolio/page.tsx (!isRed branch only).
+CSS: position:fixed, top:0, left:220px, right:0, bottom:0, pointer-events:none, z-index:0.
+Mobile (<768px): returns null — no cursor on touch devices.
+prefers-reduced-motion: returns null.
+Performance: will-change:background on motion.div. Framer handles RAF internally.
+
+---
+
+#### Component Restyle Priorities (implementation order for Codex)
+
+Priority 1 — Foundation (unblocks everything else):
+  app/globals.css — add --bp-* variables, @keyframes grained, grain overlay rule, .bp-reveal class, atmosphere div rule, prefers-reduced-motion block
+
+Priority 2 — New component:
+  components/blue/BpAtmosphere.tsx — cursor reactive gradient layer
+
+Priority 3 — Shell wiring:
+  app/portfolio/page.tsx — add <BpAtmosphere /> as first child of #blue-stage
+
+Priority 4 — Surface token swap (all Blue components, in this order):
+  Navbar.tsx, HeroDejaVu.tsx, ExperienceSection.tsx, ProjectCard.tsx, ProjectsGrid.tsx,
+  SkillsSection.tsx, CertsSection.tsx, GitHubStatusSection.tsx, ContactForm21st.tsx, Footer.tsx
+
+Priority 5 — Scroll-reveal:
+  Add whileInView or IntersectionObserver .bp-reveal activation to:
+  section headings, timeline job entries (stagger 60ms), project cards, skill category groups
+
+Priority 6 — Documentation:
+  design-system/BLUE_MASTER.md — append Section 13: Hyper-Dreams Token Layer
+
+---
+
+#### File Targets
+
+| File                                        | Change type            |
+|---------------------------------------------|------------------------|
+| app/globals.css                             | Token vars + animations|
+| app/portfolio/page.tsx                      | Add BpAtmosphere mount |
+| components/blue/BpAtmosphere.tsx            | NEW — cursor atmosphere|
+| components/blue/Navbar.tsx                  | Token swap             |
+| components/blue/HeroDejaVu.tsx              | Token + frame swap     |
+| components/blue/ExperienceSection.tsx       | Token + scroll-reveal  |
+| components/blue/ProjectCard.tsx             | Token + tag radius     |
+| components/blue/ProjectsGrid.tsx            | Token (gradient panel) |
+| components/blue/SkillsSection.tsx           | Token + scroll-reveal  |
+| components/blue/CertsSection.tsx            | Token swap             |
+| components/blue/GitHubStatusSection.tsx     | Token swap             |
+| components/blue/ContactForm21st.tsx         | Token + form styling   |
+| components/blue/Footer.tsx                  | Token swap             |
+| design-system/BLUE_MASTER.md                | Append Section 13      |
+
+---
+
+#### Red Pill Untouched
+
+Confirmed full styling isolation:
+- All --bp-* variables scoped inside .mode-blue {}
+- @keyframes grained scoped to .mode-blue #blue-stage::before
+- BpAtmosphere only renders inside !isRed branch
+- components/red/* — zero contact
+- Red mode CSS paths, dark terminal themes, matrix green values — completely uncompromised
+
+---
+
+#### API / DB Untouched
+
+Zero modifications to:
+- GET /api/github-status
+- POST /api/contact
+- POST /api/operator-events
+- lib/operator-events.ts (trackOperatorEvent helper)
+- prisma/* schema and client
+- lib/prisma.ts
+- .env* environment variables
+- middleware.ts
+
+All existing trackOperatorEvent call sites remain wired and valid.
+The style pass is purely CSS variable substitution + a new Framer Motion component.
+No data shape, fetch URL, or event payload changes.
+
+---
+
+#### Codex Handoff Checklist (Hyper-Dreams Style Pass)
+
+  [ ] 1. app/globals.css
+         Add inside .mode-blue {}: --bp-cream, --bp-surface-b, --bp-ink, --bp-ink-muted,
+         --bp-accent (#0050BD), --bp-accent-hover, --bp-accent-shadow, --bp-amber, --bp-amber-wash,
+         --bp-border, --bp-border-fine, --bp-tag-bg, --bp-tag-text,
+         --bp-shadow-card, --bp-shadow-float, --bp-shadow-accent, --bp-shadow-form,
+         --bp-grad-cta, --bp-grad-panel-c, --bp-grad-hero-atm
+         Add @keyframes grained (from ANIMATIONS.md)
+         Add .mode-blue #blue-stage { position: relative; } (required for ::before positioning)
+         Add .mode-blue #blue-stage::before grain overlay rule at opacity:0.025
+         Add .bp-reveal + .bp-reveal.visible scroll-reveal utility
+         Add #bp-atmosphere position rule (fixed, left:220px, z-index:0, pointer-events:none)
+         Add @media (prefers-reduced-motion: reduce) block
+
+  [ ] 2. components/blue/BpAtmosphere.tsx (NEW)
+         "use client" — useMotionValue, useSpring (stiffness:40, damping:25), useTransform
+         mousemove listener on mount targeting #blue-stage
+         Returns motion.div with reactive radial-gradient background
+         Returns null on: window.innerWidth < 768, prefers-reduced-motion: reduce
+
+  [ ] 3. app/portfolio/page.tsx
+         Import BpAtmosphere
+         Render as first child of #blue-stage in !isRed branch only
+
+  [ ] 4–13. All Blue components (in priority order above)
+         Swap hex color values to --bp-* CSS variables
+         Update tag border-radius from 999px/6px to 4px (hyper-dreams scale)
+         Update CTA gradient to --bp-grad-cta
+         Update card shadows to --bp-shadow-* tokens
+         Update border colors to --bp-border / --bp-border-fine warm tones
+         Update deja-vu frame gradient to warm amber-cream (not flat #EFF6FF)
+         Update ampersand watermark color from #EFF6FF to #F0EBDE
+         Add whileInView / .bp-reveal to section headings, job entries, project cards, skill groups
+
+  [ ] 14. design-system/BLUE_MASTER.md
+          Append Section 13: Hyper-Dreams Token Layer
+          Document: all --bp-* variables, grain overlay mechanics, atmosphere layer spec, updated motion curves
+
+---
+
+---
+
+### Hyper-Dreams Implementation Log — 2026-05-28
+
+Status: IMPLEMENTED — Full frontend restyle complete. TypeScript: 0 errors.
+
+Files changed:
+- app/globals.css — Hyper-Dreams token layer appended (--bp-* variables, @keyframes bp-grained, grain overlay, .bp-reveal, atmosphere CSS, prefers-reduced-motion block)
+- components/blue/BpAtmosphere.tsx — NEW: cursor-reactive Framer Motion atmosphere layer
+- app/portfolio/page.tsx — BpAtmosphere imported and mounted as first child of #blue-stage
+- components/blue/Navbar.tsx — accent #0050BD, warm muted body color, warm separator
+- components/blue/HeroDejaVu.tsx — deep navy ink, warm CTAs, amber-cream deja-vu frame, Framer enter animation
+- components/blue/ExperienceSection.tsx — warm surface-b, warm timeline spine, square markers #0050BD, whileInView stagger
+- components/blue/ProjectCard.tsx — warm cream glass (no blur), warm borders, 4px tag radius, warm tag bg/text
+- components/blue/ProjectsGrid.tsx — warm gradient panel-c, whileInView enter animations
+- components/blue/SkillsSection.tsx — warm surface-a, accent category labels, warm dividers, whileInView stagger
+- components/blue/CertsSection.tsx — warm border-top, warm dot markers, deep navy cert names
+- components/blue/GitHubStatusSection.tsx — warm surfaces, accent left bar, warm commit chip, whileInView
+- components/blue/ContactForm21st.tsx — #F0EBDE ampersand watermark, warm form card, 5px field radius, accent focus ring, whileInView
+- components/blue/Footer.tsx — warm border-top, warm text tokens
+
+Design deviations from blueprint (intentional UX improvements):
+1. Featured card: backdrop-filter:blur removed (per hyper-dreams DESIGN.md Anti-Patterns rule: 'No blur or backdrop-filter effects'). Replaced with solid #FDFAF6 warm cream glass. Visually equivalent, better performance.
+2. Contact form success state: green (#EEF5E8 background) instead of blue — clearer semantic signal for form success.
+3. Field border-radius: 5px (not 12px as in initial implementation) — matches hyper-dreams radius scale exactly.
+4. Form card border-radius: 12px (not 20px) — tighter, more editorial.
+5. Standard project card: border-radius 0 12px 12px 0 on right side (sharp left for accent bar mount point).
+
+Red Pill: untouched — zero contact.
+API/DB/tracking: all GET /api/github-status, POST /api/contact, POST /api/operator-events, and trackOperatorEvent() calls preserved.

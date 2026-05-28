@@ -265,3 +265,94 @@ All `trackOperatorEvent(...)` call sites survive any future visual rework:
 - `Navbar.tsx` — PILL_SWITCH on RED PILL toggle
 - `ContactForm21st.tsx` — CONTACT_INIT (first focus, fires once via `useRef`), CONTACT_SENT (on success)
 - `GitHubStatusSection.tsx` — REPO_CLICK on CTA and fallback link
+
+---
+
+## 13. Hyper-Dreams Token Layer (Implemented 2026-05-28)
+
+### Source
+Reverse-engineered from .agent/skills/hyper-dreams-style/DESIGN.md (dark-mode system) and ANIMATIONS.md.
+Adapted as an **inverted light-mode** system — surface/text roles flipped, structural elements imported directly.
+
+### CSS Custom Properties (inside .mode-blue {})
+
+| Token | Value | Use |
+|---|---|---|
+| --bp-cream | #FAF8F4 | Surface A — warm off-white |
+| --bp-surface-b | #F4F1EC | Surface B — richer, warmer |
+| --bp-rail-bg | #FFFFFF | Left rail — pure white authority |
+| --bp-ink | #0B132B | Deep midnight navy — primary text |
+| --bp-ink-muted | #4A5568 | Warm slate — secondary text |
+| --bp-accent | #0050BD | Primary accent (direct from hyper-dreams #0050bd) |
+| --bp-accent-hover | #0040A0 | Hover accent |
+| --bp-accent-shadow | rgba(0,80,189,0.22) | Accent glow |
+| --bp-amber | #F59E0B | Warm heat accent |
+| --bp-amber-wash | rgba(245,158,11,0.06) | Very low-opacity amber wash |
+| --bp-border | #D4C9BA | Warm parchment border |
+| --bp-border-fine | #E8E2D9 | Fine structural lines |
+| --bp-tag-bg | #EDE8E0 | Editorial tag background |
+| --bp-tag-text | #3B4A6B | Tag text — deep warm navy |
+| --bp-shadow-card | 0 1px 4px rgba(11,19,43,0.06), 0 0 0 1px rgba(212,201,186,0.5) | Card shadow |
+| --bp-shadow-float | 0 8px 32px rgba(11,19,43,0.10) | Featured card shadow |
+| --bp-shadow-accent | 0 6px 24px rgba(0,80,189,0.20) | CTA button glow |
+| --bp-shadow-form | 0 8px 40px rgba(0,80,189,0.08) | Contact form card |
+| --bp-grad-cta | linear-gradient(135deg, #0050BD, #003F99) | Primary button gradient |
+| --bp-grad-panel-c | linear-gradient(160deg, #EEE9E0, #EAF1FF) | Projects surface |
+
+### Grain Texture Layer
+
+- Animation: @keyframes bp-grained — exact translation pattern from hyper-dreams ANIMATIONS.md
+- Duration: 0.5s, easing: steps(20), iteration: infinite
+- Target: .mode-blue #blue-stage::before pseudo-element
+- Properties: position:fixed; inset:0; pointer-events:none; z-index:1; opacity:0.022
+- Background: inline SVG feTurbulence at baseFrequency:0.65, numOctaves:3, stitchTiles:stitch, 220px tile
+- Disabled on prefers-reduced-motion
+
+### Atmosphere Layer
+
+- File: components/blue/BpAtmosphere.tsx (NEW)
+- Technology: Framer Motion useMotionValue + useSpring (stiffness:40, damping:25) + useTransform
+- Gradient: radial-gradient ellipse 520x420px, amber-orange at center fading to blue-tint at 45%
+- CSS: position:fixed; left:220px; right:0; top:0; bottom:0; pointer-events:none; z-index:0
+- Returns null on: mobile <768px, prefers-reduced-motion, server-side render
+- Mounted as first child of #blue-stage in !isRed branch only
+
+### Updated Surface Language
+
+- All surfaces shifted from neutral slate to warm parchment/cream family
+- Panel A: #FAF8F4 warm cream (was #FFFFFF flat white)
+- Panel B: #F4F1EC warm wash (was #F8FAFC cool slate)
+- Panel C: linear-gradient warm cream to pale blue (was flat cool blue gradient)
+- All card surfaces: #FDFAF6 (was white)
+- No backdrop-filter/blur used anywhere per DESIGN.md anti-patterns
+
+### Updated Component Styling Rules
+
+- Tags: border-radius 4px-5px (hyper-dreams scale), warm cream bg, warm navy text — NOT pill-shaped
+- CTAs: linear-gradient(135deg, #0050BD, #003F99) + var(--bp-shadow-accent), translateY(-1px) hover lift
+- Card hover: border-left-color activation 140ms + shadow deepening (no scale transforms)
+- Field focus rings: rgba(0,80,189,0.12) box-shadow + var(--bp-accent) border
+- Ampersand watermark: #F0EBDE warm cream-amber (warm, surreal — not cool blue)
+- Borders: var(--bp-border) #D4C9BA warm parchment tone throughout
+
+### Scroll-Reveal Motion
+
+- Technology: Framer Motion whileInView with viewport={{ once:true, amount:0.2 }}
+- Pattern: opacity 0→1 + translateY 20→0
+- Duration: 0.6s, easing: cubic-bezier(0.4, 0, 0.2, 1) — per hyper-dreams ANIMATIONS.md
+- Applied to: section headings, timeline job entries (60ms stagger), project cards, skill groups (50ms stagger), contact columns
+
+### Blue-Only Isolation Guarantees
+
+- All --bp-* CSS variables defined inside .mode-blue {} — zero bleed
+- @keyframes bp-grained defined globally (harmless) but grain overlay scoped to .mode-blue #blue-stage::before
+- BpAtmosphere only rendered in !isRed conditional branch of app/portfolio/page.tsx
+- Red Pill components (components/red/*): zero contact
+- No Red Pill CSS rules touched at any point
+
+### Backend Integration Status (Preserved)
+
+- GET /api/github-status: intact
+- POST /api/contact: intact
+- POST /api/operator-events: intact
+- All trackOperatorEvent() call sites: intact — HeroDejaVu, ProjectCard, Navbar, ContactForm21st, GitHubStatusSection

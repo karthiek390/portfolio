@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import NoSpoonText from "@/components/shared/NoSpoonText";
 import { trackOperatorEvent } from "@/lib/operator-events";
 
@@ -32,12 +33,10 @@ export default function BlueHeroDejaVu() {
   const [cycle,           setCycle]           = useState(0);
   const [assetIndex,      setAssetIndex]      = useState(0);
 
-  // Preload assets
   useEffect(() => {
     DEJA_VU_ASSETS.forEach((src) => { const img = new window.Image(); img.src = src; });
   }, []);
 
-  // Deja-vu timer
   useEffect(() => {
     const t = window.setTimeout(() => {
       setAssetIndex((p) => pickNextIndex(p));
@@ -48,7 +47,6 @@ export default function BlueHeroDejaVu() {
     return () => window.clearTimeout(t);
   }, [cycle, nextDelay]);
 
-  // Reset anomaly
   useEffect(() => {
     if (!isAnomalyActive) return;
     const t = window.setTimeout(() => setIsAnomalyActive(false), ACTIVE_MS);
@@ -59,38 +57,30 @@ export default function BlueHeroDejaVu() {
     <section
       id="about"
       className="bp-panel-a"
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        padding: "96px 64px",
-      }}
+      style={{ minHeight: "100vh", display: "flex", alignItems: "center", padding: "96px 64px" }}
     >
-      <div style={{
-        maxWidth: "840px",
-        width: "100%",
-        display: "flex",
-        gap: "4rem",
-        alignItems: "center",
-      }}>
+      <div style={{ maxWidth: "840px", width: "100%", display: "flex", gap: "4rem", alignItems: "center" }}>
 
-        {/* ── Left column — 55% ──────────────────────────────────────── */}
-        <div style={{ flex: "0 0 55%", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-          {/* Eyebrow */}
+        {/* ── Left column (55%) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+          style={{ flex: "0 0 55%", display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        >
           <p style={{
-            color: "#2563EB", fontSize: "0.78rem", fontWeight: 700,
+            color: "var(--bp-accent)", fontSize: "0.78rem", fontWeight: 700,
             letterSpacing: "0.14em", textTransform: "uppercase",
           }}>
             Full-Stack Engineer & Cloud Practitioner
           </p>
 
-          {/* Name */}
           <h1
             id="hero-name"
             style={{
               fontSize: "clamp(2.6rem, 5vw, 4rem)",
               fontWeight: 900,
-              color: "#0F172A",
+              color: "var(--bp-ink)",
               letterSpacing: "-0.04em",
               lineHeight: 1.05,
             }}
@@ -98,112 +88,93 @@ export default function BlueHeroDejaVu() {
             <NoSpoonText>Karthiek Duggirala</NoSpoonText>
           </h1>
 
-          {/* Bio */}
-          <p
-            id="hero-bio"
-            style={{
-              maxWidth: "480px",
-              fontSize: "1rem",
-              lineHeight: 1.85,
-              color: "#475569",
-            }}
-          >
+          <p id="hero-bio" style={{ maxWidth: "480px", fontSize: "1rem", lineHeight: 1.85, color: "var(--bp-ink-muted)" }}>
             {BIO_COPY}
           </p>
 
-          {/* CTAs */}
           <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", marginTop: "0.25rem" }}>
+            {/* LinkedIn — primary solid CTA */}
             <a
               id="hero-linkedin-btn"
               href="https://www.linkedin.com/in/karthiek-duggirala/"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackOperatorEvent({
-                type: "PAGE_NAV",
-                detail: "linkedin-hero-click",
-                page: "blue",
+                type: "PAGE_NAV", detail: "linkedin-hero-click", page: "blue",
                 metadata: { mode: "blue", destination: "linkedin" },
               })}
               style={{
                 padding: "0.72rem 1.6rem",
-                backgroundColor: "#2563EB", color: "#FFFFFF",
+                background: "var(--bp-grad-cta)", color: "#FFFFFF",
                 borderRadius: "999px", textDecoration: "none",
                 fontWeight: 700, fontSize: "0.875rem",
-                boxShadow: "0 4px 18px rgba(37,99,235,0.28)",
-                transition: "background-color 0.18s, box-shadow 0.18s",
+                boxShadow: "var(--bp-shadow-accent)",
+                transition: "box-shadow 0.18s ease, transform 0.12s ease",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = "#1D4ED8";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 24px rgba(37,99,235,0.38)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-1px)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 10px 30px rgba(0,80,189,0.30)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = "#2563EB";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 18px rgba(37,99,235,0.28)";
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "var(--bp-shadow-accent)";
               }}
             >
               LinkedIn
             </a>
+            {/* GitHub — ghost */}
             <a
               id="hero-github-btn"
               href="https://github.com/karthiek390"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackOperatorEvent({
-                type: "REPO_CLICK",
-                detail: "github-hero-click",
-                page: "blue",
+                type: "REPO_CLICK", detail: "github-hero-click", page: "blue",
                 metadata: { mode: "blue", destination: "github-profile" },
               })}
               style={{
                 padding: "0.72rem 1.6rem",
-                backgroundColor: "transparent", color: "#0F172A",
-                border: "1.5px solid #CBD5E1",
+                backgroundColor: "transparent", color: "var(--bp-ink)",
+                border: "1.5px solid var(--bp-border)",
                 borderRadius: "999px", textDecoration: "none",
                 fontWeight: 600, fontSize: "0.875rem",
-                transition: "border-color 0.18s, color 0.18s",
+                transition: "border-color 0.18s ease, color 0.18s ease",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "#2563EB";
-                (e.currentTarget as HTMLElement).style.color = "#2563EB";
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--bp-accent)";
+                (e.currentTarget as HTMLElement).style.color = "var(--bp-accent)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = "#CBD5E1";
-                (e.currentTarget as HTMLElement).style.color = "#0F172A";
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--bp-border)";
+                (e.currentTarget as HTMLElement).style.color = "var(--bp-ink)";
               }}
             >
               GitHub
             </a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* ── Right column — 45% — tilted deja-vu frame ─────────────── */}
-        <div style={{
-          flex: "0 0 40%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}>
+        {/* ── Right column (40%) — tilted deja-vu frame ── */}
+        <div style={{ flex: "0 0 40%", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{
-            width: "100%",
-            maxWidth: "320px",
-            aspectRatio: "1 / 1",
+            width: "100%", maxWidth: "320px", aspectRatio: "1 / 1",
             borderRadius: "24px",
-            backgroundColor: "rgba(255,255,255,0.82)",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(226,232,240,0.8)",
-            boxShadow: "0 16px 60px rgba(15,23,42,0.10)",
+            /* Warm amber-cream glass — no backdrop-filter per anti-pattern */
+            backgroundColor: isAnomalyActive
+              ? "rgba(250,246,240,0.92)"
+              : "rgba(245,232,208,0.55)",
+            border: "1px solid rgba(212,201,186,0.7)",
+            boxShadow: "var(--bp-shadow-float)",
             transform: isAnomalyActive ? "rotate(-4deg) scale(1.02)" : "rotate(-3deg)",
-            transition: "transform 0.18s cubic-bezier(0.16,1,0.3,1)",
+            transition: "transform 0.18s cubic-bezier(0.16,1,0.3,1), background-color 0.18s ease",
             overflow: "hidden",
             position: "relative",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            {/* Placeholder tint */}
+            {/* Warm tint wash when no anomaly */}
             <div style={{
               position: "absolute", inset: 0,
-              background: "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%)",
+              background: "linear-gradient(135deg, rgba(245,220,180,0.4) 0%, rgba(210,230,255,0.4) 100%)",
               opacity: isAnomalyActive ? 0 : 1,
               transition: "opacity 0.18s ease",
             }} />
@@ -212,26 +183,20 @@ export default function BlueHeroDejaVu() {
             <img
               key={`${assetIndex}-${cycle}`}
               src={DEJA_VU_ASSETS[assetIndex]}
-              alt=""
-              aria-hidden="true"
+              alt="" aria-hidden="true"
               style={{
-                width: "100%", height: "100%",
-                objectFit: "cover",
+                width: "100%", height: "100%", objectFit: "cover",
                 opacity: isAnomalyActive ? 0.88 : 0,
                 transition: "opacity 0.18s ease",
               }}
             />
 
-            {/* Subtle inner label when inactive */}
             {!isAnomalyActive && (
               <p aria-hidden="true" style={{
                 position: "absolute",
-                color: "#BFDBFE",
-                fontSize: "0.65rem",
-                fontWeight: 700,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                zIndex: 1,
+                color: "var(--bp-border)",
+                fontSize: "0.65rem", fontWeight: 700,
+                letterSpacing: "0.2em", textTransform: "uppercase", zIndex: 1,
               }}>
                 Déjà vu?
               </p>
