@@ -21,24 +21,40 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
   const [showRedPillPrompt, setShowRedPillPrompt] = useState(false);
 
   useEffect(() => {
-    const els = NAV_ITEMS.map(({ id }) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    if (!els.length) return;
+    const getSections = () =>
+      NAV_ITEMS
+        .map(({ id }) => document.getElementById(id))
+        .filter(Boolean) as HTMLElement[];
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          const top = visible.reduce((a, b) =>
-            a.boundingClientRect.top < b.boundingClientRect.top ? a : b
-          );
-          setActiveSection(top.target.id);
+    const updateActiveSection = () => {
+      const sections = getSections();
+      if (!sections.length) return;
+
+      const probeY = window.innerHeight * 0.32;
+      let nextActive = sections[0].id;
+
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= probeY && rect.bottom >= probeY) {
+          nextActive = section.id;
+          break;
         }
-      },
-      { threshold: 0.25, rootMargin: "-10% 0px -60% 0px" }
-    );
+        if (rect.top <= probeY) {
+          nextActive = section.id;
+        }
+      }
 
-    els.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+      setActiveSection(nextActive);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
   }, []);
 
   useEffect(() => {
@@ -135,7 +151,7 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
 
         <div style={{ padding: "0 28px", display: "flex", flexDirection: "column", gap: "10px", marginTop: "auto" }}>
           <p style={{ fontSize: "0.56rem", color: "var(--bp-border)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            v2.0 · Blue Mode
+            Blue Mode
           </p>
           <button
             id="pill-toggle-btn"

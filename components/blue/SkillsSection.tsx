@@ -69,9 +69,9 @@ export default function BlueSkillsSection() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
                 {items.map((skill, j) => (
                   <span key={skill} style={{
-                    fontSize: j < 3 ? "0.9rem" : "0.8rem",
-                    fontWeight: j < 3 ? 600 : 400,
-                    color: j < 3 ? "var(--bp-ink)" : "var(--bp-ink-muted)",
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    color: "var(--bp-ink)",
                     lineHeight: 1.5,
                   }}>
                     {skill}

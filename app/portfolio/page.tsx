@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePill, usePillTransition } from "@/context/PillContext";
 import { getTrafficSource, trackOperatorEvent } from "@/lib/operator-events";
 import { markModeSeen } from "@/lib/pill-discovery";
@@ -58,6 +58,12 @@ export default function PortfolioPage() {
         source: getTrafficSource(document.referrer),
       },
     });
+  }, [mode]);
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   }, [mode]);
 
   return (

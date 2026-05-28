@@ -1,8 +1,8 @@
 const CERTS = [
-  { name: "AWS Certified Solutions Architect – Associate", issuer: "Amazon Web Services", year: "2024" },
-  { name: "NVIDIA-Certified Associate: Generative AI & LLMs",  issuer: "NVIDIA",                    year: "2024" },
-  { name: "Microsoft Certified: Azure Fundamentals",           issuer: "Microsoft",                  year: "2024" },
-  { name: "NDG Linux Essentials",                              issuer: "Cisco Networking Academy",   year: "2023" },
+  { name: "AWS Certified Solutions Architect - Associate", issuer: "Amazon Web Services", year: "2024" },
+  { name: "NVIDIA-Certified Associate: Generative AI & LLMs", issuer: "NVIDIA", year: "2024" },
+  { name: "Microsoft Certified: Azure Fundamentals", issuer: "Microsoft", year: "2024" },
+  { name: "NDG Linux Essentials", issuer: "Cisco Networking Academy", year: "2023" },
 ];
 
 export default function BlueCertsSection() {
@@ -17,29 +17,42 @@ export default function BlueCertsSection() {
     >
       <div style={{ maxWidth: "840px" }}>
         <p style={{
-          fontSize: "0.68rem", fontWeight: 700,
-          color: "var(--bp-ink-muted)", letterSpacing: "0.14em",
-          textTransform: "uppercase", marginBottom: "1.25rem",
+          fontSize: "0.82rem",
+          fontWeight: 700,
+          color: "var(--bp-ink-muted)",
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          marginBottom: "1.25rem",
           opacity: 0.7,
         }}>
           Certifications
         </p>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem 2rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           {CERTS.map((c) => (
-            <div key={c.name} style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-              {/* Square dot marker — warm tone */}
+            <div
+              key={c.name}
+              style={{
+                display: "flex",
+                alignItems: "baseline",
+                gap: "0.7rem",
+                flexWrap: "wrap",
+              }}
+            >
               <div style={{
-                width: "5px", height: "5px",
+                width: "5px",
+                height: "5px",
                 borderRadius: "1px",
                 backgroundColor: "var(--bp-border)",
                 flexShrink: 0,
+                marginTop: "0.45rem",
               }} />
+
               <div>
-                <span style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--bp-ink)" }}>
+                <span style={{ fontSize: "1rem", fontWeight: 700, color: "var(--bp-ink)" }}>
                   {c.name}
                 </span>
-                <span style={{ fontSize: "0.72rem", color: "var(--bp-ink-muted)", marginLeft: "0.5rem", opacity: 0.8 }}>
+                <span style={{ fontSize: "0.96rem", fontWeight: 700, color: "var(--bp-accent)", marginLeft: "0.7rem" }}>
                   {c.issuer} · {c.year}
                 </span>
               </div>

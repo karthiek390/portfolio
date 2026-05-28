@@ -69,7 +69,7 @@ export default function BlueHeroDejaVu() {
           style={{ flex: "0 0 55%", display: "flex", flexDirection: "column", gap: "1.5rem" }}
         >
           <p style={{
-            color: "var(--bp-accent)", fontSize: "0.78rem", fontWeight: 700,
+            color: "var(--bp-accent)", fontSize: "0.9rem", fontWeight: 700,
             letterSpacing: "0.14em", textTransform: "uppercase",
           }}>
             Full-Stack Engineer & Cloud Practitioner

@@ -5,7 +5,7 @@ const ORACLE_QUOTE = "You've already made the choice. You're just here to unders
 
 const MUTATIONS: Record<string, { accentColor: string; flavour: string }> = {
   lang:  { accentColor: "#00FF41", flavour: "Every language is a door. You have opened many." },
-  fe:    { accentColor: "#38BDF8", flavour: "The illusion rendered. The recruiter convinced." },
+  fe:    { accentColor: "#38BDF8", flavour: "The illusion rendered. The viewer convinced." },
   be:    { accentColor: "#A78BFA", flavour: "The real machine runs behind what they can see." },
   ai:    { accentColor: "#F59E0B", flavour: "The Oracle predicted this. The model agreed." },
   cloud: { accentColor: "#34D399", flavour: "Infinite scale. Deployed at the speed of thought." },

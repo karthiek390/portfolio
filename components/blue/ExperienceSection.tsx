@@ -4,30 +4,9 @@ import { motion } from "framer-motion";
 
 const JOBS = [
   {
-    title: "AI / Full-Stack Engineer",
-    company: "Future State University",
-    period: "May 2025 – Jul 2025",
-    bullets: [
-      "Built backend services using Node.js, Python, and Java for scalable AI-driven applications.",
-      "Developed REST APIs for user workflows, automated content generation, and structured data processing.",
-      "Engineered data transformation pipelines with safeguards against data leakage and abuse paths.",
-    ],
-  },
-  {
-    title: "AI Engineer",
-    company: "Siemens Energy",
-    period: "Jan 2025 – Jul 2025",
-    bullets: [
-      "Built LLM-powered fault detection system for gas turbine maintenance using NLP and Knowledge Graphs.",
-      "Designed GraphRAG architecture combining PostgreSQL + Neo4j for historical turbine fault retrieval.",
-      "Developed NLP pipelines using spaCy, Prodigy, and LLMs to extract entities from engineering logs.",
-      "Deployed containerized AI workflows using Docker, Azure, and CI/CD for enterprise-scale use.",
-    ],
-  },
-  {
     title: "Research Software Engineer",
     company: "Indiana University School of Medicine",
-    period: "Jun 2024 – Present",
+    period: "Jun 2024 - Present",
     bullets: [
       "Developed full-stack research platforms for scientific and medical imaging datasets (Vue.js, Node.js, Prisma, PostgreSQL).",
       "Designed GitHub Actions CI/CD pipelines with PR-driven preview environments for multi-service Docker deployments.",
@@ -36,9 +15,30 @@ const JOBS = [
     ],
   },
   {
+    title: "AI Engineer",
+    company: "Siemens Energy",
+    period: "Jan 2025 - Jul 2025",
+    bullets: [
+      "Built LLM-powered fault detection system for gas turbine maintenance using NLP and Knowledge Graphs.",
+      "Designed GraphRAG architecture combining PostgreSQL + Neo4j for historical turbine fault retrieval.",
+      "Developed NLP pipelines using spaCy, Prodigy, and LLMs to extract entities from engineering logs.",
+      "Deployed containerized AI workflows using Docker, Azure, and CI/CD for enterprise-scale use.",
+    ],
+  },
+  {
+    title: "AI / Full-Stack Engineer",
+    company: "Future State University",
+    period: "May 2025 - Jul 2025",
+    bullets: [
+      "Built backend services using Node.js, Python, and Java for scalable AI-driven applications.",
+      "Developed REST APIs for user workflows, automated content generation, and structured data processing.",
+      "Engineered data transformation pipelines with safeguards against data leakage and abuse paths.",
+    ],
+  },
+  {
     title: "Machine Learning Engineer Intern",
     company: "Samsung Research & Development Institute",
-    period: "Jul 2021 – Mar 2022",
+    period: "Jul 2021 - Mar 2022",
     bullets: [
       "Led development of emotion detection system for Samsung Bixby using ASR and VGG16 (~93% accuracy).",
       "Processed speech datasets using MFCCs, STFT, CWT, and t-SNE for feature extraction and analysis.",
@@ -48,7 +48,7 @@ const JOBS = [
   {
     title: "Graduate Teaching Assistant",
     company: "University of Central Florida",
-    period: "Aug 2022 – May 2024",
+    period: "Aug 2022 - May 2024",
     bullets: [
       "Assisted students across programming, OS, networking, and databases courses.",
       "Guided software development concepts, debugging strategies, and project-based learning.",
@@ -57,7 +57,7 @@ const JOBS = [
   {
     title: "Full-Stack Developer",
     company: "SANRIDGE",
-    period: "Jul 2021 – Oct 2021",
+    period: "Jul 2021 - Oct 2021",
     bullets: [
       "Built Credit Card Management System using ReactJS, Redux, Express.js, and MySQL.",
       "Developed backend APIs for secure transaction and user management workflows.",
@@ -86,7 +86,6 @@ export default function BlueExperienceSection() {
           A track record across AI, full-stack, research, and infrastructure engineering.
         </p>
 
-        {/* Timeline */}
         <div style={{
           position: "relative",
           paddingLeft: "2rem",
@@ -102,7 +101,6 @@ export default function BlueExperienceSection() {
               transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1], delay: i * 0.06 }}
               style={{ position: "relative" }}
             >
-              {/* Square marker */}
               <div style={{
                 position: "absolute", left: "-2.4rem", top: "0.3rem",
                 width: "8px", height: "8px", borderRadius: "2px",
@@ -110,18 +108,20 @@ export default function BlueExperienceSection() {
               }} />
 
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", alignItems: "baseline", marginBottom: "0.15rem" }}>
-                <span style={{ fontSize: "1rem", fontWeight: 700, color: "var(--bp-ink)" }}>
+                <span style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--bp-ink)" }}>
                   {job.title}
                 </span>
-                <span style={{ fontSize: "0.85rem", color: "var(--bp-accent)", fontWeight: 500 }}>
+                <span style={{ fontSize: "0.95rem", color: "var(--bp-accent)", fontWeight: 600 }}>
                   @ {job.company}
                 </span>
               </div>
 
               <p style={{
-                fontSize: "0.72rem", color: "#8A9AB0", letterSpacing: "0.05em",
+                fontSize: "0.84rem", color: "var(--bp-accent)", letterSpacing: "0.04em",
                 marginBottom: "0.85rem",
                 fontFamily: "JetBrains Mono, monospace",
+                fontWeight: 600,
+                opacity: 0.9,
               }}>
                 {job.period}
               </p>

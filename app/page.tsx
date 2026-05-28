@@ -80,7 +80,7 @@ export default function LandingPage() {
         </div>
 
         <p style={{ color: "#00FF41", fontSize: "0.6rem", opacity: 0.35, letterSpacing: "0.08em", lineHeight: 1.8 }}>
-          BLUE PILL — CLEAN. PROFESSIONAL. RECRUITER-READY.<br />
+          BLUE PILL — CLEAN. PROFESSIONAL. VIEWER-READY.<br />
           RED PILL — SEE HOW DEEP THE CODE GOES.
         </p>
       </motion.div>

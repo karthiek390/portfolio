@@ -6,9 +6,31 @@ const mono = "JetBrains Mono, monospace";
 
 const JOBS = [
   {
+    title: "Research Software Engineer",
+    company: "Indiana University School of Medicine",
+    period: "Jun 2024 - Present",
+    bullets: [
+      "Full-stack research platforms for medical imaging datasets (Vue.js, Node.js, Prisma, PostgreSQL).",
+      "GitHub Actions CI/CD with PR-driven preview environments for Docker deployments.",
+      "OHIF Viewer integration - secure browser-based DICOM via DICOMweb + Orthanc.",
+      "AI test generation inside CI using on-prem LLMs + containerized Playwright execution.",
+    ],
+  },
+  {
+    title: "AI Engineer",
+    company: "Siemens Energy",
+    period: "Jan 2025 - Jul 2025",
+    bullets: [
+      "LLM-powered fault detection for gas turbine maintenance via NLP + Knowledge Graphs.",
+      "GraphRAG: PostgreSQL + Neo4j for historical turbine fault/resolution retrieval.",
+      "NLP pipelines (spaCy, Prodigy, LLMs) - entity extraction from engineering logs.",
+      "Containerized AI workflows on Docker + Azure + CI/CD for enterprise scale.",
+    ],
+  },
+  {
     title: "AI / Full-Stack Engineer",
     company: "Future State University",
-    period: "May 2025 – Jul 2025",
+    period: "May 2025 - Jul 2025",
     bullets: [
       "Node.js + Python + Java backend services for AI-driven applications.",
       "REST APIs for content generation + structured data processing pipelines.",
@@ -16,50 +38,31 @@ const JOBS = [
     ],
   },
   {
-    title: "AI Engineer",
-    company: "Siemens Energy",
-    period: "Jan 2025 – Jul 2025",
+    title: "Machine Learning Engineer Intern",
+    company: "Samsung Research & Development Institute",
+    period: "Jul 2021 - Mar 2022",
     bullets: [
-      "LLM-powered fault detection for gas turbine maintenance via NLP + Knowledge Graphs.",
-      "GraphRAG: PostgreSQL + Neo4j for historical turbine fault/resolution retrieval.",
-      "NLP pipelines (spaCy, Prodigy, LLMs) — entity extraction from engineering logs.",
-      "Containerized AI workflows on Docker + Azure + CI/CD for enterprise scale.",
-    ],
-  },
-  {
-    title: "Research Software Engineer",
-    company: "Indiana University School of Medicine",
-    period: "Jun 2024 – Present",
-    bullets: [
-      "Full-stack research platforms for medical imaging datasets (Vue.js, Node.js, Prisma, PostgreSQL).",
-      "GitHub Actions CI/CD with PR-driven preview environments for Docker deployments.",
-      "OHIF Viewer integration — secure browser-based DICOM via DICOMweb + Orthanc.",
-      "AI test generation inside CI using on-prem LLMs + containerized Playwright execution.",
-    ],
-  },
-  {
-    title: "ML Engineer Intern",
-    company: "Samsung R&D Institute",
-    period: "Jul 2021 – Mar 2022",
-    bullets: [
-      "Emotion detection for Samsung Bixby using ASR + VGG16 (~93% accuracy).",
-      "Feature extraction via MFCCs, STFT, CWT, t-SNE on speech datasets.",
+      "Led development of emotion detection system for Samsung Bixby using ASR and VGG16 (~93% accuracy).",
+      "Processed speech datasets using MFCCs, STFT, CWT, and t-SNE for feature extraction and analysis.",
+      "Built Tableau dashboards to communicate model performance metrics to stakeholders.",
     ],
   },
   {
     title: "Graduate Teaching Assistant",
     company: "University of Central Florida",
-    period: "Aug 2022 – May 2024",
+    period: "Aug 2022 - May 2024",
     bullets: [
-      "Supported CS coursework: OS, networking, databases, software engineering.",
+      "Assisted students across programming, OS, networking, and databases courses.",
+      "Guided software development concepts, debugging strategies, and project-based learning.",
     ],
   },
   {
     title: "Full-Stack Developer",
     company: "SANRIDGE",
-    period: "Jul 2021 – Oct 2021",
+    period: "Jul 2021 - Oct 2021",
     bullets: [
-      "Credit Card Management System — ReactJS + Redux + Express.js + MySQL.",
+      "Built Credit Card Management System using ReactJS, Redux, Express.js, and MySQL.",
+      "Developed backend APIs for secure transaction and user management workflows.",
     ],
   },
 ];

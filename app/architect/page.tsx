@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Video, VideoOff } from "lucide-react";
+import { hasSeenSimulation, markArchitectSeen, markSimulationSeen } from "@/lib/pill-discovery";
 
 const mono = "JetBrains Mono, monospace";
 
@@ -289,11 +290,26 @@ export default function ArchitectPage() {
   const [camState,    setCamState]    = useState<"off" | "requesting" | "on">("off");
   const [camMonitors, setCamMonitors] = useState<Set<string>>(new Set());
   const [stream,      setStream]      = useState<MediaStream | null>(null);
+  const [showSimulationPrompt, setShowSimulationPrompt] = useState(false);
 
   const videoRef   = useRef<HTMLVideoElement>(null);
   const dragRef    = useRef({ startX: 0, baseAngle: 0 });
   const spreadRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
   const spreadIdx  = useRef(0);
+
+  useEffect(() => {
+    markArchitectSeen();
+  }, []);
+
+  useEffect(() => {
+    if (hasSeenSimulation()) return;
+
+    const timer = window.setTimeout(() => {
+      if (!hasSeenSimulation() && camState === "off") setShowSimulationPrompt(true);
+    }, 22000);
+
+    return () => window.clearTimeout(timer);
+  }, [camState]);
 
   // ── Pointer drag ──────────────────────────────────────────────────────
   const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
@@ -313,6 +329,8 @@ export default function ArchitectPage() {
   // ── Camera controls ───────────────────────────────────────────────────
   const startCam = useCallback(async () => {
     if (!navigator?.mediaDevices?.getUserMedia) return;
+    markSimulationSeen();
+    setShowSimulationPrompt(false);
     setCamState("requesting");
     try {
       const s = await navigator.mediaDevices.getUserMedia({
@@ -373,6 +391,20 @@ export default function ArchitectPage() {
         @keyframes anomaly-pulse {
           0%,100% { opacity: 1; }
           50%      { opacity: 0.25; }
+        }
+        @keyframes architect-simulation-prompt {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+            box-shadow: 0 0 0 rgba(0,255,65,0);
+          }
+          40% {
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 0 0 7px rgba(0,255,65,0.08), 0 0 18px rgba(0,255,65,0.45);
+          }
+          65% {
+            transform: translateY(0) scale(1.015);
+            box-shadow: 0 0 0 12px rgba(0,255,65,0), 0 0 10px rgba(0,255,65,0.2);
+          }
         }
       `}</style>
 
@@ -452,7 +484,11 @@ export default function ArchitectPage() {
               color: camState === "on" ? "#00FF41" : "#003B00",
               border: `1px solid ${camState === "on" ? "rgba(0,255,65,0.55)" : "rgba(0,255,65,0.18)"}`,
               boxShadow: camState === "on" ? "0 0 12px rgba(0,255,65,0.15)" : "none",
+              textShadow: showSimulationPrompt && camState === "off"
+                ? "0 0 10px rgba(0,255,65,0.75), 0 0 22px rgba(0,255,65,0.38)"
+                : "none",
               transition: "all 0.2s ease",
+              animation: showSimulationPrompt && camState === "off" ? "architect-simulation-prompt 2.8s ease-in-out infinite" : "none",
             }}>
             {camState === "requesting"
               ? <span style={{ fontSize: "0.58rem" }}>// CONNECTING…</span>

@@ -189,9 +189,9 @@ export default function BlueContactForm21st() {
             Send a message
           </p>
 
-          <Field label="Company"  k="company" placeholder="Acme Corp" />
-          <Field label="Email"    k="email"   placeholder="you@company.com" type="email" />
-          <Field label="Message"  k="message" placeholder="I want to talk about…" multiline />
+          <Field label="Company"  k="company" placeholder="" />
+          <Field label="Email"    k="email"   placeholder="" type="email" />
+          <Field label="Message"  k="message" placeholder="" multiline />
 
           <button
             type="submit"

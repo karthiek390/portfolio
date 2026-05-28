@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import OperatorConsole from "@/components/shared/OperatorConsole";
+import { hasSeenArchitect } from "@/lib/pill-discovery";
 
 const mono = "JetBrains Mono, monospace";
 
@@ -126,6 +127,7 @@ export default function MainframePage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [showArchitectPrompt, setShowArchitectPrompt] = useState(false);
 
   useEffect(() => {
     fetch("/api/architect-dashboard")
@@ -140,11 +142,39 @@ export default function MainframePage() {
       });
   }, []);
 
-  const hourlyMax = stats ? Math.max(...stats.hourlyActivity, 1) : 1;
+  useEffect(() => {
+    if (hasSeenArchitect()) return;
+
+    const timer = window.setTimeout(() => {
+      if (!hasSeenArchitect()) setShowArchitectPrompt(true);
+    }, 22000);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const hourlyActivity = stats?.hourlyActivity ?? [];
+  const hourlyMax = hourlyActivity.length > 0 ? Math.max(...hourlyActivity, 1) : 1;
+
   const topSource = stats?.trafficSources[0];
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#000", color: "#00FF41", fontFamily: mono, padding: "3rem 2.5rem" }}>
+      <style>{`
+        @keyframes mainframe-architect-prompt {
+          0%, 100% {
+            transform: translateY(0) scale(1);
+            text-shadow: 0 0 0 rgba(0,255,65,0);
+          }
+          40% {
+            transform: translateY(-1px) scale(1.05);
+            text-shadow: 0 0 10px rgba(0,255,65,0.78), 0 0 22px rgba(0,255,65,0.4);
+          }
+          65% {
+            transform: translateY(0) scale(1.015);
+            text-shadow: 0 0 7px rgba(0,255,65,0.36);
+          }
+        }
+      `}</style>
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
         <div style={{ marginBottom: "3rem" }}>
           <p style={{ color: "#003B00", fontSize: "0.65rem", letterSpacing: "0.18em", marginBottom: "0.4rem" }}>
@@ -267,7 +297,7 @@ export default function MainframePage() {
             >
               <Panel title="HOURLY_ACTIVITY_24H">
                 <div style={{ display: "flex", alignItems: "flex-end", gap: "4px", height: "140px" }}>
-                  {stats.hourlyActivity.map((value, index) => {
+                  {hourlyActivity.map((value, index) => {
                     const height = Math.max((value / hourlyMax) * 100, value > 0 ? 10 : 2);
                     const label = index % 6 === 0 ? `${index}h` : "";
                     return (
@@ -330,7 +360,16 @@ export default function MainframePage() {
             <div style={{ display: "flex", gap: "2rem", justifyContent: "center" }}>
               <a
                 href="/architect"
-                style={{ color: "#003B00", fontSize: "0.68rem", fontFamily: mono, letterSpacing: "0.1em", textDecoration: "none" }}
+                style={{
+                  color: "#003B00",
+                  fontSize: "0.82rem",
+                  fontFamily: mono,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textDecoration: "none",
+                  display: "inline-block",
+                  animation: showArchitectPrompt ? "mainframe-architect-prompt 2.8s ease-in-out infinite" : "none",
+                }}
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#00802B")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#003B00")}
               >
@@ -338,11 +377,18 @@ export default function MainframePage() {
               </a>
               <a
                 href="/portfolio"
-                style={{ color: "#003B00", fontSize: "0.68rem", fontFamily: mono, letterSpacing: "0.1em", textDecoration: "none" }}
+                style={{
+                  color: "#003B00",
+                  fontSize: "0.82rem",
+                  fontFamily: mono,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textDecoration: "none",
+                }}
                 onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "#00802B")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "#003B00")}
               >
-                &lt; RETURN TO MAINFRAME
+                &lt; RETURN TO ZION MAINFRAME TERMINAL
               </a>
             </div>
           </motion.div>

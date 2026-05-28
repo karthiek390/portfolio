@@ -29,7 +29,7 @@ const EDGES = [
 // Per-node Oracle mutations: tint + accent color + flavour line
 const MUTATIONS: Record<string, { accent: string; tint: string; flavour: string }> = {
   lang:  { accent: "#00FF41", tint: "rgba(0,255,65,0.04)",  flavour: "Every language is a door. You have opened many." },
-  fe:    { accent: "#38BDF8", tint: "rgba(56,189,248,0.04)", flavour: "The illusion rendered. The recruiter convinced." },
+  fe:    { accent: "#38BDF8", tint: "rgba(56,189,248,0.04)", flavour: "The illusion rendered. The viewer convinced." },
   be:    { accent: "#A78BFA", tint: "rgba(167,139,250,0.04)",flavour: "The real machine runs behind what they can see." },
   ai:    { accent: "#F59E0B", tint: "rgba(245,158,11,0.06)", flavour: "The Oracle predicted this. The model agreed." },
   cloud: { accent: "#34D399", tint: "rgba(52,211,153,0.04)", flavour: "Infinite scale. Deployed at the speed of thought." },

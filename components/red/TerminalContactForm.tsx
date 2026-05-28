@@ -32,7 +32,10 @@ export default function TerminalContactForm() {
   const inputRef              = useRef<HTMLInputElement>(null);
   const hasTrackedInit        = useRef(false);
 
-  useEffect(() => { if (step < 3) inputRef.current?.focus(); }, [step]);
+  useEffect(() => {
+    if (step >= 3) return;
+    inputRef.current?.focus({ preventScroll: true });
+  }, [step]);
 
   useEffect(() => {
     if (hasTrackedInit.current) return;

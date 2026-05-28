@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const mono = "JetBrains Mono, monospace";
 
 const LINES = [
-  { text: "Wake up, Recruiter...",       delay: 600 },
+  { text: "Wake up, Viewer...",          delay: 600 },
   { text: "The Matrix has you.",          delay: 2200 },
   { text: "Follow the white rabbit.",     delay: 3900 },
 ];
