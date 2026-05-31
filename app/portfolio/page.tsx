@@ -1,29 +1,72 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePill, usePillTransition } from "@/context/PillContext";
+import { getTrafficSource, trackOperatorEvent } from "@/lib/operator-events";
+import { markModeSeen } from "@/lib/pill-discovery";
+import { useMatrixAudio } from "@/lib/useMatrixAudio";
 import TheConstruct from "@/transitions/TheConstruct";
 
 // Blue components
-import BlueNavbar   from "@/components/blue/Navbar";
-import BlueHero     from "@/components/blue/Hero";
-import BlueProjects from "@/components/blue/ProjectsGrid";
-import BlueCerts    from "@/components/blue/CertsSection";
+import BlueNavbar         from "@/components/blue/Navbar";
+import BlueHeroDejaVu     from "@/components/blue/HeroDejaVu";
+import BlueExperience     from "@/components/blue/ExperienceSection";
+import BlueProjects       from "@/components/blue/ProjectsGrid";
+import BlueSkills         from "@/components/blue/SkillsSection";
+import BlueCerts          from "@/components/blue/CertsSection";
 import BlueContactForm21st from "@/components/blue/ContactForm21st";
-import BlueFooter   from "@/components/blue/Footer";
+import BlueGitHubStatus    from "@/components/blue/GitHubStatusSection";
+import BlueFooter         from "@/components/blue/Footer";
+import BpAtmosphere       from "@/components/blue/BpAtmosphere";
 
 // Red components
-import RedNavbar   from "@/components/red/Navbar";
-import RedHero     from "@/components/red/Hero";
-import RedProjects from "@/components/red/ProjectsGrid";
-import RedCerts    from "@/components/red/CertsSection";
-
-import TerminalContactForm    from "@/components/red/TerminalContactForm";
-import NebuchadnezzarStatus   from "@/components/red/NebuchadnezzarStatus";
+import RedNavbar          from "@/components/red/Navbar";
+import RedHero            from "@/components/red/Hero";
+import RedExperience      from "@/components/red/ExperienceSection";
+import KnockKnockTerminal from "@/components/red/KnockKnockTerminal";
+import RedProjects        from "@/components/red/ProjectsGrid";
+import RedSkills          from "@/components/red/SkillsSection";
+import RedCerts           from "@/components/red/CertsSection";
+import NebuchadnezzarStatus from "@/components/red/NebuchadnezzarStatus";
+import MatrixCamSection     from "@/components/red/MatrixCamSection";
+import TerminalContactForm  from "@/components/red/TerminalContactForm";
+import RedFooter            from "@/components/red/Footer";
+import GutterRain           from "@/components/red/GutterRain";
 
 export default function PortfolioPage() {
   const { mode } = usePill();
   const { constructVisible, switchMode, onConstructComplete } = usePillTransition();
   const isRed = mode === "red";
+  const trackedMode = useRef<string | null>(null);
+  const { on: audioOn, toggle: toggleAudio, strike, emp } = useMatrixAudio();
+
+  useEffect(() => {
+    if (trackedMode.current === mode) return;
+    trackedMode.current = mode;
+    markModeSeen(mode);
+
+    fetch("/api/pageview", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ page: mode }),
+    }).catch(() => {});
+
+    trackOperatorEvent({
+      type: "PILL_SWITCH",
+      detail: `entered ${mode.toUpperCase()} pill`,
+      page: "portfolio",
+      metadata: {
+        mode,
+        source: getTrafficSource(document.referrer),
+      },
+    });
+  }, [mode]);
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [mode]);
 
   return (
     <div id="portfolio-root" className={isRed ? "mode-red" : "mode-blue"}
@@ -33,25 +76,77 @@ export default function PortfolioPage() {
 
       {isRed ? (
         <>
-          <RedNavbar   onSwitchMode={switchMode} />
-          <RedHero />
-          <RedProjects />
-          <RedCerts />
-          <NebuchadnezzarStatus />
-          <TerminalContactForm />
+          <div style={{ position: "relative" }}>
+            <div
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0, bottom: "120px", pointerEvents: "none", zIndex: 0 }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "max(0px, calc((100vw - 1120px) / 2))",
+                  overflow: "hidden",
+                  opacity: 0.58,
+                }}
+              >
+                <GutterRain enabled={audioOn} />
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: "max(0px, calc((100vw - 1120px) / 2))",
+                  overflow: "hidden",
+                  opacity: 0.58,
+                }}
+              >
+                <GutterRain enabled={audioOn} />
+              </div>
+            </div>
+
+            <div style={{ position: "relative", zIndex: 1 }}>
+            <RedNavbar
+              onSwitchMode={switchMode}
+              audioOn={audioOn}
+              onAudioToggle={toggleAudio}
+              strike={strike}
+              emp={emp}
+            />
+            <RedHero />
+            <KnockKnockTerminal />
+            <RedExperience />
+            <RedProjects />
+            <RedSkills />
+            <RedCerts />
+            <NebuchadnezzarStatus />
+            <MatrixCamSection />
+            <TerminalContactForm />
+            <RedFooter />
+            </div>
+          </div>
         </>
       ) : (
         <>
           <BlueNavbar  onSwitchMode={switchMode} />
-          <BlueHero />
-          <BlueProjects />
-          <BlueCerts />
-          <BlueContactForm21st />
-          <BlueFooter />
+          <div id="blue-stage">
+            <BpAtmosphere />
+            <BlueHeroDejaVu />
+            <BlueExperience />
+            <BlueProjects />
+            <BlueSkills />
+            <BlueCerts />
+            <BlueGitHubStatus />
+            <BlueContactForm21st />
+            <BlueFooter />
+          </div>
         </>
       )}
 
-      {/* The Construct — renders on top of everything during pill switch */}
       <TheConstruct isVisible={constructVisible} onComplete={onConstructComplete} />
     </div>
   );

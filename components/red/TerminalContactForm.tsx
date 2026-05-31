@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackOperatorEvent } from "@/lib/operator-events";
 
 const PROMPTS = [
   { key: "company", label: "[SYS]: State your organization's designation..." },
@@ -28,15 +29,50 @@ export default function TerminalContactForm() {
   const [current, setCurrent] = useState("");
   const [data, setData]       = useState<FormData>({ company: "", email: "", message: "" });
   const [status, setStatus]   = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef            = useRef<HTMLElement>(null);
   const inputRef              = useRef<HTMLInputElement>(null);
+  const hasTrackedInit        = useRef(false);
 
-  useEffect(() => { if (step < 3) inputRef.current?.focus(); }, [step]);
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new window.IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (step >= 3 || !isVisible) return;
+    inputRef.current?.focus({ preventScroll: true });
+  }, [step, isVisible]);
+
+  useEffect(() => {
+    if (hasTrackedInit.current) return;
+    hasTrackedInit.current = true;
+    trackOperatorEvent({
+      type: "CONTACT_INIT",
+      detail: "terminal contact form opened",
+      page: "portfolio",
+    });
+  }, []);
+
+  const [inputError, setInputError] = useState("");
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key !== "Enter" || !current.trim()) return;
     const key = PROMPTS[step]?.key;
     if (!key) return;
-    if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(current)) { setCurrent(""); return; }
+    if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(current)) {
+      setInputError("[ERR]: Invalid routing address. Use format: user@domain.com");
+      return;
+    }
+    setInputError("");
     setData((p) => ({ ...p, [key]: current.trim() }));
     setCurrent("");
     setStep((p) => p + 1);
@@ -51,12 +87,20 @@ export default function TerminalContactForm() {
         body: JSON.stringify(data),
       });
       setStatus(res.ok ? "sent" : "error");
-      if (res.ok) setStep(4);
+      if (res.ok) {
+        trackOperatorEvent({
+          type: "CONTACT_SENT",
+          detail: `transmission sent from ${data.company}`,
+          page: "portfolio",
+          metadata: { company: data.company },
+        });
+        setStep(4);
+      }
     } catch { setStatus("error"); }
   };
 
   return (
-    <section id="contact" style={{ padding: "6rem 2.5rem", maxWidth: "780px", margin: "0 auto" }}>
+    <section ref={sectionRef} id="contact" style={{ padding: "6rem 2.5rem", maxWidth: "780px", margin: "0 auto" }}>
       <p style={{ ...S.dark, fontSize: "0.7rem", letterSpacing: "0.15em", marginBottom: "0.5rem" }}>
         // MORPHEUS_INTERROGATION_PROTOCOL
       </p>
@@ -82,7 +126,7 @@ export default function TerminalContactForm() {
           {step < 3 && (
             <motion.div key={step} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
               style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              <p style={{ ...S.muted, fontSize: "0.78rem" }}>{PROMPTS[step].label}</p>
+              <p style={{ ...S.muted, color: "#00B53B", textShadow: "0 0 8px rgba(0,255,65,0.14)", fontSize: "0.78rem" }}>{PROMPTS[step].label}</p>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", paddingLeft: "1rem" }}>
                 <span style={{ ...S.green, fontSize: "0.9rem" }}>&gt;</span>
                 <input ref={inputRef} value={current}
@@ -92,6 +136,11 @@ export default function TerminalContactForm() {
                   autoComplete="off" spellCheck={false}
                   placeholder="type and press Enter..." />
               </div>
+              {inputError && (
+                <p style={{ ...S.dark, color: "#00A836", textShadow: "0 0 8px rgba(0,255,65,0.12)", fontSize: "0.72rem", paddingLeft: "1rem", marginTop: "-0.25rem" }}>
+                  {inputError}
+                </p>
+              )}
             </motion.div>
           )}
         </AnimatePresence>

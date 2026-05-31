@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Geist } from "next/font/google";
 import { PillMode, PillProvider } from "@/context/PillContext";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,7 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const initialMode = readInitialMode(cookieStore.get("pill_mode")?.value);
 
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={cn(inter.variable, jetbrainsMono.variable, "font-sans", geist.variable)}>
       <body>
         <PillProvider initialMode={initialMode}>{children}</PillProvider>
       </body>

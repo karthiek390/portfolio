@@ -15,16 +15,21 @@ export default function MatrixRain() {
     if (!ctx) return;
 
     let animId: number;
+    let drops: number[] = [];
 
     const resize = () => {
-      canvas.width  = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const parent = canvas.parentElement;
+      const width = parent?.clientWidth ?? window.innerWidth;
+      const height = parent?.clientHeight ?? window.innerHeight;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const columns = Math.max(1, Math.floor(width / FONT_SIZE));
+      drops = Array.from({ length: columns }, () => Math.floor(Math.random() * Math.max(1, height / FONT_SIZE)));
     };
     resize();
     window.addEventListener("resize", resize);
-
-    const columns = Math.floor(window.innerWidth / FONT_SIZE);
-    const drops: number[] = Array(columns).fill(1);
 
     const draw = () => {
       ctx.fillStyle = "rgba(0,0,0,0.05)";
