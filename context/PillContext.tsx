@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export type PillMode = "blue" | "red";
 
@@ -31,6 +31,36 @@ export function PillProvider({
   initialMode?: PillMode;
 }) {
   const [mode, setModeState] = useState<PillMode>(initialMode);
+
+  // ── Global back/forward hard-reload ─────────────────────────────────────────
+  // The Next.js App Router client cache deadlocks on browser back/forward when
+  // navigating between pages that were loaded via hard-navigation (raw <a> tags
+  // or direct URL entry). The symptom: static shell renders, zero API calls fire.
+  //
+  // Fix: detect back/forward and immediately call window.location.reload().
+  // This gives the browser a clean server fetch — identical to pressing F5 —
+  // which always works perfectly. Checked via two signals:
+  //   • e.persisted    → bfcache restore (back/forward from cached page)
+  //   • nav type       → "back_forward" in Navigation Timing API (bfcache blocked
+  //                       but still a history navigation, e.g. active fetch intervals)
+  //
+  // Mounted here because PillProvider is the single "use client" root that wraps
+  // every route (/, /portfolio, /mainframe, /architect). One mount, full coverage.
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      const navEntries = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+      const isBackForward =
+        e.persisted || navEntries[0]?.type === "back_forward";
+
+      if (isBackForward) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+  // ────────────────────────────────────────────────────────────────────────────
 
   const setMode = useCallback(async (nextMode: PillMode) => {
     setModeState(nextMode);

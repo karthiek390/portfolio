@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       clientId,
-      audioEnabled: row?.audioEnabled ?? false,
+      audioEnabled: row?.audioEnabled ?? true,
     });
   } catch {
     return NextResponse.json({ ok: false, error: "preference read failed" }, { status: 500 });

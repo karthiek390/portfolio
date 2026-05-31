@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Video, VideoOff } from "lucide-react";
-import { hasSeenSimulation, markArchitectSeen, markSimulationSeen } from "@/lib/pill-discovery";
+import { hasSeenSimulation, markSimulationSeen } from "@/lib/pill-discovery";
 
 const mono = "JetBrains Mono, monospace";
 
@@ -298,17 +298,7 @@ export default function ArchitectPage() {
   const spreadIdx  = useRef(0);
 
   useEffect(() => {
-    markArchitectSeen();
-  }, []);
-
-  useEffect(() => {
-    if (hasSeenSimulation()) return;
-
-    const timer = window.setTimeout(() => {
-      if (!hasSeenSimulation() && camState === "off") setShowSimulationPrompt(true);
-    }, 22000);
-
-    return () => window.clearTimeout(timer);
+    setShowSimulationPrompt(!hasSeenSimulation() && camState === "off");
   }, [camState]);
 
   // ── Pointer drag ──────────────────────────────────────────────────────
@@ -465,8 +455,8 @@ export default function ArchitectPage() {
               letterSpacing: "0.18em", margin: 0 }}>
               // ARCHITECT_ROOM // SYSTEM_62 // MATRIX_VER_6.19
             </p>
-            <h1 style={{ color: "rgba(0,255,65,0.15)", fontFamily: mono, fontSize: "0.9rem",
-              fontWeight: 700, letterSpacing: "0.1em", margin: "2px 0 0" }}>
+            <h1 style={{ color: "#00C853", fontFamily: mono, fontSize: "1.02rem",
+              fontWeight: 800, letterSpacing: "0.12em", textShadow: "0 0 12px rgba(0,255,65,0.28)", margin: "2px 0 0" }}>
               THE ARCHITECT&apos;S ROOM
             </h1>
           </div>
@@ -478,15 +468,19 @@ export default function ArchitectPage() {
             style={{
               pointerEvents: "all",
               display: "flex", alignItems: "center", gap: "0.4rem",
-              fontFamily: mono, fontSize: "0.6rem", letterSpacing: "0.08em",
-              padding: "0.4rem 0.9rem", borderRadius: "2px", cursor: "pointer",
-              backgroundColor: "rgba(0,0,0,0.85)", outline: "none",
-              color: camState === "on" ? "#00FF41" : "#003B00",
-              border: `1px solid ${camState === "on" ? "rgba(0,255,65,0.55)" : "rgba(0,255,65,0.18)"}`,
-              boxShadow: camState === "on" ? "0 0 12px rgba(0,255,65,0.15)" : "none",
-              textShadow: showSimulationPrompt && camState === "off"
-                ? "0 0 10px rgba(0,255,65,0.75), 0 0 22px rgba(0,255,65,0.38)"
-                : "none",
+              fontFamily: mono, fontSize: camState === "off" ? "0.78rem" : "0.64rem", letterSpacing: "0.08em",
+              fontWeight: camState === "off" ? 700 : 500,
+              padding: camState === "off" ? "0.55rem 1.1rem" : "0.42rem 0.92rem",
+              borderRadius: "2px", cursor: "pointer",
+              backgroundColor: camState === "off" ? "rgba(0,18,0,0.96)" : "rgba(0,0,0,0.85)", outline: "none",
+              color: camState === "on" ? "#00FF41" : "#00D244",
+              border: `1px solid ${camState === "on" ? "rgba(0,255,65,0.55)" : "rgba(0,255,65,0.34)"}`,
+              boxShadow: camState === "on" ? "0 0 12px rgba(0,255,65,0.15)" : "0 0 14px rgba(0,255,65,0.1)",
+              textShadow: camState === "off"
+                ? "0 0 10px rgba(0,255,65,0.32)"
+                : showSimulationPrompt
+                  ? "0 0 10px rgba(0,255,65,0.75), 0 0 22px rgba(0,255,65,0.38)"
+                  : "none",
               transition: "all 0.2s ease",
               animation: showSimulationPrompt && camState === "off" ? "architect-simulation-prompt 2.8s ease-in-out infinite" : "none",
             }}>

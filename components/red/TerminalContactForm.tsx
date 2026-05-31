@@ -29,13 +29,28 @@ export default function TerminalContactForm() {
   const [current, setCurrent] = useState("");
   const [data, setData]       = useState<FormData>({ company: "", email: "", message: "" });
   const [status, setStatus]   = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef            = useRef<HTMLElement>(null);
   const inputRef              = useRef<HTMLInputElement>(null);
   const hasTrackedInit        = useRef(false);
 
   useEffect(() => {
-    if (step >= 3) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new window.IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (step >= 3 || !isVisible) return;
     inputRef.current?.focus({ preventScroll: true });
-  }, [step]);
+  }, [step, isVisible]);
 
   useEffect(() => {
     if (hasTrackedInit.current) return;
@@ -85,7 +100,7 @@ export default function TerminalContactForm() {
   };
 
   return (
-    <section id="contact" style={{ padding: "6rem 2.5rem", maxWidth: "780px", margin: "0 auto" }}>
+    <section ref={sectionRef} id="contact" style={{ padding: "6rem 2.5rem", maxWidth: "780px", margin: "0 auto" }}>
       <p style={{ ...S.dark, fontSize: "0.7rem", letterSpacing: "0.15em", marginBottom: "0.5rem" }}>
         // MORPHEUS_INTERROGATION_PROTOCOL
       </p>
@@ -111,7 +126,7 @@ export default function TerminalContactForm() {
           {step < 3 && (
             <motion.div key={step} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
               style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-              <p style={{ ...S.muted, fontSize: "0.78rem" }}>{PROMPTS[step].label}</p>
+              <p style={{ ...S.muted, color: "#00B53B", textShadow: "0 0 8px rgba(0,255,65,0.14)", fontSize: "0.78rem" }}>{PROMPTS[step].label}</p>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", paddingLeft: "1rem" }}>
                 <span style={{ ...S.green, fontSize: "0.9rem" }}>&gt;</span>
                 <input ref={inputRef} value={current}
@@ -122,7 +137,7 @@ export default function TerminalContactForm() {
                   placeholder="type and press Enter..." />
               </div>
               {inputError && (
-                <p style={{ ...S.dark, fontSize: "0.72rem", paddingLeft: "1rem", marginTop: "-0.25rem" }}>
+                <p style={{ ...S.dark, color: "#00A836", textShadow: "0 0 8px rgba(0,255,65,0.12)", fontSize: "0.72rem", paddingLeft: "1rem", marginTop: "-0.25rem" }}>
                   {inputError}
                 </p>
               )}

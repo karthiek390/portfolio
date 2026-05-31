@@ -7,14 +7,16 @@ const mono = "JetBrains Mono, monospace";
 interface AudioToggleProps {
   on: boolean;
   onToggle: () => void;
+  className?: string;
 }
 
-export default function AudioToggle({ on, onToggle }: AudioToggleProps) {
+export default function AudioToggle({ on, onToggle, className }: AudioToggleProps) {
   return (
     <motion.button
       id="audio-toggle-btn"
       onClick={onToggle}
-      title={on ? "Mute ambient audio" : "Enable ambient audio (off by default)"}
+      className={className}
+      title={on ? "Mute ambient audio and matrix rain" : "Enable ambient audio and matrix rain"}
       whileTap={{ scale: 0.9 }}
       style={{
         background: "transparent",

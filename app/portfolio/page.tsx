@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePill, usePillTransition } from "@/context/PillContext";
 import { getTrafficSource, trackOperatorEvent } from "@/lib/operator-events";
 import { markModeSeen } from "@/lib/pill-discovery";
+import { useMatrixAudio } from "@/lib/useMatrixAudio";
 import TheConstruct from "@/transitions/TheConstruct";
 
 // Blue components
@@ -26,17 +27,18 @@ import KnockKnockTerminal from "@/components/red/KnockKnockTerminal";
 import RedProjects        from "@/components/red/ProjectsGrid";
 import RedSkills          from "@/components/red/SkillsSection";
 import RedCerts           from "@/components/red/CertsSection";
-import BulletTimeSection  from "@/components/red/BulletTimeSection";
 import NebuchadnezzarStatus from "@/components/red/NebuchadnezzarStatus";
 import MatrixCamSection     from "@/components/red/MatrixCamSection";
 import TerminalContactForm  from "@/components/red/TerminalContactForm";
 import RedFooter            from "@/components/red/Footer";
+import GutterRain           from "@/components/red/GutterRain";
 
 export default function PortfolioPage() {
   const { mode } = usePill();
   const { constructVisible, switchMode, onConstructComplete } = usePillTransition();
   const isRed = mode === "red";
   const trackedMode = useRef<string | null>(null);
+  const { on: audioOn, toggle: toggleAudio, strike, emp } = useMatrixAudio();
 
   useEffect(() => {
     if (trackedMode.current === mode) return;
@@ -74,18 +76,59 @@ export default function PortfolioPage() {
 
       {isRed ? (
         <>
-          <RedNavbar   onSwitchMode={switchMode} />
-          <RedHero />
-          <KnockKnockTerminal />
-          <RedExperience />
-          <RedProjects />
-          <RedSkills />
-          <BulletTimeSection />
-          <RedCerts />
-          <NebuchadnezzarStatus />
-          <MatrixCamSection />
-          <TerminalContactForm />
-          <RedFooter />
+          <div style={{ position: "relative" }}>
+            <div
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0, bottom: "120px", pointerEvents: "none", zIndex: 0 }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  width: "max(0px, calc((100vw - 1120px) / 2))",
+                  overflow: "hidden",
+                  opacity: 0.58,
+                }}
+              >
+                <GutterRain enabled={audioOn} />
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  bottom: 0,
+                  right: 0,
+                  width: "max(0px, calc((100vw - 1120px) / 2))",
+                  overflow: "hidden",
+                  opacity: 0.58,
+                }}
+              >
+                <GutterRain enabled={audioOn} />
+              </div>
+            </div>
+
+            <div style={{ position: "relative", zIndex: 1 }}>
+            <RedNavbar
+              onSwitchMode={switchMode}
+              audioOn={audioOn}
+              onAudioToggle={toggleAudio}
+              strike={strike}
+              emp={emp}
+            />
+            <RedHero />
+            <KnockKnockTerminal />
+            <RedExperience />
+            <RedProjects />
+            <RedSkills />
+            <RedCerts />
+            <NebuchadnezzarStatus />
+            <MatrixCamSection />
+            <TerminalContactForm />
+            <RedFooter />
+            </div>
+          </div>
         </>
       ) : (
         <>

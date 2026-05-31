@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PillMode } from "@/context/PillContext";
 import { getClientId } from "@/lib/preferences";
 import { trackOperatorEvent } from "@/lib/operator-events";
-import { hasSeenMode } from "@/lib/pill-discovery";
-import { useMatrixAudio } from "@/lib/useMatrixAudio";
+import { hasSeenAudioToggle, hasSeenMode, markAudioToggleSeen } from "@/lib/pill-discovery";
 import AudioToggle from "@/components/red/AudioToggle";
 
 const mono = "JetBrains Mono, monospace";
@@ -25,28 +24,33 @@ const BOOT_LINES = [
   "DISCONNECTING FROM MATRIX...",
   "",
 ];
-const CROSSOVER_PROMPT_DELAY_MS = 22_000;
+const CROSSOVER_PROMPT_DELAY_MS = 60_000;
+const PHONE_RING_SRC = "/freesound_community-rotary-phone-ring.mp3";
 
-export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode) => void }) {
+interface RedNavbarProps {
+  onSwitchMode: (m: PillMode) => void;
+  audioOn: boolean;
+  onAudioToggle: () => void;
+  strike: () => void;
+  emp: () => void;
+}
+
+export default function RedNavbar({
+  onSwitchMode,
+  audioOn,
+  onAudioToggle,
+  strike,
+  emp,
+}: RedNavbarProps) {
   const [exiting, setExiting] = useState(false);
   const [showDisconnectPrompt, setShowDisconnectPrompt] = useState(false);
-  const { on: audioOn, setEnabled, strike, emp } = useMatrixAudio();
+  const [showAudioPrompt, setShowAudioPrompt] = useState(false);
   const clientIdRef = useRef<string | null>(null);
+  const promptRingRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const clientId = getClientId();
-    clientIdRef.current = clientId;
-    if (!clientId) return;
-
-    fetch(`/api/preferences?clientId=${encodeURIComponent(clientId)}`)
-      .then((res) => (res.ok ? res.json() : Promise.reject(new Error("preferences load failed"))))
-      .then((data: { audioEnabled?: boolean }) => {
-        if (typeof data.audioEnabled === "boolean") {
-          setEnabled(data.audioEnabled);
-        }
-      })
-      .catch(() => {});
-  }, [setEnabled]);
+    clientIdRef.current = getClientId();
+  }, []);
 
   useEffect(() => {
     if (hasSeenMode("blue")) return;
@@ -60,7 +64,28 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    setShowAudioPrompt(!hasSeenAudioToggle());
+  }, []);
+
+  useEffect(() => {
+    const audio = promptRingRef.current ?? new Audio(PHONE_RING_SRC);
+    audio.loop = true;
+    audio.preload = "auto";
+    promptRingRef.current = audio;
+
+    if (showDisconnectPrompt && !exiting) {
+      void audio.play().catch(() => {});
+      return;
+    }
+
+    audio.pause();
+    audio.currentTime = 0;
+  }, [showDisconnectPrompt, exiting]);
+
   const handleAudioToggle = useCallback(() => {
+    markAudioToggleSeen();
+    setShowAudioPrompt(false);
     const next = !audioOn;
     const clientId = clientIdRef.current ?? getClientId();
     clientIdRef.current = clientId;
@@ -70,7 +95,7 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
       page: "portfolio",
       metadata: { enabled: next },
     });
-    setEnabled(next);
+    onAudioToggle();
 
     if (!clientId) return;
     fetch("/api/preferences", {
@@ -81,11 +106,16 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
         audioEnabled: next,
       }),
     }).catch(() => {});
-  }, [audioOn, setEnabled]);
+  }, [audioOn, onAudioToggle]);
 
   const handleDisconnect = useCallback(() => {
     if (exiting) return;
     setShowDisconnectPrompt(false);
+    const promptRing = promptRingRef.current;
+    if (promptRing) {
+      promptRing.pause();
+      promptRing.currentTime = 0;
+    }
     trackOperatorEvent({
       type: "DISCONNECT",
       detail: "hardline exit triggered",
@@ -96,6 +126,14 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
     setExiting(true);
     setTimeout(() => onSwitchMode("blue"), 1800);
   }, [exiting, onSwitchMode, emp]);
+
+  useEffect(() => {
+    return () => {
+      if (!promptRingRef.current) return;
+      promptRingRef.current.pause();
+      promptRingRef.current = null;
+    };
+  }, []);
 
   return (
     <>
@@ -198,7 +236,11 @@ export default function RedNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMode
             </a>
           ))}
 
-          <AudioToggle on={audioOn} onToggle={handleAudioToggle} />
+          <AudioToggle
+            on={audioOn}
+            onToggle={handleAudioToggle}
+            className={showAudioPrompt ? "red-mode-switch-prompt" : undefined}
+          />
 
           <button id="red-pill-toggle-btn" onClick={handleDisconnect}
             className={showDisconnectPrompt ? "red-mode-switch-prompt" : undefined}

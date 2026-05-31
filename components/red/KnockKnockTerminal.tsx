@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const mono = "JetBrains Mono, monospace";
+const TYPING_AUDIO_SRC = "/keyboard-typing-sound-effect.mp3";
+const TYPE_SPEED_MS = 42;
 
 const LINES = [
   { text: "Wake up, Viewer...",          delay: 600 },
@@ -51,12 +53,43 @@ function TypedLine({ text, delay }: { text: string; delay: number }) {
 export default function KnockKnockTerminal() {
   const [showRabbit, setShowRabbit] = useState(false);
   const rabbitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingStartTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingStopTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const lastDelay = LINES[LINES.length - 1].delay;
-    const lastLen   = LINES[LINES.length - 1].text.length * 42;
+    const lastLen   = LINES[LINES.length - 1].text.length * TYPE_SPEED_MS;
     rabbitTimer.current = setTimeout(() => setShowRabbit(true), lastDelay + lastLen + 400);
     return () => { if (rabbitTimer.current) clearTimeout(rabbitTimer.current); };
+  }, []);
+
+  useEffect(() => {
+    const audio = typingAudioRef.current ?? new Audio(TYPING_AUDIO_SRC);
+    audio.loop = true;
+    audio.preload = "auto";
+    typingAudioRef.current = audio;
+
+    const firstDelay = LINES[0].delay;
+    const lastDelay = LINES[LINES.length - 1].delay;
+    const lastLen = LINES[LINES.length - 1].text.length * TYPE_SPEED_MS;
+    const stopAt = lastDelay + lastLen;
+
+    typingStartTimer.current = setTimeout(() => {
+      void audio.play().catch(() => {});
+    }, firstDelay);
+
+    typingStopTimer.current = setTimeout(() => {
+      audio.pause();
+      audio.currentTime = 0;
+    }, stopAt);
+
+    return () => {
+      if (typingStartTimer.current) clearTimeout(typingStartTimer.current);
+      if (typingStopTimer.current) clearTimeout(typingStopTimer.current);
+      audio.pause();
+      audio.currentTime = 0;
+    };
   }, []);
 
   return (

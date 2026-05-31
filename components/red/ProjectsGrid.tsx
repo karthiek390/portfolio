@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { trackOperatorEvent } from "@/lib/operator-events";
+import { hasSeenZionProject, markZionProjectSeen } from "@/lib/pill-discovery";
 import RedProjectCard from "./ProjectCard";
 
 const mono = "JetBrains Mono, monospace";
@@ -44,9 +45,10 @@ const PROJECTS = [
 const SECRET_KEY = ["z", "i", "o", "n"];
 
 const HIDDEN_PROJECT = {
-  title: "GraphRAG Fault Intelligence",
-  description: "LLM-powered fault detection and recommendation engine for gas turbine maintenance. GraphRAG combines PostgreSQL + Neo4j to retrieve historical faults and generate explainable AI maintenance recommendations using NLP pipelines (spaCy, Prodigy) and Knowledge Graph ontologies.",
-  techStack: ["Python", "Neo4j", "PostgreSQL", "GraphRAG", "LangChain", "spaCy", "Docker", "Azure"],
+  title: "Matrix Portfolio",
+  description: "Dual-mode developer portfolio with Blue Pill and Red Pill experiences, cinematic transitions, interactive skill programs, secret unlock paths, Architect and Mainframe rooms, and operator analytics instrumentation across the experience.",
+  techStack: ["Next.js", "React", "TypeScript", "Framer Motion", "Prisma", "PostgreSQL", "Tailwind CSS"],
+  githubUrl: "https://github.com/karthiek390/portfolio",
 };
 
 export default function RedProjectsGrid() {
@@ -54,11 +56,16 @@ export default function RedProjectsGrid() {
   const [keyBuffer, setKeyBuffer] = useState<string[]>([]);
   const [flash, setFlash]         = useState(false);
 
+  useEffect(() => {
+    setUnlocked(hasSeenZionProject());
+  }, []);
+
   const handleKey = useCallback((e: KeyboardEvent) => {
     if (unlocked) return;
     setKeyBuffer((prev) => {
       const next = [...prev, e.key.toLowerCase()].slice(-SECRET_KEY.length);
       if (next.join("") === SECRET_KEY.join("")) {
+        markZionProjectSeen();
         setUnlocked(true);
         setFlash(true);
         trackOperatorEvent({
@@ -80,6 +87,22 @@ export default function RedProjectsGrid() {
 
   return (
     <section id="projects" style={{ padding: "6rem 2.5rem", maxWidth: "1100px", margin: "0 auto" }}>
+      <style>{`
+        @keyframes keymaker-lock-prompt {
+          0%, 100% {
+            opacity: 0.78;
+            text-shadow: 0 0 0 rgba(0,255,65,0);
+          }
+          40% {
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(0,255,65,0.7), 0 0 18px rgba(0,255,65,0.3);
+          }
+          65% {
+            opacity: 0.92;
+            text-shadow: 0 0 5px rgba(0,255,65,0.28);
+          }
+        }
+      `}</style>
       <p style={{ color: "#003B00", fontSize: "0.7rem", letterSpacing: "0.15em",
         marginBottom: "0.5rem", fontFamily: mono }}>
         // MAINFRAME_PENETRATIONS
@@ -91,8 +114,23 @@ export default function RedProjectsGrid() {
       <p style={{ color: "#00802B", fontSize: "0.82rem", marginBottom: "3rem", fontFamily: mono }}>
         Software. Automation. Infrastructure.{" "}
         {!unlocked && (
-          <span style={{ color: "#001800", fontSize: "0.65rem", letterSpacing: "0.06em" }}>
-            // [KEYMAKER_LOCKED: 1 classified file hidden]
+          <span
+            style={{
+              color: "#00802B",
+              fontSize: "0.65rem",
+              letterSpacing: "0.06em",
+              animation: "keymaker-lock-prompt 2.8s ease-in-out infinite",
+            }}
+          >
+            // [KEYMAKER_LOCKED: 1 classified file hidden]{" "}
+            <span
+              style={{
+                color: "#F59E0B",
+                textShadow: "0 0 6px rgba(245,158,11,0.45)",
+              }}
+            >
+              &lt;HINT: ZION&gt;
+            </span>
           </span>
         )}
       </p>

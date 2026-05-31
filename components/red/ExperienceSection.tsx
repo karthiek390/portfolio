@@ -103,8 +103,8 @@ export default function RedExperienceSection() {
                 // {job.company}
               </span>
             </div>
-            <p style={{ color: "#003B00", fontSize: "0.68rem", fontFamily: mono,
-              letterSpacing: "0.06em", marginBottom: "0.75rem" }}>
+            <p style={{ color: "#00802B", fontSize: "0.8rem", fontFamily: mono,
+              letterSpacing: "0.06em", marginBottom: "0.75rem", fontWeight: 500 }}>
               {job.period}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>

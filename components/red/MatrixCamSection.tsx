@@ -4,8 +4,11 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Video, VideoOff, RefreshCw, Eye } from "lucide-react";
 import { trackOperatorEvent } from "@/lib/operator-events";
+import { hasSeenMatrixCam, markMatrixCamSeen } from "@/lib/pill-discovery";
+import GutterRain from "./GutterRain";
 
 const mono = "JetBrains Mono, monospace";
+const MATRIX_CAM_PROMPT_DELAY_MS = 22000;
 
 // Character density map: light → dense (brightness → char)
 const DENS = " .:-=+*#%@MWｱｲｳｴｵ0";
@@ -48,9 +51,14 @@ function NoiseFallback() {
 // ─────────────────────────────────────────────────────────────────────────
 
 // ── Matrix cam canvas ─────────────────────────────────────────────────────
-function MatrixCam({ stream }: { stream: MediaStream }) {
+function MatrixCam({
+  stream,
+  canvasRef,
+}: {
+  stream: MediaStream;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+}) {
   const videoRef   = useRef<HTMLVideoElement>(null);
-  const canvasRef  = useRef<HTMLCanvasElement>(null);
   const offRef     = useRef<HTMLCanvasElement | null>(null);
   const rafRef     = useRef<number>(0);
 
@@ -119,12 +127,29 @@ function MatrixCam({ stream }: { stream: MediaStream }) {
 export default function MatrixCamSection() {
   const [perm,   setPerm]   = useState<Perm>("idle");
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [showMatrixCamPrompt, setShowMatrixCamPrompt] = useState(false);
   const startedAtRef = useRef<number | null>(null);
+  const matrixCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (hasSeenMatrixCam()) return;
+
+    const timer = window.setTimeout(() => {
+      if (!hasSeenMatrixCam()) {
+        setShowMatrixCamPrompt(true);
+      }
+    }, MATRIX_CAM_PROMPT_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const requestCam = useCallback(async () => {
     if (!navigator?.mediaDevices?.getUserMedia) {
       setPerm("unsupported"); return;
     }
+
+    markMatrixCamSeen();
+    setShowMatrixCamPrompt(false);
     setPerm("requesting");
     try {
       const s = await navigator.mediaDevices.getUserMedia({
@@ -164,6 +189,31 @@ export default function MatrixCamSection() {
     setPerm("idle");
   }, [stream]);
 
+  const downloadScreenshot = useCallback(() => {
+    const canvas = matrixCanvasRef.current;
+    if (!canvas) return;
+
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "karthiek_red_pill_pic.png";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }, "image/png");
+
+    trackOperatorEvent({
+      type: "CAM_SESSION",
+      detail: "matrix screenshot downloaded",
+      page: "portfolio",
+      metadata: { granted: true, screenshot: true },
+    });
+  }, []);
+
   const frameStyle: React.CSSProperties = {
     position: "relative", width: "100%", maxWidth: "640px", aspectRatio: "4/3",
     backgroundColor: "#000",
@@ -172,24 +222,52 @@ export default function MatrixCamSection() {
   };
 
   return (
-    <section id="cam" style={{ padding: "6rem 2.5rem", maxWidth: "1100px", margin: "0 auto" }}>
-      <p style={{ color: "#003B00", fontSize: "0.7rem", letterSpacing: "0.15em",
-        marginBottom: "0.5rem", fontFamily: mono }}>
-        // MATRIX_WEBCAM_FILTER // BROWSER_LOCAL_ONLY
-      </p>
-      <h2 style={{ color: "#00FF41", fontFamily: mono, fontSize: "2rem",
-        fontWeight: 700, marginBottom: "0.5rem", textShadow: "0 0 12px #00FF4155" }}>
-        See Through the Code
-      </h2>
-      <p style={{ color: "#00802B", fontSize: "0.82rem", marginBottom: "2.5rem", fontFamily: mono }}>
-        Your camera, rendered as the Matrix sees you. No data leaves this device.
-      </p>
+    <section
+      id="cam"
+      style={{
+        position: "relative",
+        padding: "6rem 2.5rem",
+        maxWidth: "1100px",
+        margin: "0 auto",
+        overflow: "hidden",
+        minHeight: "100vh",
+      }}
+    >
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.72 }}>
+        <GutterRain />
+      </div>
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: "none",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.42) 16%, rgba(0,0,0,0.22) 40%, rgba(0,0,0,0.42) 84%, rgba(0,0,0,0.58) 100%)",
+        }}
+      />
 
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <p style={{ color: "#003B00", fontSize: "0.7rem", letterSpacing: "0.15em",
+          marginBottom: "0.5rem", fontFamily: mono }}>
+          // MATRIX_WEBCAM_FILTER // BROWSER_LOCAL_ONLY
+        </p>
+        <h2 style={{ color: "#00FF41", fontFamily: mono, fontSize: "2rem",
+          fontWeight: 700, marginBottom: "0.5rem", textShadow: "0 0 12px #00FF4155" }}>
+          See Through the Code
+        </h2>
+        <p style={{ color: "#00802B", fontSize: "0.82rem", marginBottom: "2.5rem", fontFamily: mono }}>
+          Your camera, rendered as the Matrix sees you. No data leaves this device.
+        </p>
 
-        {/* Camera frame */}
-        <div style={frameStyle}>
-          <AnimatePresence mode="wait">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
+
+          {/* Camera frame */}
+          <div
+            className={showMatrixCamPrompt && perm === "idle" ? "red-mode-switch-prompt" : undefined}
+            style={frameStyle}
+          >
+            <AnimatePresence mode="wait">
 
             {/* IDLE — opt-in */}
             {perm === "idle" && (
@@ -237,7 +315,7 @@ export default function MatrixCamSection() {
               <motion.div key="granted"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                 style={{ position: "absolute", inset: 0 }}>
-                <MatrixCam stream={stream} />
+                <MatrixCam stream={stream} canvasRef={matrixCanvasRef} />
                 {/* Scanline overlay */}
                 <div aria-hidden style={{
                   position: "absolute", inset: 0, pointerEvents: "none",
@@ -289,26 +367,35 @@ export default function MatrixCamSection() {
                 </p>
               </motion.div>
             )}
-          </AnimatePresence>
-        </div>
+            </AnimatePresence>
+          </div>
 
-        {/* Controls — only when granted */}
-        {perm === "granted" && (
-          <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-            style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-            <p style={{ color: "#003B00", fontFamily: mono, fontSize: "0.62rem",
-              letterSpacing: "0.08em" }}>
-              // LIVE // ALL PROCESSING LOCAL // NO DATA TRANSMITTED
-            </p>
-            <button id="matrix-cam-stop-btn" onClick={revoke}
-              style={{ fontFamily: mono, fontSize: "0.62rem", letterSpacing: "0.08em",
-                padding: "0.25rem 0.65rem", borderRadius: "2px", cursor: "pointer",
-                backgroundColor: "transparent", color: "#F87171",
-                border: "1px solid rgba(248,113,133,0.3)" }}>
-              DISCONNECT
-            </button>
-          </motion.div>
-        )}
+          {/* Controls — only when granted */}
+          {perm === "granted" && (
+            <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
+              style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+              <p style={{ color: "#003B00", fontFamily: mono, fontSize: "0.62rem",
+                letterSpacing: "0.08em" }}>
+                // LIVE // ALL PROCESSING LOCAL // NO DATA TRANSMITTED
+              </p>
+              <button id="matrix-cam-screenshot-btn" onClick={downloadScreenshot}
+                style={{ fontFamily: mono, fontSize: "0.62rem", letterSpacing: "0.08em",
+                  padding: "0.25rem 0.65rem", borderRadius: "2px", cursor: "pointer",
+                  backgroundColor: "transparent", color: "#F59E0B",
+                  border: "1px solid rgba(245,158,11,0.4)",
+                  textShadow: "0 0 6px rgba(245,158,11,0.25)" }}>
+                SCREENSHOT
+              </button>
+              <button id="matrix-cam-stop-btn" onClick={revoke}
+                style={{ fontFamily: mono, fontSize: "0.62rem", letterSpacing: "0.08em",
+                  padding: "0.25rem 0.65rem", borderRadius: "2px", cursor: "pointer",
+                  backgroundColor: "transparent", color: "#F87171",
+                  border: "1px solid rgba(248,113,133,0.3)" }}>
+                DISCONNECT
+              </button>
+            </motion.div>
+          )}
+        </div>
       </div>
     </section>
   );

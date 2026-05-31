@@ -11,7 +11,7 @@ interface AudioNodes {
 
 export function useMatrixAudio() {
   const nodesRef  = useRef<AudioNodes | null>(null);
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState(true);
 
   const boot = useCallback(() => {
     if (nodesRef.current) return;
@@ -52,7 +52,10 @@ export function useMatrixAudio() {
 
   const disable = useCallback(() => {
     const n = nodesRef.current;
-    if (!n) return;
+    if (!n) {
+      setOn(false);
+      return;
+    }
     n.droneGain.gain.cancelScheduledValues(n.ctx.currentTime);
     n.droneGain.gain.linearRampToValueAtTime(0, n.ctx.currentTime + 0.8);
     setOn(false);

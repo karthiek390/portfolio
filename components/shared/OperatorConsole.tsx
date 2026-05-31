@@ -101,12 +101,21 @@ export default function OperatorConsole({
   pollMs = 5000,
 }: OperatorConsoleProps) {
   const mono = "JetBrains Mono, monospace";
-  const [events, setEvents] = useState<ConsoleEventShape[]>(() => seedEvents(12));
+  const [events, setEvents] = useState<ConsoleEventShape[]>([]);
   const [paused, setPaused] = useState(false);
   const [filter, setFilter] = useState<string | null>(null);
   const [liveMode, setLiveMode] = useState(Boolean(endpoint));
   const counterRef = useRef(100);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Seed mock events on the client only — avoids Date.now()/Math.random() hydration mismatch.
+  // If an endpoint is provided the API fetch effect below will overwrite these anyway.
+  useEffect(() => {
+    if (!endpoint) {
+      setEvents(seedEvents(12));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!endpoint || paused) return;
@@ -184,14 +193,15 @@ export default function OperatorConsole({
             onClick={() => setFilter(null)}
             style={{
               fontFamily: mono,
-              fontSize: "0.55rem",
+              fontSize: "0.68rem",
               letterSpacing: "0.08em",
-              padding: "0.15rem 0.45rem",
+              padding: "0.3rem 0.7rem",
               borderRadius: "2px",
               cursor: "pointer",
-              backgroundColor: !filter ? "rgba(0,255,65,0.15)" : "transparent",
-              border: `1px solid ${!filter ? "#00FF41" : "rgba(0,255,65,0.2)"}`,
-              color: !filter ? "#00FF41" : "#003B00",
+              backgroundColor: !filter ? "rgba(0,59,0,0.95)" : "rgba(0,32,0,0.92)",
+              border: `1px solid ${!filter ? "#00FF41" : "rgba(0,255,65,0.32)"}`,
+              color: !filter ? "#00FF41" : "#00B53B",
+              boxShadow: !filter ? "0 0 10px rgba(0,255,65,0.18)" : "none",
             }}
           >
             ALL
@@ -202,14 +212,15 @@ export default function OperatorConsole({
               onClick={() => setFilter((value) => (value === category ? null : category))}
               style={{
                 fontFamily: mono,
-                fontSize: "0.55rem",
+                fontSize: "0.68rem",
                 letterSpacing: "0.06em",
-                padding: "0.15rem 0.45rem",
+                padding: "0.3rem 0.7rem",
                 borderRadius: "2px",
                 cursor: "pointer",
-                backgroundColor: filter === category ? "rgba(0,255,65,0.1)" : "transparent",
-                border: `1px solid ${filter === category ? "#00802B" : "rgba(0,255,65,0.12)"}`,
-                color: filter === category ? "#00802B" : "#001800",
+                backgroundColor: filter === category ? "rgba(0,59,0,0.95)" : "rgba(0,24,0,0.92)",
+                border: `1px solid ${filter === category ? "#00FF41" : "rgba(0,255,65,0.24)"}`,
+                color: filter === category ? "#00FF41" : "#00A836",
+                boxShadow: filter === category ? "0 0 10px rgba(0,255,65,0.14)" : "none",
               }}
             >
               {category}
@@ -251,7 +262,7 @@ export default function OperatorConsole({
             <motion.div
               key={event.id}
               initial={{ opacity: 0, x: -10, backgroundColor: `${event.color}18` }}
-              animate={{ opacity: 1, x: 0, backgroundColor: "transparent" }}
+              animate={{ opacity: 1, x: 0, backgroundColor: "rgba(0,0,0,0)" }}
               transition={{ duration: 0.25 }}
               style={{
                 display: "flex",
