@@ -10,10 +10,9 @@ const JOBS = [
     company: "Indiana University School of Medicine",
     period: "Jun 2024 - Present",
     bullets: [
-      "Full-stack research platforms for medical imaging datasets (Vue.js, Node.js, Prisma, PostgreSQL).",
-      "GitHub Actions CI/CD with PR-driven preview environments for Docker deployments.",
-      "OHIF Viewer integration - secure browser-based DICOM via DICOMweb + Orthanc.",
-      "AI test generation inside CI using on-prem LLMs + containerized Playwright execution.",
+      "Developed full-stack research platforms for scientific and medical imaging datasets (Vue.js, Node.js, PostgreSQL).",
+      "Designed GitHub Actions CI/CD pipelines with PR-driven preview environments for multi-service Docker deployments.",
+      "Integrated OHIF Viewer for secure browser-based DICOM visualization using DICOMweb + Orthanc.",
     ],
   },
   {
@@ -21,10 +20,9 @@ const JOBS = [
     company: "Siemens Energy",
     period: "Jan 2025 - Jul 2025",
     bullets: [
-      "LLM-powered fault detection for gas turbine maintenance via NLP + Knowledge Graphs.",
-      "GraphRAG: PostgreSQL + Neo4j for historical turbine fault/resolution retrieval.",
-      "NLP pipelines (spaCy, Prodigy, LLMs) - entity extraction from engineering logs.",
-      "Containerized AI workflows on Docker + Azure + CI/CD for enterprise scale.",
+      "Contributed to the development of NLP & LLM-powered solutions for power plant maintenance & intelligence.",
+      "Supported information retrieval pilot projects using GPT models, knowledge graphs, & enterprise engineering data.",
+      "Collaborated with cross-functional teams to evaluate and implement data-driven AI innovations.",
     ],
   },
   {
@@ -32,9 +30,9 @@ const JOBS = [
     company: "Future State University",
     period: "May 2025 - Jul 2025",
     bullets: [
-      "Node.js + Python + Java backend services for AI-driven applications.",
-      "REST APIs for content generation + structured data processing pipelines.",
-      "Safeguards against data leakage across workflow orchestration systems.",
+      "Built backend services using Node.js, and Python for scalable AI-driven applications.",
+      "Developed REST APIs for user workflows, automated content generation, and structured data processing.",
+      "Engineered data transformation pipelines with safeguards against data leakage and abuse paths.",
     ],
   },
   {
@@ -52,7 +50,7 @@ const JOBS = [
     company: "University of Central Florida",
     period: "Aug 2022 - May 2024",
     bullets: [
-      "Assisted students across programming, OS, networking, and databases courses.",
+      "Assisted students across Advanced AI, programming, OS, networking, and databases courses.",
       "Guided software development concepts, debugging strategies, and project-based learning.",
     ],
   },

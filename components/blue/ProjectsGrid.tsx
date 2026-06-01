@@ -65,7 +65,7 @@ export default function BlueProjectsGrid() {
             Things I&apos;ve Built
           </h2>
           <p style={{ color: "var(--bp-ink-muted)", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "3rem" }}>
-            Software, automation, and infrastructure — from medical imaging to homelab to AI tooling.
+            Software, automation, and infrastructure, from medical imaging to homelab to AI tooling.
           </p>
         </motion.div>
 

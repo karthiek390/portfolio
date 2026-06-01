@@ -139,7 +139,7 @@ export default function BlueNavbar({ onSwitchMode }: { onSwitchMode: (m: PillMod
             fontSize: "0.63rem", color: "var(--bp-ink-muted)",
             letterSpacing: "0.09em", marginTop: "5px", textTransform: "uppercase",
           }}>
-            Full-Stack Engineer
+            Software Engineer
           </p>
         </div>
 

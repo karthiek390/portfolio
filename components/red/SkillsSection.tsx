@@ -10,7 +10,7 @@ const NODE_ACTIVATION_SKILL = "[NODE_ACTIVATION]";
 
 const NODES = [
   { id: "lang",  label: "LANGUAGES",       x: 50, y: 12, items: ["Python", "TypeScript", "JavaScript", "Java", "C", "Bash/Shell", "SQL"] },
-  { id: "fe",    label: "FRONTEND",        x: 18, y: 35, items: ["React", "Vue.js", "HTML", "CSS", "Tailwind CSS"] },
+  { id: "fe",    label: "FRONTEND",        x: 18, y: 35, items: ["React", "Next.js", "Vue.js", "HTML", "CSS", "Tailwind CSS"] },
   { id: "be",    label: "BACKEND",         x: 82, y: 35, items: ["Node.js", "Express.js", "Flask", "REST APIs", "GraphQL"] },
   { id: "ai",    label: "AI / ML",         x: 50, y: 38, items: ["LLMs", "GPT", "NLP", "GraphRAG", "LangChain", "LangGraph", "Hugging Face", "TensorFlow", "PyTorch", "Scikit-Learn", "OpenCV"] },
   { id: "cloud", label: "CLOUD & DEVOPS",  x: 18, y: 62, items: ["AWS", "Azure", "Docker", "Kubernetes", "GitHub Actions", "CI/CD", "Terraform", "Ansible", "Nginx", "Prometheus", "Grafana"] },

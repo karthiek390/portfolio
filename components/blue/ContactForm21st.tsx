@@ -8,6 +8,59 @@ type FormState = { company: string; email: string; message: string; };
 type Status    = "idle" | "sending" | "sent" | "error";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+type FieldProps = {
+  fieldBase: React.CSSProperties;
+  focusStyle: React.CSSProperties;
+  k: keyof FormState;
+  label: string;
+  multiline?: boolean;
+  onFocus: () => void;
+  onUpdate: (key: keyof FormState, value: string) => void;
+  placeholder: string;
+  type?: string;
+  value: string;
+};
+
+function ContactField({
+  fieldBase,
+  focusStyle,
+  k,
+  label,
+  multiline = false,
+  onFocus,
+  onUpdate,
+  placeholder,
+  type = "text",
+  value,
+}: FieldProps) {
+  return (
+    <label style={{ display: "grid", gap: "0.5rem" }}>
+      <span style={{ color: "var(--bp-ink)", fontSize: "0.9rem", fontWeight: 600 }}>{label}</span>
+      {multiline ? (
+        <textarea
+          value={value}
+          onChange={(e) => onUpdate(k, e.target.value)}
+          onFocus={(e) => { onFocus(); Object.assign(e.target.style, focusStyle); }}
+          onBlur={(e) => { e.target.style.borderColor = "var(--bp-border)"; e.target.style.boxShadow = "none"; }}
+          placeholder={placeholder}
+          rows={6}
+          style={{ ...fieldBase, resize: "vertical", minHeight: "150px" }}
+        />
+      ) : (
+        <input
+          type={type}
+          value={value}
+          onChange={(e) => onUpdate(k, e.target.value)}
+          onFocus={(e) => { onFocus(); Object.assign(e.target.style, focusStyle); }}
+          onBlur={(e) => { e.target.style.borderColor = "var(--bp-border)"; e.target.style.boxShadow = "none"; }}
+          placeholder={placeholder}
+          style={fieldBase}
+        />
+      )}
+    </label>
+  );
+}
+
 export default function BlueContactForm21st() {
   const [form,   setForm]   = useState<FormState>({ company: "", email: "", message: "" });
   const [status, setStatus] = useState<Status>("idle");
@@ -74,37 +127,6 @@ export default function BlueContactForm21st() {
     borderColor: "var(--bp-accent)",
     boxShadow: "0 0 0 3px rgba(0,80,189,0.12)",
   };
-
-  const Field = ({
-    label, k, placeholder, type = "text", multiline = false,
-  }: {
-    label: string; k: keyof FormState; placeholder: string; type?: string; multiline?: boolean;
-  }) => (
-    <label style={{ display: "grid", gap: "0.5rem" }}>
-      <span style={{ color: "var(--bp-ink)", fontSize: "0.9rem", fontWeight: 600 }}>{label}</span>
-      {multiline ? (
-        <textarea
-          value={form[k]}
-          onChange={(e) => update(k, e.target.value)}
-          onFocus={(e) => { trackFirstInteraction(); Object.assign(e.target.style, focusStyle); }}
-          onBlur={(e) => { e.target.style.borderColor = "var(--bp-border)"; e.target.style.boxShadow = "none"; }}
-          placeholder={placeholder}
-          rows={6}
-          style={{ ...fieldBase, resize: "vertical", minHeight: "150px" }}
-        />
-      ) : (
-        <input
-          type={type}
-          value={form[k]}
-          onChange={(e) => update(k, e.target.value)}
-          onFocus={(e) => { trackFirstInteraction(); Object.assign(e.target.style, focusStyle); }}
-          onBlur={(e) => { e.target.style.borderColor = "var(--bp-border)"; e.target.style.boxShadow = "none"; }}
-          placeholder={placeholder}
-          style={fieldBase}
-        />
-      )}
-    </label>
-  );
 
   return (
     <section
@@ -189,9 +211,38 @@ export default function BlueContactForm21st() {
             Send a message
           </p>
 
-          <Field label="Company"  k="company" placeholder="" />
-          <Field label="Email"    k="email"   placeholder="" type="email" />
-          <Field label="Message"  k="message" placeholder="" multiline />
+          <ContactField
+            fieldBase={fieldBase}
+            focusStyle={focusStyle}
+            k="company"
+            label="Company"
+            onFocus={trackFirstInteraction}
+            onUpdate={update}
+            placeholder=""
+            value={form.company}
+          />
+          <ContactField
+            fieldBase={fieldBase}
+            focusStyle={focusStyle}
+            k="email"
+            label="Email"
+            onFocus={trackFirstInteraction}
+            onUpdate={update}
+            placeholder=""
+            type="email"
+            value={form.email}
+          />
+          <ContactField
+            fieldBase={fieldBase}
+            focusStyle={focusStyle}
+            k="message"
+            label="Message"
+            multiline
+            onFocus={trackFirstInteraction}
+            onUpdate={update}
+            placeholder=""
+            value={form.message}
+          />
 
           <button
             type="submit"

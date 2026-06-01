@@ -6,9 +6,9 @@ const LINES = [
   { prefix: "SYS",  text: "Wake up, Karthiek...",                                         dim: true },
   { prefix: "SYS",  text: "The Matrix has you.",                                           dim: true },
   { prefix: "ID",   text: "Karthiek Duggirala",                                            heading: true },
-  { prefix: "ROLE", text: "Full-Stack Engineer // Cloud & Infrastructure Practitioner",    sub: true },
-  { prefix: "BIO",  text: "Builds full-stack, cloud, and infrastructure systems — from developer tooling", normal: true },
-  { prefix: "BIO",  text: "and web apps to secure homelab and networking setups.",         normal: true },
+  { prefix: "ROLE", text: "Research Software Engineer // Full-Stack, AI & Cloud Systems",    sub: true },
+  { prefix: "BIO",  text: "Develops scalable software systems across full-stack engineering", normal: true },
+  { prefix: "BIO",  text: "AI, cloud infrastructure, and CI/CD automation.",         normal: true },
   { prefix: "LOC",  text: "Broadcasting from Zion Mainframe...",                           normal: true },
 ];
 

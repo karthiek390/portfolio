@@ -6,7 +6,7 @@ import NoSpoonText from "@/components/shared/NoSpoonText";
 import { trackOperatorEvent } from "@/lib/operator-events";
 
 const BIO_COPY =
-  "I build full-stack, cloud, and infrastructure projects that turn practical problems into reliable systems — from developer tooling and web apps to secure homelab and networking setups. I enjoy combining clean user experiences with strong backend, automation, and platform fundamentals.";
+  "Research Software Engineer with 3+ years of experience building full-stack, cloud-native, and AI-powered software systems. Experienced across the software development lifecycle, from frontend applications and backend services to cloud infrastructure, CI/CD automation, and deployment platforms. Passionate about creating scalable, reliable solutions through modern software engineering, DevOps, and applied AI.";
 
 const INITIAL_DELAY_MS = 2000;
 const MAX_DELAY_MS     = 16000;
@@ -72,7 +72,7 @@ export default function BlueHeroDejaVu() {
             color: "var(--bp-accent)", fontSize: "0.9rem", fontWeight: 700,
             letterSpacing: "0.14em", textTransform: "uppercase",
           }}>
-            Full-Stack Engineer & Cloud Practitioner
+            Software Engineer | Full-Stack, AI & DevOps
           </p>
 
           <h1

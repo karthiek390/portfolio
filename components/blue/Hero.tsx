@@ -18,7 +18,7 @@ export default function BlueHero() {
         </h1>
 
         <h2 id="hero-title" style={{ fontSize: "clamp(1.1rem, 3vw, 1.6rem)", fontWeight: 400, color: "#64748B" }}>
-          Full-Stack Engineer &amp; Cloud Practitioner
+          Software Engineer &amp; Cloud Practitioner
         </h2>
 
         <p id="hero-bio" style={{ maxWidth: "540px", fontSize: "1rem", lineHeight: 1.8, color: "#475569" }}>

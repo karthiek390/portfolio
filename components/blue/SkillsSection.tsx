@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const SKILLS = [
   { cat: "Languages",           items: ["Python", "JavaScript", "TypeScript", "Java", "C", "Bash/Shell", "SQL"] },
-  { cat: "Frontend",            items: ["React", "Vue.js", "HTML", "CSS", "Tailwind CSS"] },
+  { cat: "Frontend",            items: ["React", "Next.js", "Vue.js", "HTML", "CSS", "Tailwind CSS"] },
   { cat: "Backend",             items: ["Node.js", "Express.js", "Flask", "REST APIs", "GraphQL"] },
   { cat: "AI / ML",             items: ["LLMs", "GPT", "NLP", "GraphRAG", "LangChain", "LangGraph", "Hugging Face", "Prompt Engineering", "Vector Databases", "TensorFlow", "PyTorch", "Scikit-Learn", "OpenCV", "Computer Vision"] },
   { cat: "Cloud & DevOps",      items: ["AWS", "Azure", "Docker", "Kubernetes", "GitHub Actions", "CI/CD", "Terraform", "Ansible", "Nginx", "Prometheus", "Grafana"] },
